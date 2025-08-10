@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Đăng nhập đặt phòng khách sạn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+    <video autoplay loop muted playsinline id="bg-video">
+        <source src="~/video/introduction.mp4" type="video/mp4" />
+        Trình duyệt của bạn không hỗ trợ video.
+    </video>
+
+    <div class="login-background">
+        <div class="login-blur"></div>
+        <div class="login-container large">
+            <div class="login-header">
+                <img src="https://www.svgrepo.com/show/500047/hotel.svg"
+                    alt="Hotel Booking" class="hotel-icon" />
+                <h2>Chào mừng trở lại!</h2>
+                <p>Đăng nhập để đặt phòng khách sạn siêu nhanh</p>
+            </div>
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div class="error-message">@ViewBag.Error</div>
+            }
+            <form method="post" autocomplete="off">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="Email" placeholder="Nhập email của bạn" required />
+                </div>
+                <div class="input-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="Password" placeholder="Nhập mật khẩu" required />
+                </div>
+                <button type="submit" class="login-btn">Đăng nhập</button>
+            </form>
+
+
+            <div class="social-login">
+                <span>Hoặc đăng nhập bằng</span>
+                <div class="social-btn-group">
+                    <a href="/Account/ExternalLogin?provider=Google" class="social-btn google">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
+                        Google
+                    </a>
+                    <a href="/Account/ExternalLogin?provider=Facebook" class="social-btn facebook">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook" />
+                        Facebook
+                    </a>
+                </div>
+            </div>
+            <div class="register-link">
+                <a asp-controller="Authen" asp-action="RegisterAccount">Chưa có tài khoản? <b>Đăng ký ngay</b></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

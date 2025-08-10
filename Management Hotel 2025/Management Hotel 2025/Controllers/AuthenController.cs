@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Management_Hotel_2025.Controllers
 {
-    public class LogController : Controller
+    public class AuthenController : Controller
     {
         private readonly ManagermentHotelContext _dbContext;
         private readonly RegisterAccount _MyRegister;
 
-        public LogController(ManagermentHotelContext dbcontext, RegisterAccount MyRegister)
+        public AuthenController(ManagermentHotelContext dbcontext, RegisterAccount MyRegister)
         {
             _dbContext = dbcontext;
             _MyRegister = MyRegister;

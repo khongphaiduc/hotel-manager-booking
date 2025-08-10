@@ -1,0 +1,203 @@
+.banner-img {
+    height: 420px;
+    object-fit: cover;
+}
+
+.text-shadow {
+    text-shadow: 1px 2px 12px rgba(0,0,0,0.6);
+}
+
+.service-card img {
+    filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.2));
+}
+
+.service-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .service-card:hover {
+        transform: translateY(-8px) scale(1.04);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+
+footer a:hover {
+    text-decoration: underline;
+    color: #ffc107 !important;
+}
+
+body {
+    background: #f8fafc;
+}
+.hotel-img {
+    height: 420px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+    transition: transform 0.3s;
+}
+
+    .hotel-img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    }
+
+.service-card-big {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .service-card-big:hover {
+        transform: translateY(-10px) scale(1.04);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    }
+
+.service-img-big {
+    width: 100%;
+    max-width: 320px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.20);
+    transition: transform 0.3s;
+}
+
+.service-card-big:hover .service-img-big {
+    transform: scale(1.08);
+}
+.bg-gradient {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.review-card {
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .review-card:hover {
+        transform: translateY(-8px) scale(1.025);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    }
+
+.blockquote {
+    font-size: 1.08rem;
+    color: #444;
+    font-style: italic;
+}.modern-header {
+    background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+    box-shadow: 0 8px 32px rgba(50,50,100,0.08);
+    border-radius: 0 0 24px 24px;
+}
+.logo-img {
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(80,80,120,0.15);
+    object-fit: cover;
+}
+.text-gradient {
+    background: linear-gradient(90deg, #7f7fd5 0%, #86a8e7 50%, #91eac9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.modern-nav-link {
+    font-size: 1.08rem;
+    font-weight: 500;
+    padding: 6px 18px;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+.modern-nav-link.active,
+.modern-nav-link:hover {
+    background: #fff;
+    color: #7f7fd5 !important;
+    box-shadow: 0 2px 8px rgba(127,127,213,0.07);
+    text-decoration: none;
+}
+.navbar-toggler {
+    box-shadow: none !important;
+}
+
+.modern-about {
+    position: relative;
+}
+.about-img-wrap {
+    position: relative;
+    z-index: 2;
+}
+.main-about-img {
+    border-radius: 28px;
+    box-shadow: 0 8px 32px rgba(50,50,100,0.16);
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+}
+.about-img-bg {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    width: 70%;
+    height: 80%;
+    background: linear-gradient(135deg, #e0c3fc77 0%, #8ec5fc55 100%);
+    border-radius: 36px;
+    z-index: 1;
+    filter: blur(16px);
+}
+.about-content {
+    background: rgba(255,255,255,0.95);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(127,127,213,0.10);
+}
+.about-icon {
+    font-size: 1.25em;
+    vertical-align: middle;
+    margin-right: 7px;
+}
+.text-gradient {
+    background: linear-gradient(90deg, #7f7fd5 0%, #86a8e7 50%, #91eac9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+@media (max-width: 991px) {
+    .main-about-img { height: 240px; }
+    .about-img-bg { left: 20px; top: 20px; }
+    .about-content { padding: 2rem !important; }
+}
+.modern-banner-text {
+    font-size: 1.6rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    position: relative;
+    color: #fff;
+    text-shadow: 1px 2px 12px rgba(0,0,0,0.5);
+}
+
+.light-effect {
+    background: linear-gradient(90deg, #ffe259, #ffa751, #ffffff 60%, #ffa751, #ffe259);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    animation: shineText 2.6s linear infinite;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes shineText {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+.banner-video {
+    height: 820px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+}

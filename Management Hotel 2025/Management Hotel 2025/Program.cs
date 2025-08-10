@@ -1,4 +1,6 @@
 using Management_Hotel_2025.Models;
+using Management_Hotel_2025.Serives;
+using Management_Hotel_2025.Serives.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Management_Hotel_2025
@@ -13,6 +15,9 @@ namespace Management_Hotel_2025
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ManagermentHotelContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
+
+            builder.Services.AddSingleton<IEncoding, MyEncoding>();
+            builder.Services.AddScoped<RegisterAccount>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

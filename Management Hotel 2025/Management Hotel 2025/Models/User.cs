@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Management_Hotel_2025.Models;
 
@@ -11,6 +12,9 @@ public partial class User
 
     public string PasswordHash { get; set; } = null!;
 
+    public string Salt { get; set; } = null!;
+
+    [EmailAddress(ErrorMessage = "Invalid email format")]
     public string Email { get; set; } = null!;
 
     public string? FullName { get; set; }

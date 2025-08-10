@@ -1,7 +1,10 @@
 ﻿@page
+<!-- sẽ chỉ file này là  1 endpoint có thể truy cập trực tiếp qua URL.(thông thường mỗi 1 file  thì phải run quan controller) -->
 @{
     Layout = null;
 }
+
+<!-- Layout bằng null có nghĩa là không sử dụng layout chúng của project  -->
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
 <html lang="vi">
@@ -33,7 +36,7 @@
                     <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="/book">Đặt phòng</a></li>                  
                     <li class="nav-item"><a class="nav-link" href="/contact">Liên hệ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact">Đăng Nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Log" asp-action="Login">Đăng Nhập</a></li>
                 </ul>
             </div>
         </div>
@@ -56,18 +59,6 @@
                     </p>
                 </div>
             </div>
-
-            @* <!-- Carousel Item 2: YouTube Video --> *@
-            @* <div class="carousel-item"> *@
-            @*     <div class="ratio ratio-16x9 banner-video"> *@
-            @*         <iframe src="https://www.youtube.com/embed/ptDXS9XYmvI?autoplay=1&mute=1&loop=1&playlist=ptDXS9XYmvI" *@
-            @*                 title="Luxury Hotel Video" allow="autoplay; encrypted-media" allowfullscreen></iframe> *@
-            @*     </div> *@
-            @*     <div class="carousel-caption d-none d-md-block animate__animated animate__fadeInDown"> *@
-            @*         <h1 class="display-5 fw-bold text-shadow">Không gian sang trọng, dịch vụ hoàn hảo</h1> *@
-            @*     </div> *@
-            @* </div> *@
-
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
@@ -76,6 +67,8 @@
             <span class="carousel-control-next-icon"></span>
         </button>
     </div>
+
+
 
     <!-- Ảnh -->
     <section class="py-5 bg-light" data-aos="fade-up">
@@ -109,7 +102,7 @@
                 <img src="https://sleepifier.com/wp-content/uploads/pixxio_images/thumbnail_1953643250.jpg" alt="Luxury Hotel" class="img-fluid rounded shadow-lg">
             </div>
             <div class="col-lg-6">
-                <h2 class="fw-bold mb-3">Giới thiệu Luxury Hotel</h2>
+                <h2 class="fw-bold mb-3">Giới thiệu Trung Duc Luxury Hotel</h2>
                 <p class="lead">Luxury Hotel tọa lạc tại trung tâm thành phố, thiết kế sang trọng, dịch vụ chuyên nghiệp và tiện nghi hiện đại. Chúng tôi cam kết mang lại trải nghiệm nghỉ dưỡng hoàn hảo nhất cho quý khách.</p>
                 <ul class="list-unstyled">
                     <li><i class="bi bi-check-circle text-primary"></i> Vị trí đắc địa</li>
@@ -220,7 +213,7 @@
     <!-- Footer -->
     <footer class="bg-dark text-light py-4 mt-5">
         <div class="container text-center">
-            <p>&copy; 2025 Luxury Hotel. Hotline: 0123 456 789 | Email: info@luxuryhotel.com</p>
+            <p>&copy; 2025 Trung Duc Luxury Hotel. Hotline: 0123 456 789 | Email: ptrungduc1011@gmail.com</p>
             <div>
                 <a href="#" class="text-light me-2"><i class="bi bi-facebook"></i> Facebook</a>
                 <a href="#" class="text-light"><i class="bi bi-instagram"></i> Instagram</a>

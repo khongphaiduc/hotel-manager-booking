@@ -1,3 +1,6 @@
+using Management_Hotel_2025.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace Management_Hotel_2025
 {
     public class Program
@@ -8,7 +11,8 @@ namespace Management_Hotel_2025
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<ManagermentHotelContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

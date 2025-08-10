@@ -1,0 +1,234 @@
+﻿.login-background {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 1;
+}
+
+.login-blur {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, #fff6 0%, #fff0 80%);
+    filter: blur(70px);
+    z-index: 2;
+}
+
+.login-container {
+    position: relative;
+    z-index: 3;
+    background: rgba(255,255,255,0.95);
+    border-radius: 24px;
+    box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.23);
+    padding: 48px 32px 32px 32px;
+    max-width: 400px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeInUp 1s cubic-bezier(.7,.2,.2,1);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.hotel-icon {
+    width: 72px;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 8px #2980b9aa);
+}
+
+.login-header h2 {
+    color: #2980b9;
+    font-weight: 700;
+    margin: 0;
+    font-size: 2rem;
+}
+
+.login-header p {
+    color: #6dd5fa;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+    .input-group label {
+        color: #2980b9;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .input-group input {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1.5px solid #b2d4ef;
+        font-size: 1rem;
+        transition: border 0.2s, box-shadow 0.2s;
+        background: #f5fafd;
+    }
+
+        .input-group input:focus {
+            border: 1.5px solid #2980b9;
+            box-shadow: 0 2px 12px #2980b933;
+            outline: none;
+        }
+
+.login-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #2980b9 30%, #6dd5fa 100%);
+    color: white;
+    padding: 14px 0;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(41, 128, 185, 0.15);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+    .login-btn:hover {
+        background: linear-gradient(90deg, #2465a3 40%, #6dd5fa 100%);
+        box-shadow: 0 4px 16px #2980b944;
+    }
+
+.social-login {
+    text-align: center;
+    margin-top: 16px;
+}
+
+    .social-login span {
+        display: block;
+        color: #2980b9;
+        font-weight: 500;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+.social-btn-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 1px 8px #2980b933;
+    transition: box-shadow 0.2s, background 0.2s;
+    background: #f5fafd;
+}
+
+    .social-btn img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .social-btn.google {
+        border: 1.5px solid #db4437;
+        color: #db4437;
+    }
+
+        .social-btn.google:hover {
+            background: #db4437;
+            color: #fff;
+        }
+
+    .social-btn.facebook {
+        border: 1.5px solid #1877f3;
+        color: #1877f3;
+    }
+
+        .social-btn.facebook:hover {
+            background: #1877f3;
+            color: #fff;
+        }
+
+.register-link {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 1rem;
+}
+
+    .register-link a {
+        color: #2980b9;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+        .register-link a:hover {
+            color: #6dd5fa;
+        }
+
+.error-message {
+    color: #ff6767;
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        padding: 32px 12px 24px 12px;
+        margin: 24px auto;
+        max-width: 95vw;
+    }
+
+    .hotel-icon {
+        width: 56px;
+    }
+
+    .social-btn-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.75; /* Điều chỉnh độ trong suốt */
+    pointer-events: none; /* Không ảnh hưởng thao tác */
+}
+
+.login-background, .login-container {
+    z-index: 2;
+    position: relative;
+}

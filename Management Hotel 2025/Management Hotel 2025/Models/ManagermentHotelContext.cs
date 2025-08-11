@@ -185,8 +185,7 @@ public partial class ManagermentHotelContext : DbContext
             entity.ToTable("users");
 
             entity.HasIndex(e => e.Email, "UQ__users__AB6E6164AD37B433").IsUnique();
-
-            entity.HasIndex(e => e.Username, "UQ__users__F3DBC572794F2AF0").IsUnique();
+          
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.CreatedAt)

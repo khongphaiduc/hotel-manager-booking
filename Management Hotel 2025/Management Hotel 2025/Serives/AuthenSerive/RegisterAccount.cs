@@ -3,7 +3,7 @@ using Management_Hotel_2025.Serives.Interface;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Management_Hotel_2025.Serives
+namespace Management_Hotel_2025.Serives.AuthenSerive
 {
     public class RegisterAccount
     {
@@ -31,6 +31,7 @@ namespace Management_Hotel_2025.Serives
                     var user = new User
                     {
                         Username = username,
+                        FullName = username,
                         PhoneNumber = phone,
                         Email = email,
                         PasswordHash = _Iendcoding.HashPassword(password, satl),

@@ -2,11 +2,11 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Management_Hotel_2025.Serives
+namespace Management_Hotel_2025.Serives.AuthenSerive
 {
     public class MyEncoding : IEncoding
     {
-        public static object UTF8 { get; internal set; }
+       
 
         public string GenerateSalt()
         {
@@ -31,7 +31,9 @@ namespace Management_Hotel_2025.Serives
 
         public string HashPassword(string password, string salt)
         {
-            // byte chỉ là một nhóm gồm 8 bit (mỗi bit là 0 hoặc 1).
+            // 1 byte bằng  =8  bit ,
+            // bit được  biểu diễn dưới các số 0 và 1,
+            // nếu 1 mảng byte có các số như là (1,2,255) thì máy mảng byte sẽ lưu là  (00000001 ,00000010 ,11111111 )
             byte[] PasswordByte = Encoding.UTF8.GetBytes(password);
             byte[] SaltByte = Encoding.UTF8.GetBytes(salt);
 

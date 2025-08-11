@@ -1,5 +1,5 @@
 using Management_Hotel_2025.Models;
-using Management_Hotel_2025.Serives;
+using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +18,8 @@ namespace Management_Hotel_2025
 
             builder.Services.AddSingleton<IEncoding, MyEncoding>();
             builder.Services.AddScoped<RegisterAccount>();
+            builder.Services.AddScoped<ValidationAuthen>();
+            builder.Services.AddScoped<Login>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

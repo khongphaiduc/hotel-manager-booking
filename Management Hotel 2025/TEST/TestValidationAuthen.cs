@@ -9,7 +9,7 @@ namespace TEST
         [InlineData("123456789phamtrungduc", false)]
         [InlineData("12345", false)]
         [InlineData("", false)]
-        [InlineData("654321Duongbinhnhatminh", true)]
+        [InlineData("654321Vcl", true)]
         public void Test1(string input, bool expect)
         {
             ValidationAuthen validationAuthen = new ValidationAuthen();

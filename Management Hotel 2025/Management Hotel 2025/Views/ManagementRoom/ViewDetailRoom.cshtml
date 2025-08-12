@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+    // Dữ liệu mẫu, thực tế sẽ truyền từ controller/model
+    var room = new
+    {
+        Name = "Phòng Deluxe",
+        Price = "2.200.000đ/đêm",
+        Gallery = new[]{
+            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80",
+            "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=1200&q=80",
+            "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=1200&q=80",
+            "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&q=80"
+        },
+        Desc = "Phòng Deluxe mang đến không gian rộng rãi, hiện đại, nội thất cao cấp và view biển tuyệt đẹp. Phù hợp cho kỳ nghỉ dưỡng sang trọng hoặc chuyến công tác đẳng cấp.",
+        Features = new[]{
+            "Giường King size, nệm cao cấp",
+            "Wifi tốc độ cao miễn phí",
+            "Tivi 65 inch, truyền hình quốc tế",
+            "Ban công riêng với view biển",
+            "Phòng tắm đá cẩm thạch, bồn tắm lớn",
+            "Minibar, trà/cafe miễn phí",
+            "Bàn làm việc, két an toàn",
+            "Dọn phòng hàng ngày"
+        }
+    };
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Chi tiết phòng - @room.Name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/css/ViewDetailRoom.css" />
+</head>
+<body>
+    <div class="room-slider-bg">
+        <div class="room-slider-container">
+            <!-- Nửa trên: slider ảnh -->
+            <div class="room-slider-half room-slider-half-top">
+                <div class="slider-wrapper">
+                    <img id="mainSliderImg" src="@room.Gallery[0]" alt="@room.Name"
+                         class="slider-img"
+                         data-gallery='@System.Text.Json.JsonSerializer.Serialize(room.Gallery)' />
+                    <div class="slider-controls">
+                        <button class="slider-btn prev-btn" onclick="changeSlide(-1)">&#10094;</button>
+                        <button class="slider-btn next-btn" onclick="changeSlide(1)">&#10095;</button>
+                    </div>
+                    <div class="slider-dots" id="sliderDots">
+                        @for (int i = 0; i < room.Gallery.Length; i++)
+                        {
+                            <span class="dot @(i==0?"active":"")" onclick="goToSlide(@i)"></span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- Nửa dưới: chi tiết phòng -->
+            <div class="room-slider-half room-slider-half-bottom">
+                <div class="room-detail-info">
+                    <h1 class="room-title">@room.Name</h1>
+                    <div class="room-price">@room.Price</div>
+                    <div class="room-desc">@room.Desc</div>
+                    <ul class="room-features">
+                        @foreach (var f in room.Features)
+                        {
+                            <li>
+                                <span class="feature-dot"></span>
+                                @f
+                            </li>
+                        }
+                    </ul>
+                    <div class="room-detail-actions">
+                        <button class="btn-primary" onclick="luxBookNow('@room.Name')">Đặt phòng ngay</button>
+                        <button class="btn-outline" onclick="window.history.back()">Quay lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="lux-modal" class="lux-modal">
+            <div class="lux-modal-content">
+                <span class="lux-modal-close" onclick="luxCloseModal()">&times;</span>
+                <h2>Đặt phòng thành công!</h2>
+                <p>Cảm ơn bạn đã chọn <span id="lux-modal-room"></span>.<br />Chúng tôi sẽ liên hệ với bạn sớm nhất.</p>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/ViewDetailRoom.js"></script>
+</body>
+</html>

@@ -4,6 +4,11 @@ using Management_Hotel_2025.Serives.AuthenSerive;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+
 namespace Management_Hotel_2025.Controllers
 {
     public class AuthenController : Controller
@@ -22,25 +27,44 @@ namespace Management_Hotel_2025.Controllers
         }
 
         [HttpPost]
-
-        public JsonResult Login([FromBody] User users)
+        public async Task<JsonResult> Login([FromBody] User users)
         {
             string email = users.Email;
             string password = users.PasswordHash;
 
+            // 1. Kiểm tra đăng nhập
             var result = _Login.MyLogin(email, password);
-
             if (!result)
             {
-                return Json(new { success = false});
+                return Json(new { success = false });
             }
-            else
+
+            // 2. Lấy thông tin user từ DB (bao gồm role)
+            var userFromDb = _dbContext.Users.FirstOrDefault(u => u.Email == email);
+            if (userFromDb == null)
             {
-                return Json(new { success = true });
-
+                return Json(new { success = false });
             }
-        }
 
+            // 3. Tạo claims
+            var claims = new List<Claim>
+            {
+               new Claim(ClaimTypes.Name, userFromDb.Email),
+               new Claim(ClaimTypes.Role, userFromDb.Role)   // Role từ DB
+            };
+
+            // 4. Tạo identity & principal
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            // 5. Đăng nhập (lưu cookie)
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                claimsPrincipal);
+
+            // 6. Trả JSON
+            return Json(new { success = true });
+        }
 
         [HttpGet]
         public ActionResult Login()
@@ -50,7 +74,7 @@ namespace Management_Hotel_2025.Controllers
 
 
         [HttpPost]
-        public ActionResult RegisterAccount( User Users)
+        public ActionResult RegisterAccount(User Users)
         {
             string NewAccount = Users.Email;
             string NewPassword = Request.Form["Password"];
@@ -106,6 +130,13 @@ namespace Management_Hotel_2025.Controllers
 
         [HttpGet]
         public ActionResult RegisterAccount()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult Denied()
         {
             return View();
         }

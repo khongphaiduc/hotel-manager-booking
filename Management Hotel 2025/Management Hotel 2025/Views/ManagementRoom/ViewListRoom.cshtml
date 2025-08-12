@@ -1,0 +1,140 @@
+﻿@{
+    Layout = null;
+    var rooms = new[]{
+        new {
+            Id = 1,
+            Name = "Phòng Deluxe",
+            Price = "2.200.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
+            Desc = "View biển, nội thất cao cấp."
+        },
+        new {
+            Id = 2,
+            Name = "Phòng Suite",
+            Price = "3.500.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&q=80",
+            Desc = "Tắm đá cẩm thạch, minibar."
+        },
+        new {
+            Id = 3,
+            Name = "Phòng Standard",
+            Price = "1.500.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
+            Desc = "Tiện nghi cơ bản, phù hợp gia đình."
+        },
+        new {
+            Id = 4,
+            Name = "Phòng Family",
+            Price = "4.000.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
+            Desc = "Ban công rộng, view thành phố."
+        },
+        new {
+            Id = 5,
+            Name = "Phòng Executive",
+            Price = "5.200.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&q=80",
+            Desc = "Phòng làm việc riêng, dịch vụ cao cấp."
+        },
+        new {
+            Id = 6,
+            Name = "Phòng President",
+            Price = "8.000.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+            Desc = "Phòng khách rộng, ssssssssssssssssssssssssssssssssssssssssssssview toàn cảnh."
+        },
+        new {
+            Id = 7,
+            Name = "Phòng Twin",
+            Price = "1.800.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+            Desc = "Hai giường đơn, phù hợp bạn bè."
+        },
+        new {
+            Id = 8,
+            Name = "Phòng Studio",
+            Price = "2.600.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
+            Desc = "Không gian mở, tiện nghi."
+        }   ,  new {
+            Id = 4,
+            Name = "Phòng Family",
+            Price = "4.000.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
+            Desc = "Ban công rộng, view thành phố."
+        },
+        new {
+            Id = 5,
+            Name = "Phòng Executive",
+            Price = "5.200.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&q=80",
+            Desc = "Phòng làm việc riêng, dịch vụ cao cấp."
+        },
+        new {
+            Id = 6,
+            Name = "Phòng President",
+            Price = "8.000.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+            Desc = "Phòng khách rộng, ssssssssssssssssssssssssssssssssssssssssssssview toàn cảnh."
+        },
+        new {
+            Id = 7,
+            Name = "Phòng Twin",
+            Price = "1.800.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+            Desc = "Hai giường đơn, phù hợp bạn bè."
+        },
+        new {
+            Id = 8,
+            Name = "Phòng Studio",
+            Price = "2.600.000đ/đêm",
+            Img = "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
+            Desc = "Không gian mở, tiện nghi."
+        }
+    };
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Danh sách phòng khách sạn Luxury</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/css/ViewListRoomCss.css" />
+</head>
+<body>
+    <div class="lux-hotel-bg">
+        <div class="lux-hotel-header">
+            <h1>Danh sách phòng khách sạn</h1>
+            <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
+        </div>
+        <div class="lux-room-list">
+            @foreach (var room in rooms)
+            {
+                <div class="lux-room-card" onmouseover="luxuryCardHover(this)" onmouseout="luxuryCardOut(this)">
+                    <div class="lux-room-img-wrapper tall-img">
+                        <img src="@room.Img" alt="@room.Name" class="lux-room-img" />
+                        <span class="lux-badge">LUXURY</span>
+                    </div>
+                    <div class="lux-room-info small-desc">
+                        <h2>@room.Name</h2>
+                        <p class="lux-room-desc">@room.Desc</p>
+                        <div class="lux-room-bottom">
+                            <span class="lux-room-price">@room.Price</span>
+                            <button class="lux-book-btn" onclick="luxBookNow('@room.Name')">Đặt phòng</button>
+                        </div>
+                    </div>
+                    <div class="lux-glow"></div>
+                </div>
+            }
+        </div>
+    </div>
+    <div id="lux-modal" class="lux-modal">
+        <div class="lux-modal-content">
+            <span class="lux-modal-close" onclick="luxCloseModal()">&times;</span>
+            <h2>Đặt phòng thành công!</h2>
+            <p>Cảm ơn bạn đã chọn <span id="lux-modal-room"></span>.<br />Chúng tôi sẽ liên hệ với bạn sớm nhất.</p>
+        </div>
+    </div>
+    <script src="~/js/ViewListRoom.js"></script>
+</body>
+</html>

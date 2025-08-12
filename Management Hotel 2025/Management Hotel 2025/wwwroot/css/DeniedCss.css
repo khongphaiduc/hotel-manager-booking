@@ -1,0 +1,238 @@
+﻿body {
+}
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600,700&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #512DA8 0%, #FFD54F 100%);
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+
+.access-denied-wrap {
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.cute-lock {
+    width: 140px;
+    height: 160px;
+    margin-bottom: 24px;
+    position: relative;
+    animation: float 2.2s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.lock-base {
+    width: 120px;
+    height: 100px;
+    background: #fff;
+    border-radius: 30px 30px 30px 30px/38px 38px 34px 34px;
+    border: 3.5px solid #FFD54F;
+    position: absolute;
+    left: 10px;
+    top: 50px;
+    box-shadow: 0 8px 30px #6848a825;
+    z-index: 2;
+}
+
+.lock-shackle {
+    width: 78px;
+    height: 56px;
+    border: 7px solid #FFD54F;
+    border-bottom: none;
+    border-radius: 40px 40px 0 0;
+    position: absolute;
+    left: 31px;
+    top: 7px;
+    background: transparent;
+    z-index: 1;
+}
+
+.lock-face {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 87px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+}
+
+.eyes {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    margin-bottom: 8px;
+}
+
+.eye {
+    width: 16px;
+    height: 16px;
+    background: #512DA8;
+    border-radius: 50%;
+    box-shadow: 0 1.5px 0 #FFD54F;
+    position: relative;
+    animation: blink 4s infinite;
+}
+
+@keyframes blink {
+    0%,95%,100% {
+        height: 16px;
+    }
+
+    97% {
+        height: 2px;
+    }
+}
+
+.lock-mouth {
+    width: 36px;
+    height: 18px;
+    border-radius: 0 0 20px 20px;
+    border-bottom: 4px solid #FFD54F;
+    margin: 0 auto;
+    margin-top: 0;
+    background: transparent;
+    position: relative;
+    top: -2px;
+    animation: mouthSmile 3.3s infinite;
+}
+
+@keyframes mouthSmile {
+    0%, 100% {
+        border-bottom-width: 4px;
+    }
+
+    40% {
+        border-bottom-width: 6.5px;
+    }
+
+    80% {
+        border-bottom-width: 2px;
+    }
+}
+
+.lock-blush {
+    width: 18px;
+    height: 8px;
+    background: #FFD54F;
+    opacity: 0.7;
+    border-radius: 10px 10px 16px 16px;
+    position: absolute;
+    top: 23px;
+}
+
+    .lock-blush.left {
+        left: 22px;
+    }
+
+    .lock-blush.right {
+        right: 22px;
+    }
+
+.denied-title {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    color: #fff;
+    margin-bottom: 14px;
+    text-shadow: 0 3px 18px #6848a833;
+    animation: fadeInUp 1.1s cubic-bezier(.65,-0.23,.53,1.14);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.denied-msg {
+    color: #f3e5f5;
+    font-size: 1.13rem;
+    margin-bottom: 24px;
+    text-align: center;
+    max-width: 350px;
+    line-height: 1.6;
+    animation: fadeInUp 1.2s 0.1s both;
+}
+
+.go-home-btn {
+    padding: 13px 38px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 29px;
+    background: linear-gradient(90deg, #FFD54F 0%, #fffde7 100%);
+    color: #512DA8;
+    border: none;
+    box-shadow: 0 4px 18px #6848a822;
+    cursor: pointer;
+    transition: background 0.22s, color 0.13s, box-shadow 0.17s;
+    outline: none;
+    margin-top: 2px;
+    animation: fadeInUp 1.3s 0.18s both;
+}
+
+    .go-home-btn:hover {
+        background: linear-gradient(90deg, #fffde7 0%, #FFD54F 100%);
+        color: #9e7ee0;
+        box-shadow: 0 8px 28px #6848a844;
+    }
+
+@media (max-width: 600px) {
+    .denied-title {
+        font-size: 1.3rem;
+    }
+
+    .denied-msg {
+        font-size: 1rem;
+    }
+
+    .access-denied-wrap {
+        padding: 0 10px;
+    }
+
+    .lock-base, .cute-lock {
+        width: 90px;
+        height: 100px;
+    }
+
+    .lock-shackle {
+        width: 52px;
+        height: 30px;
+        left: 16px;
+    }
+
+    .lock-blush.left {
+        left: 6px;
+    }
+
+    .lock-blush.right {
+        right: 6px;
+    }
+}

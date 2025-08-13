@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Principal;
+using System.Data;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace Management_Hotel_2025.Controllers
 {
@@ -50,17 +54,62 @@ namespace Management_Hotel_2025.Controllers
             var claims = new List<Claim>
             {
                new Claim(ClaimTypes.Name, userFromDb.Email),
-               new Claim(ClaimTypes.Role, userFromDb.Role)   // Role từ DB
+               new Claim(ClaimTypes.Role, userFromDb.Role),   // Role từ DB
+               new Claim("FullName", userFromDb.FullName), // Thêm claim FullName nếu cần
             };
+
+            /* Trong bảo mật, Claim là một thông tin về người dùng mà hệ thống xác nhận là đúng sau khi người đó đăng nhập.
+             Mỗi Claim là một cặp(key, value).*/
+
+
+            /*     Giả sử bạn vào tòa nhà công ty, lễ tân đưa cho bạn thẻ khách ghi:
+
+             Tên: Phạm Trung Đức
+
+             Vai trò: Khách VIP
+
+             Bộ phận: IT
+
+              Cái thẻ đó chính là Identity,
+
+              Còn từng dòng thông tin trên thẻ chính là Claim.
+           */
+
+
 
             // 4. Tạo identity & principal
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            /*ClaimsIdentity:
+            Đây là đối tượng danh tính của user.
+            Nó chứa toàn bộ claims bạn vừa tạo(tên, role, …) +thông tin scheme đang dùng.*/
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            /*    ClaimsPrincipal:
+                    Đại diện cho toàn bộ người dùng hiện tại(principal = “người chính”).
+                    Nó có thể chứa nhiều identity(ví dụ: 1 identity từ Facebook, 1 từ Google, 1 từ DB nội bộ), nhưng ở đây ta chỉ có 1.
+
+                  claimsIdentity: Identity bạn vừa tạo ở trên, được thêm vào principal.
+
+                👉 Nói dễ hiểu: Nếu Identity là “thẻ nhân viên” của bạn,thì Principal là “bạn” — người đang cầm thẻ đó.*/
 
             // 5. Đăng nhập (lưu cookie)
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 claimsPrincipal);
+
+            /*   Mục đích: Tạo phiên đăng nhập(login session) cho người dùng và lưu thông tin vào cookie trên trình duyệt.
+
+            Sau khi gọi lệnh này, ASP.NET Core sẽ:
+
+            - Lấy các thông tin của người dùng trong claimsPrincipal(tên, email, role, v.v.).
+
+            - Đóng gói lại và mã hóa thành một cookie.
+
+            - Gửi cookie đó về trình duyệt.
+
+            - Mỗi lần người dùng gửi request mới, cookie này sẽ được gửi kèm để xác thực.
+            */
+
+
 
             // 6. Trả JSON
             return Json(new { success = true });
@@ -76,6 +125,8 @@ namespace Management_Hotel_2025.Controllers
         [HttpPost]
         public ActionResult RegisterAccount(User Users)
         {
+
+
             string NewAccount = Users.Email;
             string NewPassword = Request.Form["Password"];
             string Phone = Users.PhoneNumber;
@@ -141,6 +192,72 @@ namespace Management_Hotel_2025.Controllers
             return View();
         }
 
+        // đăng nhập bằng gg 
+        public async Task LoginByGoogle()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,    //  Asp sẽ lấy toàn bộ các thong tin cấu hình bên Program.cs và chuyền để trang đăng nhập của gg 
+            new AuthenticationProperties
+            {
+
+                RedirectUri = Url.Action("GoogleResponse")  // nếu đăng nhập thành công thì sẽ chuyển đến url này 
+            });
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+
+            var results = await HttpContext
+             .AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var email = results.Principal.FindFirst(ClaimTypes.Email)?.Value;
+            var name = results.Principal.FindFirst(ClaimTypes.Name)?.Value;
+
+            var user = _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();
+
+            if (user == null)   //  nếu bằng user bằng null có nghĩa là thằng này chưa từng đăng nhập
+            {
+
+                _dbContext.Users.Add(new User()
+                {
+                    Email = email,
+                    FullName = name,
+                    Role = "User",
+                    PasswordHash="**************",
+                    Salt= "**************",
+                    Username=name,
+                    CreatedAt = DateTime.Now
+                });
+
+                _dbContext.SaveChanges();
+                user= _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();  // gắn lại giá trị cho user
+            }
+            
+            var claim = new List<Claim>
+           {
+               new Claim(ClaimTypes.Role,user.Role),
+               new  Claim("FullName", user.FullName)
+           };
+
+            var identity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);
+            var princip = new ClaimsPrincipal(identity);
+
+            // đăng nhập
+            await HttpContext.SignInAsync(
+               CookieAuthenticationDefaults.AuthenticationScheme, princip
+              );
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        public ActionResult SignOut()
+        {
+
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); // Xóa cookie đăng nhập
+
+            // chuyển hướng về home
+            return RedirectToAction("Index", "Home");   // action  - controller 
+        }
 
     }
 }

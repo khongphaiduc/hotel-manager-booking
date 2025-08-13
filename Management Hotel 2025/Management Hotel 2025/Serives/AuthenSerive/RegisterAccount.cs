@@ -36,7 +36,7 @@ namespace Management_Hotel_2025.Serives.AuthenSerive
                         Email = email,
                         PasswordHash = _Iendcoding.HashPassword(password, satl),
                         Salt = satl,
-                        Role = "staff",
+                        Role = "User",
                         CreatedAt = DateTime.Now
                     };
                     _dbcontext.Users.Add(user);

@@ -13,7 +13,8 @@ namespace API_BookingHotel.Repository
             _dbcontext =dbcontext;
         }
 
-        public async Task<List<ViewRoom>> GetBookingsAsync()
+        // Get list of rooms in hotel
+        public async Task<List<ViewRoom>> GetListRoomHotelAsync()
         {
          
             var ListRoom = await _dbcontext.Rooms
@@ -29,6 +30,30 @@ namespace API_BookingHotel.Repository
             return ListRoom;
         }
 
-       
+        public async Task<ViewRoomDetail> ViewDetailRoomAsync(int roomID)
+        {
+            
+            var s  = await _dbcontext.Rooms
+                .Include(s => s.RoomType)
+                .Where(s => s.RoomId == roomID)
+                .Select(room => new ViewRoomDetail
+                {
+                    RoomId = room.RoomId,
+                    RoomTypeId = room.RoomTypeId,
+                    RoomNumber = room.RoomNumber,
+                    Floor = room.Floor,
+                    Status = room.Status,
+                    Description = room.Description,
+                    PathImage = room.PathImage,
+                    Price = room.RoomType.Price,              
+                    MaxGuests = room.RoomType.MaxGuests.ToString(),
+                })
+                .FirstOrDefaultAsync();
+
+            return s ?? new ViewRoomDetail();
+            
+        }   
+
+
     }
 }

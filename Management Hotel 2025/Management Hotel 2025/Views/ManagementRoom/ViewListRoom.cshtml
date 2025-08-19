@@ -1,100 +1,6 @@
 ﻿@using Management_Hotel_2025.ViewModel
 @{
-   
-    Layout =null;
-
-    var rooms = new[]{
-        new {
-            Id = 1,
-            Name = "Phòng Deluxe",
-            Price = "2.200.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
-            Desc = "View biển, nội thất cao cấp."
-        },
-        new {
-            Id = 2,
-            Name = "Phòng Suite",
-            Price = "3.500.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&q=80",
-            Desc = "Tắm đá cẩm thạch, minibar."
-        },
-        new {
-            Id = 3,
-            Name = "Phòng Standard",
-            Price = "1.500.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80",
-            Desc = "Tiện nghi cơ bản, phù hợp gia đình."
-        },
-        new {
-            Id = 4,
-            Name = "Phòng Family",
-            Price = "4.000.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
-            Desc = "Ban công rộng, view thành phố."
-        },
-        new {
-            Id = 5,
-            Name = "Phòng Executive",
-            Price = "5.200.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&q=80",
-            Desc = "Phòng làm việc riêng, dịch vụ cao cấp."
-        },
-        new {
-            Id = 6,
-            Name = "Phòng President",
-            Price = "8.000.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
-            Desc = "Phòng khách rộng, ssssssssssssssssssssssssssssssssssssssssssssview toàn cảnh."
-        },
-        new {
-            Id = 7,
-            Name = "Phòng Twin",
-            Price = "1.800.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
-            Desc = "Hai giường đơn, phù hợp bạn bè."
-        },
-        new {
-            Id = 8,
-            Name = "Phòng Studio",
-            Price = "2.600.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
-            Desc = "Không gian mở, tiện nghi."
-        }   ,  new {
-            Id = 4,
-            Name = "Phòng Family",
-            Price = "4.000.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
-            Desc = "Ban công rộng, view thành phố."
-        },
-        new {
-            Id = 5,
-            Name = "Phòng Executive",
-            Price = "5.200.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&q=80",
-            Desc = "Phòng làm việc riêng, dịch vụ cao cấp."
-        },
-        new {
-            Id = 6,
-            Name = "Phòng President",
-            Price = "8.000.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
-            Desc = "Phòng khách rộng, ssssssssssssssssssssssssssssssssssssssssssssview toàn cảnh."
-        },
-        new {
-            Id = 7,
-            Name = "Phòng Twin",
-            Price = "1.800.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
-            Desc = "Hai giường đơn, phù hợp bạn bè."
-        },
-        new {
-            Id = 8,
-            Name = "Phòng Studio",
-            Price = "2.600.000đ/đêm",
-            Img = "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80",
-            Desc = "Không gian mở, tiện nghi."
-        }
-    };
+    Layout = null;
 }
 
 @model List<ViewRoomModel>
@@ -112,10 +18,36 @@
             <h1>Danh sách phòng khách sạn</h1>
             <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
         </div>
+        <div class="lux-room-filter">
+            <form id="lux-filter-form" onsubmit="return false;" style="display: flex; gap: 32px; align-items: center;">
+                <label>
+                    Tầng:
+                    <select id="filter-floor">
+                        <option value="">Tất cả</option>
+                        <option value="1">Tầng 1</option>
+                        <option value="2">Tầng 2</option>
+                        <option value="3">Tầng 3</option>
+                    </select>
+                </label>
+                <label>
+                    Giá từ:
+                    <input type="number" id="filter-min-price" min="0" placeholder="Min" />
+                    đến
+                    <input type="number" id="filter-max-price" min="0" placeholder="Max" />
+                </label>
+                <label>
+                    Số người tối đa:
+                    <input type="number" id="filter-max-person" min="1" placeholder="Số người" />
+                </label>
+                <button type="button" onclick="luxApplyFilter()">Lọc phòng</button>
+                <button type="button" onclick="luxResetFilter()">Đặt lại</button>
+            </form>
+        </div>
         <div class="lux-room-list">
             @foreach (var room in Model)
             {
-                <div class="lux-room-card" onmouseover="luxuryCardHover(this)" onmouseout="luxuryCardOut(this)">
+                <div class="lux-room-card"
+                     onmouseover="luxuryCardHover(this)" onmouseout="luxuryCardOut(this)">
                     <div class="lux-room-img-wrapper tall-img">
                         <img src="@room.Image" alt="@room.Name" class="lux-room-img" />
                         <span class="lux-badge">LUXURY</span>

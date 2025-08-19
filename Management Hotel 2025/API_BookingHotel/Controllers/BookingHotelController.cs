@@ -4,6 +4,7 @@ using API_BookingHotel.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace API_BookingHotel.Controllers
 {
@@ -21,20 +22,11 @@ namespace API_BookingHotel.Controllers
         }
 
 
-
-        [HttpGet("pathVersion1")]
-
-        public async Task<List<ViewRoom>> GetVersion1()
-        {
-            return await _Mybooking.GetBookingsAsync();
-        }
-
-
-        [Authorize]
+        [AllowAnonymous]        // api public means everyonce can accessable
         [HttpGet("ListRoom")]
-        public async Task<IActionResult> GetVersion2()
+        public async Task<IActionResult> GetlistRoom()
         {
-            var ListRoom = await _Mybooking.GetBookingsAsync();
+            var ListRoom = await _Mybooking.GetListRoomHotelAsync();
 
             if (ListRoom == null)
             {
@@ -42,9 +34,33 @@ namespace API_BookingHotel.Controllers
             }
             else
             {
-                return Ok(ListRoom);
+                return Ok(ListRoom);      // Trong WEB API của ASP.NET thì các model chuyền qua OK(object) sẽ tự động chuyển thành JSON
             }
 
+        }
+
+
+        // Allow user to view detail the room
+        [AllowAnonymous]
+        [HttpGet("ViewDetailRoom/{idRoom}")]
+        public async Task<IActionResult> ViewDetaiRoom([FromRoute] string idRoom)
+        {
+            if (string.IsNullOrEmpty(idRoom))
+            {
+                return BadRequest("Room ID is required");
+            }
+            else
+            {
+                var result = await _Mybooking.ViewDetailRoomAsync(int.Parse(idRoom));
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Room ID is required");
+                }
+            }
         }
 
     }

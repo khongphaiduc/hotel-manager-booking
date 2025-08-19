@@ -7,20 +7,22 @@ html, body {
     width: 100vw;
     min-height: 100vh;
     background: linear-gradient(135deg, #211f2a 0%, #3c3246 100%);
+    font-family: 'Montserrat', sans-serif;
 }
+
 html, body {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
 }
 
- html::-webkit-scrollbar, body::-webkit-scrollbar {
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
         display: none; /* Chrome, Safari and Opera */
-  }
+    }
+
 .lux-hotel-bg {
     min-height: 100vh;
-    background: none; /* moved bg to body */
-    padding: 30px 0 60px 0; /* dịch lên trên */
-    font-family: 'Montserrat', sans-serif;
+    background: none;
+    padding: 30px 0 60px 0;
 }
 
 .lux-hotel-header {
@@ -38,13 +40,7 @@ html, body {
         margin-bottom: 16px;
         position: relative;
         display: inline-block;
-        /* Sửa gradient này để có màu vàng ánh sáng */
-        background: linear-gradient( 90deg, #ffe259 0%, /* vàng nhạt */
-        #ffd200 40%, /* vàng */
-        #ffffff 60%, /* trắng ánh sáng */
-        #ffd200 85%, /* vàng */
-        #ffe259 100% /* vàng nhạt */
-        );
+        background: linear-gradient(90deg, #ffe259 0%, #ffd200 40%, #ffffff 60%, #ffd200 85%, #ffe259 100%);
         background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -70,6 +66,64 @@ html, body {
     color: #ccc;
 }
 
+/* Bộ lọc */
+.lux-room-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+    .lux-room-filter label {
+        color: #fff;
+        font-size: 1rem;
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .lux-room-filter input,
+    .lux-room-filter select {
+        border-radius: 8px;
+        border: 1px solid #c7b8f9;
+        padding: 6px 12px;
+        margin: 0 6px;
+        font-size: 1rem;
+        background: #23223b;
+        color: #ffd200;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+        .lux-room-filter input:focus,
+        .lux-room-filter select:focus {
+            border-color: #ffd200;
+        }
+
+    .lux-room-filter button {
+        background: linear-gradient(90deg, #ffd200 0%, #f7971e 100%);
+        color: #211f2a;
+        border: none;
+        border-radius: 18px;
+        padding: 8px 18px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-left: 8px;
+        box-shadow: 0 3px 12px rgba(128, 98, 255, 0.18);
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+        .lux-room-filter button:hover {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+        }
+
+/* Danh sách phòng */
 .lux-room-list {
     display: flex;
     flex-wrap: wrap;
@@ -77,6 +131,7 @@ html, body {
     justify-content: center;
 }
 
+/* Card phòng */
 .lux-room-card {
     background: rgba(32, 28, 40, 0.98);
     border-radius: 26px;
@@ -86,12 +141,31 @@ html, body {
     transition: transform 0.3s cubic-bezier(.68,-.55,.27,1.55), box-shadow 0.3s;
     position: relative;
     z-index: 1;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 0.4s, transform 0.4s;
 }
 
     .lux-room-card:hover {
         transform: translateY(-12px) scale(1.04) rotate(-1.5deg);
         box-shadow: 0 16px 40px 0 rgba(135, 88, 255, 0.28), 0 4px 12px rgba(0,0,0,0.12);
     }
+
+    .lux-room-card.animated {
+        animation: slideInRight 0.7s cubic-bezier(0.3,0.8,0.4,1.05) forwards;
+    }
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
 .lux-room-img-wrapper {
     position: relative;
@@ -136,7 +210,6 @@ html, body {
     color: #fff;
 }
 
-    /* Rút gọn phần mô tả, giảm margin và font-size */
     .lux-room-info.small-desc h2 {
         font-size: 1.35rem;
         margin: 0 0 6px;
@@ -163,6 +236,7 @@ html, body {
     background: linear-gradient(90deg, #f7971e 0%, #ffd200 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .lux-book-btn {
@@ -203,6 +277,7 @@ html, body {
     box-shadow: 0 0 90px 27px #ffd20088, 0 0 0 0 transparent;
 }
 
+/* Modal */
 .lux-modal {
     display: none;
     position: fixed;
@@ -272,24 +347,21 @@ html, body {
     .lux-modal-close:hover {
         opacity: 1;
     }
-@keyframes slideInRight {
-    0% {
-        opacity: 0;
-        transform: translateX(100px);
+
+/* Responsive cho mobile */
+@media screen and (max-width: 900px) {
+    .lux-room-list {
+        gap: 20px;
     }
 
-    100% {
-        opacity: 1;
-        transform: translateX(0);
+    .lux-room-card {
+        width: 90vw;
+        max-width: 380px;
+    }
+
+    .lux-room-filter {
+        gap: 12px;
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
-
-.lux-room-card {
-    opacity: 0;
-    transform: translateX(100px);
-    transition: opacity 0.4s, transform 0.4s;
-}
-
-    .lux-room-card.animated {
-        animation: slideInRight 0.7s cubic-bezier(0.3,0.8,0.4,1.05) forwards;
-    }

@@ -1,5 +1,7 @@
 ﻿using Management_Hotel_2025.Models;
 using Management_Hotel_2025.Serives.AuthenSerive;
+using Management_Hotel_2025.Serives.CallAPI;
+using Management_Hotel_2025.Serives.GenarateToken;
 using Management_Hotel_2025.Serives.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
@@ -55,6 +57,9 @@ namespace Management_Hotel_2025
             builder.Services.AddScoped<RegisterAccount>();
             builder.Services.AddScoped<ValidationAuthen>();
             builder.Services.AddScoped<Login>();
+            builder.Services.AddTransient<GenarateTokenHotel>();
+            builder.Services.AddTransient<IApiServices,ApiCall>();
+            builder.Services.AddTransient<ApiCall>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

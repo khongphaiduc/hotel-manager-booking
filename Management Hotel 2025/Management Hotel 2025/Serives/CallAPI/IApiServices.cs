@@ -1,0 +1,11 @@
+﻿using Management_Hotel_2025.ViewModel;
+
+namespace Management_Hotel_2025.Serives.CallAPI
+{
+    public interface  IApiServices
+    {
+      public Task<List<ViewRoomModel>> GetListRoomFromAPIAsync(string Token);
+
+       
+    }
+}

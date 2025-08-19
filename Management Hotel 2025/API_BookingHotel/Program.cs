@@ -16,8 +16,9 @@ namespace API_BookingHotel
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<ManagermentHotelContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<ManagermentHotelContext>
+                (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                
 
 
             builder.Services.AddAuthentication(
@@ -26,13 +27,13 @@ namespace API_BookingHotel
             {
                 option.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,    //     người phát hành token
+                    ValidateIssuer = true,    // người phát hành token
                     ValidateAudience = false,   //Audience thường là ứng dụng hoặc client được phép dùng token này.
-                    ValidateLifetime = true,   // thời gian sử dụng của token
+                    ValidateLifetime = false,   // thời gian sử dụng của token
                     ValidateIssuerSigningKey = true,  // chữ ý (sign) của token
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
                 };
 
 

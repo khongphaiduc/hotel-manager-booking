@@ -1,8 +1,10 @@
-﻿@page
+﻿
+
 <!-- sẽ chỉ file này là  1 endpoint có thể truy cập trực tiếp qua URL.(thông thường mỗi 1 file  thì phải run quan controller) -->
 @{
     Layout = null;
 }
+
 @using System.Security.Claims
 <!-- Layout bằng null có nghĩa là không sử dụng layout chúng của project  -->
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
@@ -42,6 +44,7 @@
                         <li class="nav-item"><a class="nav-link"> @User.FindFirst("FullName")?.Value</a></li>
 
                         <li class="nav-item"><a class="nav-link" asp-controller="Authen" asp-action="SignOut"> | Đăng Xuất</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="ProviderTokenHotel" asp-action="ViewGetInfo"> | API </a></li>
                     }
                     else
                     {

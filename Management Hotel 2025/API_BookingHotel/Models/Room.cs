@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace Management_Hotel_2025.Models;
+namespace API_BookingHotel.Models;
 
 public partial class Room
 {
@@ -12,14 +11,13 @@ public partial class Room
 
     public string RoomNumber { get; set; } = null!;
 
-    [StringLength(200)]
-    public string PathImage { get; set; }
-
-    [StringLength(400)]
-    public string Description { get; set; }
     public int? Floor { get; set; }
 
     public string? Status { get; set; }
+
+    public string Description { get; set; } = null!;
+
+    public string PathImage { get; set; } = null!;
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 

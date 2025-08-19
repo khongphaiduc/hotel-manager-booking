@@ -1,5 +1,8 @@
-﻿@{
-    Layout = null;
+﻿@using Management_Hotel_2025.ViewModel
+@{
+   
+    Layout =null;
+
     var rooms = new[]{
         new {
             Id = 1,
@@ -93,6 +96,8 @@
         }
     };
 }
+
+@model List<ViewRoomModel>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -108,19 +113,19 @@
             <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
         </div>
         <div class="lux-room-list">
-            @foreach (var room in rooms)
+            @foreach (var room in Model)
             {
                 <div class="lux-room-card" onmouseover="luxuryCardHover(this)" onmouseout="luxuryCardOut(this)">
                     <div class="lux-room-img-wrapper tall-img">
-                        <img src="@room.Img" alt="@room.Name" class="lux-room-img" />
+                        <img src="@room.Image" alt="@room.Name" class="lux-room-img" />
                         <span class="lux-badge">LUXURY</span>
                     </div>
                     <div class="lux-room-info small-desc">
                         <h2>@room.Name</h2>
-                        <p class="lux-room-desc">@room.Desc</p>
+                        <p class="lux-room-desc">@room.Description</p>
                         <div class="lux-room-bottom">
                             <span class="lux-room-price">@room.Price</span>
-                            <button class="lux-book-btn" onclick="luxBookNow('@room.Name')">Đặt phòng</button>
+                            <button class="lux-book-btn" onclick="luxBookNow('@room.Name')">Xem Chi Tiết</button>
                         </div>
                     </div>
                     <div class="lux-glow"></div>

@@ -1,0 +1,74 @@
+﻿using API_BookingHotel.Models;
+using API_BookingHotel.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
+
+namespace API_BookingHotel
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            IdentityModelEventSource.ShowPII = true;
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            builder.Services.AddDbContext<ManagermentHotelContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.AddAuthentication(
+                JwtBearerDefaults.AuthenticationScheme
+            ).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,    //     người phát hành token
+                    ValidateAudience = false,   //Audience thường là ứng dụng hoặc client được phép dùng token này.
+                    ValidateLifetime = true,   // thời gian sử dụng của token
+                    ValidateIssuerSigningKey = true,  // chữ ý (sign) của token
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+
+
+                option.Events = new JwtBearerEvents
+                {
+
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+
+                        }
+                        return Task.CompletedTask;
+                    }
+
+                };
+
+            });
+
+
+
+            builder.Services.AddTransient<ManagementBooking>();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();   // xác thực xem mày là ai 
+            app.UseAuthorization();    // xác thực xem mày có quyền làm gì
+
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}

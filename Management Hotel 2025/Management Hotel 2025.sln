@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management Hotel 2025", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEST", "TEST\TEST.csproj", "{B52D3652-8259-4788-9892-882E67708A98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_BookingHotel", "API_BookingHotel\API_BookingHotel.csproj", "{7463B188-B8E2-46E5-8307-FFA3028BBC5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B52D3652-8259-4788-9892-882E67708A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B52D3652-8259-4788-9892-882E67708A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B52D3652-8259-4788-9892-882E67708A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

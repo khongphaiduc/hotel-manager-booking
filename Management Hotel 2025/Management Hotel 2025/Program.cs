@@ -2,8 +2,11 @@
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Reflection.Metadata;
@@ -26,8 +29,9 @@ namespace Management_Hotel_2025
             .AddAuthentication(option =>
             {
                 option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = "Google";
-            }) 
+                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
             .AddCookie(options =>
             {
                 options.LoginPath = "/Authen/Login";
@@ -38,7 +42,7 @@ namespace Management_Hotel_2025
             {
                 options.ClientId = builder.Configuration.GetSection("GoogleKeys:GoogleID").Value;
                 options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:GoogleSecret").Value;
-            }); ;
+            });
 
             // CookieAuthenticationDefaults trong ASP.NET Core thực chất là một class chứa các hằng  số (constant) được Microsoft định nghĩa sẵn để dùng cho cấu hình Cookie Authentication.
 

@@ -1,49 +1,63 @@
-﻿<!DOCTYPE html>
+﻿@* Views/Shared/_Layout.cshtml *@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Management_Hotel_2025</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Management_Hotel_2025.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Luxury Hotel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="@Url.Content("~/css/Header.css")" asp-append-version="true" />
+    @RenderSection("Head", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Management_Hotel_2025</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+    <!-- Header mới hiện đại, sáng và bo góc -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow modern-header px-3 py-2">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
+                <img src="https://i.ytimg.com/vi/ptDXS9XYmvI/maxresdefault.jpg" alt="Luxury Hotel" width="44" height="44" class="logo-img me-2" />
+                <span class="fs-4 fw-bold text-gradient">TrungDucLuxury Hotel</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavNew" aria-controls="mainNavNew" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavNew">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link modern-nav-link active" href="@Url.Action("Index", "Home")">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link modern-nav-link" asp-controller="ManagementRoom" asp-action="ViewListRoom">Đặt Phòng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link modern-nav-link" href="/contact">Liên hệ</a>
+                    </li>
+                    @if (User?.Identity?.IsAuthenticated == true &&
+                    (User.IsInRole("staff") || User.IsInRole("User") || User.IsInRole("admin")))
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link modern-nav-link disabled">@User.FindFirst("FullName")?.Value</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link modern-nav-link" asp-controller="Authen" asp-action="SignOut">Đăng Xuất</a>
                         </li>
-                    </ul>
-                </div>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link modern-nav-link" asp-controller="Authen" asp-action="Login">Đăng Nhập</a>
+                        </li>
+                    }
+                </ul>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        @RenderBody()  @* <-- PHẢI CÓ: nơi nội dung của các View sẽ hiển thị *@
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Management_Hotel_2025 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @* Optional scripts section for views *@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

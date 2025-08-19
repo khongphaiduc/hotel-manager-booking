@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Principal;
 using System.Data;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.Facebook;
 
 namespace Management_Hotel_2025.Controllers
 {
@@ -249,7 +250,7 @@ namespace Management_Hotel_2025.Controllers
             return RedirectToAction("Index", "Home");
 
         }
-
+   
         public ActionResult SignOut()
         {
 

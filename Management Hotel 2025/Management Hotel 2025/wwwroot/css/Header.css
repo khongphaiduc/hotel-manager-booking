@@ -1,0 +1,40 @@
+﻿/* Header hiện đại, sáng, bo góc, hiệu ứng đẹp */
+.modern-header {
+    background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+    box-shadow: 0 8px 32px rgba(50,50,100,0.08);
+    border-radius: 0 0 24px 24px;
+}
+
+.logo-img {
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(80,80,120,0.15);
+    object-fit: cover;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #7f7fd5 0%, #86a8e7 50%, #91eac9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.modern-nav-link {
+    font-size: 1.08rem;
+    font-weight: 500;
+    padding: 6px 18px;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .modern-nav-link.active,
+    .modern-nav-link:hover {
+        background: #fff;
+        color: #7f7fd5 !important;
+        box-shadow: 0 2px 8px rgba(127,127,213,0.07);
+        text-decoration: none;
+    }
+
+.navbar-toggler {
+    box-shadow: none !important;
+}

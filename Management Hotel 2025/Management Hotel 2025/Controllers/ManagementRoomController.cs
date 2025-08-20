@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Management_Hotel_2025.Controllers
 {
@@ -39,7 +40,7 @@ namespace Management_Hotel_2025.Controllers
         //    return View(ListRoom);
         //}
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> ViewListRoom()
         {
             var TokenTemperary = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDQ1Iiwic3ViIjoiMTIzNDU2Nzg5MCIsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJpYXQiOjE1MTYyMzkwMjJ9.l903ZZnlAE9MB_WmC4YS27U7mC3EnAlhOti6wNbWz6Q";
@@ -59,10 +60,21 @@ namespace Management_Hotel_2025.Controllers
 
         }
 
+        [AllowAnonymous]
 
-        public IActionResult ViewDetailRoom()
+        public async Task<IActionResult> ViewDetailRoom([FromQuery] int IdRoom)
         {
-            return View();
+            var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);
+
+            if(Room != null)
+            {
+                return View(Room);
+            }
+            else
+            {
+                return NotFound("Room not found.");
+            }
+
         }
     }
 }

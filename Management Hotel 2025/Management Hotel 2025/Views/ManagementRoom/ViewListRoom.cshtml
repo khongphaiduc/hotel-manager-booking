@@ -55,9 +55,15 @@
                     <div class="lux-room-info small-desc">
                         <h2>@room.Name</h2>
                         <p class="lux-room-desc">@room.Description</p>
+
                         <div class="lux-room-bottom">
                             <span class="lux-room-price">@room.Price</span>
-                            <button class="lux-book-btn" onclick="luxBookNow('@room.Name')">Xem Chi Tiết</button>
+                            <a asp-action="ViewDetailRoom"
+                               asp-controller="ManagementRoom"
+                               asp-route-idRoom="@room.IdRoom" class="lux-book-btn" target="_blank">
+                                Xem chi tiết 
+                            </a>
+                           
                         </div>
                     </div>
                     <div class="lux-glow"></div>

@@ -1,8 +1,9 @@
-﻿namespace API_BookingHotel.ViewModels
-{
-    public class ViewRoomDetail
-    {
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
+namespace Management_Hotel_2025.ViewModel
+{
+    public class ViewDetailRoom
+    {
         public int RoomId { get; set; }
         public int RoomTypeId { get; set; }
         public string NameType { get; set; }
@@ -13,6 +14,5 @@
         public string? PathImage { get; set; }
         public decimal Price { get; set; }
         public string MaxGuests { get; set; }
-
     }
 }

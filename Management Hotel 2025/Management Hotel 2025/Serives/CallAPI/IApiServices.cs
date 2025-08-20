@@ -6,6 +6,6 @@ namespace Management_Hotel_2025.Serives.CallAPI
     {
       public Task<List<ViewRoomModel>> GetListRoomFromAPIAsync(string Token);
 
-       
+      public Task<ViewDetailRoom> ViewDetaiRoomAIPAsync( int id);  
     }
 }

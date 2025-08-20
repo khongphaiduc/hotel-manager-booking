@@ -21,6 +21,7 @@ namespace API_BookingHotel.Repository
                 .Include(s=>s.RoomType)
                 .Select(room => new ViewRoom
                 {
+                    IdRoom = room.RoomId,
                     Name = room.RoomType.Name, 
                     Description = room.Description,
                     Image = room.PathImage,
@@ -30,6 +31,7 @@ namespace API_BookingHotel.Repository
             return ListRoom;
         }
 
+        // Allow user to view detail the room   
         public async Task<ViewRoomDetail> ViewDetailRoomAsync(int roomID)
         {
             
@@ -40,6 +42,7 @@ namespace API_BookingHotel.Repository
                 {
                     RoomId = room.RoomId,
                     RoomTypeId = room.RoomTypeId,
+                    NameType = room.RoomType.Name,
                     RoomNumber = room.RoomNumber,
                     Floor = room.Floor,
                     Status = room.Status,

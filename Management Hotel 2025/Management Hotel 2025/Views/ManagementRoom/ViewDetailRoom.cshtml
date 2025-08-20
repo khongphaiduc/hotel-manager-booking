@@ -1,8 +1,8 @@
 ﻿@{
   
-    Layout = "_Layout";
+    Layout = null;
 
-    // Dữ liệu mẫu, thực tế sẽ truyền từ controller/model
+    
     var room = new
     {
         Name = "Phòng Deluxe",
@@ -26,11 +26,13 @@
         }
     };
 }
+
+@model Management_Hotel_2025.ViewModel.ViewDetailRoom
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <title>Chi tiết phòng - @room.Name</title>
+    <title>Chi tiết phòng - @Model.NameType</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="~/css/ViewDetailRoom.css" />
 </head>
@@ -40,38 +42,40 @@
             <!-- Nửa trên: slider ảnh -->
             <div class="room-slider-half room-slider-half-top">
                 <div class="slider-wrapper">
-                    <img id="mainSliderImg" src="@room.Gallery[0]" alt="@room.Name"
+                    <img id="mainSliderImg" src="@Model.PathImage" alt="Ảnh Room"
                          class="slider-img"
-                         data-gallery='@System.Text.Json.JsonSerializer.Serialize(room.Gallery)' />
+                        />
                     <div class="slider-controls">
                         <button class="slider-btn prev-btn" onclick="changeSlide(-1)">&#10094;</button>
                         <button class="slider-btn next-btn" onclick="changeSlide(1)">&#10095;</button>
                     </div>
                     <div class="slider-dots" id="sliderDots">
-                        @for (int i = 0; i < room.Gallery.Length; i++)
-                        {
-                            <span class="dot @(i==0?"active":"")" onclick="goToSlide(@i)"></span>
-                        }
+                      
                     </div>
                 </div>
             </div>
             <!-- Nửa dưới: chi tiết phòng -->
             <div class="room-slider-half room-slider-half-bottom">
                 <div class="room-detail-info">
-                    <h1 class="room-title">@room.Name</h1>
-                    <div class="room-price">@room.Price</div>
-                    <div class="room-desc">@room.Desc</div>
+                    <h1 class="room-title">@Model.NameType</h1>
+                    <div class="room-price">@Model.Price</div>
+                    <div class="room-desc">@Model.Description</div>
                     <ul class="room-features">
-                        @foreach (var f in room.Features)
+                        @* @foreach (var f in room.Features)
                         {
                             <li>
                                 <span class="feature-dot"></span>
                                 @f
                             </li>
-                        }
+                        } *@
+                        <li>
+                            <span class="feature-dot"></span>
+                            @Model.Description
+                        </li>
+
                     </ul>
                     <div class="room-detail-actions">
-                        <button class="btn-primary" onclick="luxBookNow('@room.Name')">Đặt phòng ngay</button>
+                        <button class="btn-primary" onclick="luxBookNow('@Model.NameType')">Đặt phòng ngay</button>
                         <button class="btn-outline" onclick="window.history.back()">Quay lại</button>
                     </div>
                 </div>

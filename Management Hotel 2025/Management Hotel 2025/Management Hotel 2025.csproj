@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Serives\ManagementRoom\" />
+    <Folder Include="Serives\Pagination\" />
   </ItemGroup>
 
 </Project>

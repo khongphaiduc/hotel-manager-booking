@@ -1,5 +1,6 @@
 ﻿using API_BookingHotel.Models;
 using API_BookingHotel.Repository;
+using API_BookingHotel.Serives;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
@@ -56,6 +57,7 @@ namespace API_BookingHotel
 
 
             builder.Services.AddTransient<ManagementBooking>();
+            builder.Services.AddTransient<IRoomService, RoomService>();
 
             var app = builder.Build();
 

@@ -9,10 +9,12 @@ namespace Management_Hotel_2025.Serives.CallAPI
     public class ApiCall : IApiServices
     {
         private readonly IConfiguration _IConfiguration;
+        private readonly HttpClient _httpClient;
 
-        public ApiCall(IConfiguration configuration)
+        public ApiCall(IConfiguration configuration, HttpClient httpClient)
         {
             _IConfiguration = configuration;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         // call API to get list of rooms
@@ -41,12 +43,12 @@ namespace Management_Hotel_2025.Serives.CallAPI
         {
             using (var client = new HttpClient())
             {
-                var url = $"https://localhost:7236/api/getbooking/ViewDetailRoom/{id}";
+                var url = $"{_IConfiguration["ApiHotel:ViewDetailRoom"]}/{id}";
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    // Có thể log lỗi lại để dễ debug
+                   
                     var error = await response.Content.ReadAsStringAsync();
                     throw new Exception($"API call failed ({response.StatusCode}): {error}");
                 }
@@ -59,5 +61,34 @@ namespace Management_Hotel_2025.Serives.CallAPI
             }
         }
 
+        // call API to get detail of room with pagination
+        public async Task<PaginatedResult<ViewRoomModel>> ViewDetaiRoomAIPAsyncVer2(int PageCurrent, int NumberItemOfPage)
+        {
+            var url = $"{_IConfiguration["ApiHotel:ViewListRoomByPagination"]}?PageCurrent={PageCurrent}&NumberItemOfPage={NumberItemOfPage}";
+
+            var response = await  _httpClient.GetAsync(url);
+            var result = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API call failed ({response.StatusCode}): {error}");
+            }
+            else
+            {
+                var paginatedResult = JsonSerializer.Deserialize<PaginatedResult<ViewRoomModel>>( result,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return paginatedResult ?? new PaginatedResult<ViewRoomModel>
+                {
+                    Data = new List<ViewRoomModel>(),
+                    TotalCount = 0,
+                    CurrentPage = PageCurrent,
+                    PageSize= NumberItemOfPage
+                };
+            }
+
+        }
+
+       
     }
 }

@@ -60,6 +60,7 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<GenarateTokenHotel>();
             builder.Services.AddTransient<IApiServices,ApiCall>();
             builder.Services.AddTransient<ApiCall>();
+            builder.Services.AddHttpClient(); // Thêm HttpClient để gọi API bên ngoài
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

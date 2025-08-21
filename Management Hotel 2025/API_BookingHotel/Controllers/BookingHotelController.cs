@@ -21,25 +21,6 @@ namespace API_BookingHotel.Controllers
             _Mybooking = MyBooings;
         }
 
-
-        [AllowAnonymous]        // api public means everyonce can accessable
-        [HttpGet("ListRoom")]
-        public async Task<IActionResult> GetlistRoom()
-        {
-            var ListRoom = await _Mybooking.GetListRoomHotelAsync();
-
-            if (ListRoom == null)
-            {
-                return Ok("Room is Empty");
-            }
-            else
-            {
-                return Ok(ListRoom);      // Trong WEB API của ASP.NET thì các model chuyền qua OK(object) sẽ tự động chuyển thành JSON
-            }
-
-        }
-
-
         // Allow user to view detail the room
         [AllowAnonymous]
         [HttpGet("ViewDetailRoom/{idRoom}")]
@@ -54,7 +35,7 @@ namespace API_BookingHotel.Controllers
                 var result = await _Mybooking.ViewDetailRoomAsync(int.Parse(idRoom));
                 if (result != null)
                 {
-                    return Ok(result);
+                    return Ok(result); // Trong WEB API của ASP.NET thì các model chuyền qua OK(object) sẽ tự động chuyển thành JSON
                 }
                 else
                 {

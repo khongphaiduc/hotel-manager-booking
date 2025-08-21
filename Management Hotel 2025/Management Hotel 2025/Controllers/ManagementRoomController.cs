@@ -22,49 +22,18 @@ namespace Management_Hotel_2025.Controllers
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-
-
-
-        //[Authorize(Roles = "Admin,User,staff")]
-        //public IActionResult ViewListRoom()
-        //{
-
-        //    var ListRoom = _dbContext.Rooms.Include(s => s.RoomType).Select(t => new ViewRoomModel()
-        //    {
-        //        Name = t.RoomType.Name,
-        //        Description = t.Description,
-        //        Image = t.PathImage,
-        //        Price = t.RoomType.Price.ToString(),
-        //    }).ToList();
-
-
-        //    HttpContext.Response.Headers.Append("Phamtrungduc", "DEptria");
-        //    return View(ListRoom);
-        //}
-
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ViewListRoom()
-        //{
-        //    var TokenTemperary = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDQ1Iiwic3ViIjoiMTIzNDU2Nzg5MCIsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJpYXQiOjE1MTYyMzkwMjJ9.l903ZZnlAE9MB_WmC4YS27U7mC3EnAlhOti6wNbWz6Q";
-
-
-
-        //    var model = await _ApiService.GetListRoomFromAPIAsync(TokenTemperary);
-
-        //    if (model != null)
-        //    {
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        return NotFound("No rooms found.");
-        //    }
-
-        //}
+        // hiện thi danh sách phòng(advance) và phân trang
         [AllowAnonymous]
-        public async Task<IActionResult> ViewListRoomVer2(int CurrentPage, int NumberItemOfPage)
+        public async Task<IActionResult> ViewListRoomVer2(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
         {
-            var  model  = await _ApiService.ViewDetaiRoomAIPAsyncVer2(CurrentPage, 8);
+            ViewBag.Floor = Floor;
+            ViewBag.PageCurrent = PageCurrent;
+            ViewBag.NumerItemOfPage = NumerItemOfPage;
+            ViewBag.PriceMin = PriceMin;
+            ViewBag.PriceMax = PriceMax;
+            ViewBag.Person = Person;
+
+            var  model  = await _ApiService.ViewDetaiRoomAIPAsyncVer2(PageCurrent,NumerItemOfPage,Floor,PriceMin,PriceMax,Person);
             if (model != null)
             {
                 return View(model);
@@ -77,7 +46,6 @@ namespace Management_Hotel_2025.Controllers
         }
 
         [AllowAnonymous]
-
         public async Task<IActionResult> ViewDetailRoom([FromQuery] int IdRoom)
         {
             var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);

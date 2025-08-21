@@ -62,10 +62,20 @@ namespace Management_Hotel_2025.Serives.CallAPI
         }
 
         // call API to get detail of room with pagination
-        public async Task<PaginatedResult<ViewRoomModel>> ViewDetaiRoomAIPAsyncVer2(int PageCurrent, int NumberItemOfPage)
+        public async Task<PaginatedResult<ViewRoomModel>> ViewDetaiRoomAIPAsyncVer2(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
         {
-            var url = $"{_IConfiguration["ApiHotel:ViewListRoomByPagination"]}?PageCurrent={PageCurrent}&NumberItemOfPage={NumberItemOfPage}";
 
+            if (PageCurrent == null)
+            {
+                PageCurrent = 1;
+            }
+            if(NumerItemOfPage == null)
+            {
+                NumerItemOfPage = 10; 
+            }
+            var url = $"{_IConfiguration["ApiHotel:ViewListRoomByPaginationByType"]}?PageCurrent={PageCurrent}&NumerItemOfPage={NumerItemOfPage}&Floor={Floor}&PriceMin={PriceMin}&PriceMax={PriceMax}&Person={Person}";
+
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _IConfiguration["ApiHotel:Token"]); // Ghi Token vào header để gửi đi đến Api (nếu có)
             var response = await  _httpClient.GetAsync(url);
             var result = await response.Content.ReadAsStringAsync();
 
@@ -83,7 +93,7 @@ namespace Management_Hotel_2025.Serives.CallAPI
                     Data = new List<ViewRoomModel>(),
                     TotalCount = 0,
                     CurrentPage = PageCurrent,
-                    PageSize= NumberItemOfPage
+                    PageSize= NumerItemOfPage
                 };
             }
 

@@ -5,7 +5,6 @@ namespace API_BookingHotel.Serives
     public interface IRoomService
     {
 
-        public Task<List<ViewRoom>> GetListRoomHotelAsync(int CurrentPage,int ItermNumberOfPage);
-
+        public Task<List<ViewRoom>> SearchRoomByAdvance(int CurrentPage, int ItermNumberOfPage,int? Floor , int? PriceMin, int? PriceMax , int? Person);
     }
 }

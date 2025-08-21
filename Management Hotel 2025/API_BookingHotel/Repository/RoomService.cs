@@ -14,47 +14,36 @@ namespace API_BookingHotel.Repository
             _dbcontext = Dbcontext;
         }
 
-        public async Task<List<ViewRoom>> GetListRoomHotelAsync(int CurrentPage, int ItermNumberOfPage)
+
+        // tìm kiếm advance của room
+        public async Task<List<ViewRoom>> SearchRoomByAdvance(int CurrentPage, int ItermNumberOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
         {
 
-            if (ItermNumberOfPage <= 0)
-            {
-                ItermNumberOfPage = 10;
-            }
-
-            if (CurrentPage <= 0)
-            {
-                CurrentPage = 1;
-            }
-
-            int skip = (CurrentPage - 1) * ItermNumberOfPage;   // số lượng item sẽ bỏ qua
-
+            var ItemSkip = (CurrentPage - 1) * ItermNumberOfPage; // số lượng item sẽ bỏ qua
 
             var ListItem = await _dbcontext.Rooms
-                .Include(s => s.RoomType)
-                .Select(room => new ViewRoom
-                {
-                    IdRoom = room.RoomId,
-                    Name = room.RoomType.Name,
-                    Description = room.Description,
-                    Image = room.PathImage,
-                    Price = room.RoomType.Price.ToString()
-                })
-                .Skip(skip)
-                .Take(ItermNumberOfPage)
-                .ToListAsync();
+                          .Include(s => s.RoomType)
+                          .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
+                                (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
+                                (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
+                                (!Person.HasValue || s.RoomType.MaxGuests >= Person.Value))
+                          .OrderBy(s => s.RoomType.Price) 
+                          .Skip(ItemSkip)                 
+                          .Take(ItermNumberOfPage)
+                          .Select(room => new ViewRoom()
+                            {
+                               IdRoom = room.RoomId,
+                               Name = room.RoomType.Name,
+                               Floor = room.Floor,
+                               Description = room.Description,
+                               Image = room.PathImage,
+                               Price = room.RoomType.Price.ToString()
+                              })
+                             .ToListAsync(); 
 
-            if (ListItem == null)
-            {
-                return new List<ViewRoom>();
-            }
-            else
-            {
-                return ListItem;
-            }
+            return ListItem;
         }
 
 
-      
     }
 }

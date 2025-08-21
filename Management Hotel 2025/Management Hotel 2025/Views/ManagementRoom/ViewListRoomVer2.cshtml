@@ -20,27 +20,49 @@
             <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
         </div>
         <div class="lux-room-filter">
-            <form id="lux-filter-form" onsubmit="return false;" style="display: flex; gap: 32px; align-items: center;">
+            <form id="lux-filter-form" asp-action="ViewListRoomVer2" asp-controller="ManagementRoom" method="get" style="display: flex; gap: 32px; align-items: center;">
                 <label>
                     Tầng:
-                    <select id="filter-floor">
+                    <select name="Floor" id="filter-floor" onchange="this.form.submit()">
                         <option value="">Tất cả</option>
-                        <option value="1">Tầng 1</option>
-                        <option value="2">Tầng 2</option>
-                        <option value="3">Tầng 3</option>
+                        <option value="1" selected="@(ViewBag.Floor == 1 ? "selected" : null)">Tầng 1</option>
+                        <option value="2" selected="@(ViewBag.Floor == 2 ? "selected" : null)">Tầng 2</option>
+                        <option value="3" selected="@(ViewBag.Floor == 3 ? "selected" : null)">Tầng 3</option>
+                        <option value="4" selected="@(ViewBag.Floor == 4 ? "selected" : null)">Tầng 4</option>
+                        <option value="5" selected="@(ViewBag.Floor == 5 ? "selected" : null)">Tầng 5</option>
+                        <option value="6" selected="@(ViewBag.Floor == 6 ? "selected" : null)">Tầng 6</option>
+                        <option value="7" selected="@(ViewBag.Floor == 7 ? "selected" : null)">Tầng 7</option>
+                        <option value="8" selected="@(ViewBag.Floor == 8 ? "selected" : null)">Tầng 8</option>
                     </select>
                 </label>
                 <label>
                     Giá từ:
-                    <input type="number" id="filter-min-price" min="0" placeholder="Min" />
+                    <select name="PriceMin" id="filter-min-price" onchange="this.form.submit()">
+                        <option value="">Giá Min</option>
+                        <option value="1">500K</option>
+                        <option value="2">800K</option>
+                        <option value="3">1000K</option>
+                    </select>
+
                     đến
-                    <input type="number" id="filter-max-price" min="0" placeholder="Max" />
+                    <select name="PriceMax" id="filter-min-price" onchange="this.form.submit()">
+                        <option value="">Giá Max</option>
+                        <option value="1">3 Tr</option>
+                        <option value="2">5 Tr</option>
+                        <option value="3">10 Tr</option>
+                    </select>
                 </label>
                 <label>
-                    Số người tối đa:
-                    <input type="number" id="filter-max-person" min="1" placeholder="Số người" />
+                    Số người/Phòng:
+                    <select name="Person" id="filter-min-price" onchange="this.form.submit()">
+                        <option value="">Phòng 1 Người</option>
+                        <option value="2" selected="@(ViewBag.Person == 2 ? "selected" : null)">Phòng 2 Người</option>
+                        <option value="3" selected="@(ViewBag.Person == 3 ? "selected" : null)">Phòng 3 Người</option>
+                        <option value="4" selected="@(ViewBag.Person == 4 ? "selected" : null)">Phòng 4 Người</option>
+                    </select>
                 </label>
-                <button type="button" onclick="luxApplyFilter()">Lọc phòng</button>
+                <  <input type="hidden" name="PageCurrent" value="@ViewBag.PageCurrent" />
+                <input type="hidden" name="NumerItemOfPage" value="@ViewBag.NumerItemOfPage" />
                 <button type="button" onclick="luxResetFilter()">Đặt lại</button>
             </form>
         </div>
@@ -64,7 +86,6 @@
                                asp-route-idRoom="@room.IdRoom" class="lux-book-btn" target="_blank">
                                 Xem chi tiết
                             </a>
-
                         </div>
                     </div>
                     <div class="lux-glow"></div>
@@ -79,19 +100,17 @@
             <p>Cảm ơn bạn đã chọn <span id="lux-modal-room"></span>.<br />Chúng tôi sẽ liên hệ với bạn sớm nhất.</p>
         </div>
     </div>
+    <!-- PHÂN TRANG ĐÃ SỬA -->
     <div class="pagination">
         @if (@Model.CurrentPage > 1)
         {
             <a asp-action="ViewListRoomVer2"
                asp-controller="ManagementRoom"
-               asp-route-CurrentPage="@Model.CurrentPage"
-               asp-route-NumberItemOfPage="10"
-               class="lux-book-btn">
+               asp-route-PageCurrent="@(Model.CurrentPage - 1)"
+               asp-route-NumerItemOfPage="10">
                 &laquo; Prev
             </a>
-
         }
-
         @for (int i = 1; i <= @Model.TotalPages; i++)
         {
             if (i == @Model.CurrentPage)
@@ -102,25 +121,20 @@
             {
                 <a asp-action="ViewListRoomVer2"
                    asp-controller="ManagementRoom"
-                   asp-route-CurrentPage="@i" class="lux-book-btn">
+                   asp-route-PageCurrent="@i"
+                   asp-route-NumerItemOfPage="8">
                     @i
                 </a>
-
             }
         }
-
         @if (@Model.CurrentPage < @Model.TotalPages)
         {
-
             <a asp-action="ViewListRoomVer2"
                asp-controller="ManagementRoom"
-               asp-route-CurrentPage="@(Model.CurrentPage + 1)"
-               asp-route-NumberItemOfPage="10"
-               class="lux-book-btn">
+               asp-route-PageCurrent="@(Model.CurrentPage + 1)"
+               asp-route-NumerItemOfPage="10">
                 Next &raquo;
             </a>
-
-
         }
     </div>
     <script src="~/js/ViewListRoom.js"></script>

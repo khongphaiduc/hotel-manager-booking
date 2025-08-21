@@ -4,6 +4,7 @@ using API_BookingHotel.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace API_BookingHotel.Controllers
@@ -15,31 +16,30 @@ namespace API_BookingHotel.Controllers
         private readonly IRoomService _IRoomService;
         private readonly ManagermentHotelContext _dbcontext;
 
-        public RoomSerivcesController(IRoomService _RoomService,ManagermentHotelContext dbcontext)
+        public RoomSerivcesController(IRoomService _RoomService, ManagermentHotelContext dbcontext)
         {
             _IRoomService = _RoomService;
             _dbcontext = dbcontext;
         }
 
+
         [AllowAnonymous]
-        [HttpGet("SearchRoom")]
-        public async Task<IActionResult> GetRoomList([FromQuery] PaginationRequest pagination)
+        [HttpGet("room")]
+        public async Task<IActionResult> SearchRoomAdvance(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
         {
-            // Validate the pagination request
-            pagination.PageCurrent = pagination.ValidatePageNumber();
-            pagination.NumberItemOfPage = pagination.ValidatePageSize();
-           
-            var list = await _IRoomService.GetListRoomHotelAsync(pagination.PageCurrent,pagination.NumberItemOfPage);
+            // lấy db trước khi mà skip
+            int TotalItems = _dbcontext.Rooms
+                         .Include(s => s.RoomType)
+                         .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
+                               (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
+                               (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
+                               (!Person.HasValue || s.RoomType.MaxGuests >= Person.Value)).Count();
 
-            var TotalItems = _dbcontext.Rooms.Count();
+            var list = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person);
 
-            if (list == null || !list.Any())
-            {
-                return NotFound("No rooms found.");
-            }
-            return Ok(new PaginationResult<ViewRoom>(list, TotalItems, pagination.PageCurrent, pagination.NumberItemOfPage));
+            return Ok(new PaginationResult<ViewRoom>(list, TotalItems, PageCurrent, NumerItemOfPage));
 
         }
-        
+
     }
 }

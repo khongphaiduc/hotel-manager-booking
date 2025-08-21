@@ -13,24 +13,6 @@ namespace API_BookingHotel.Repository
             _dbcontext =dbcontext;
         }
 
-        // Get list of rooms in hotel
-        public async Task<List<ViewRoom>> GetListRoomHotelAsync()
-        {
-         
-            var ListRoom = await _dbcontext.Rooms
-                .Include(s=>s.RoomType)
-                .Select(room => new ViewRoom
-                {
-                    IdRoom = room.RoomId,
-                    Name = room.RoomType.Name, 
-                    Description = room.Description,
-                    Image = room.PathImage,
-                    Price = room.RoomType.Price.ToString()
-                })
-                .ToListAsync();
-            return ListRoom;
-        }
-
         // Allow user to view detail the room   
         public async Task<ViewRoomDetail> ViewDetailRoomAsync(int roomID)
         {

@@ -366,21 +366,26 @@ html, body {
     }
 }
 
-
-* Pagination *
-
+/* PHÂN TRANG KIỂU CŨ + CĂN GIỮA */
 .pagination {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+    gap: 4px;
 }
 
     .pagination a {
         color: black;
-        float: left;
+        float: none;
         padding: 8px 16px;
         text-decoration: none;
         transition: background-color 0.3s;
         border: 1px solid #ddd;
         margin: 0 4px;
+        border-radius: 4px;
+        background: #23223b;
+        font-weight: 600;
     }
 
         .pagination a.active {

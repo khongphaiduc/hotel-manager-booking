@@ -1,0 +1,73 @@
+﻿body {
+    background: linear-gradient(120deg,#f3e9fd 0%,#e8f6ff 100%);
+    min-height: 100vh;
+}
+
+.cart-card {
+    border-radius: 18px;
+    box-shadow: 0 10px 32px rgba(44,62,80,0.11);
+    animation: fadeIn 0.8s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+.hotel-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(44,62,80,.12);
+    transition: transform .3s;
+}
+
+    .hotel-thumb:hover {
+        transform: scale(1.08);
+    }
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.remove-btn:hover {
+    background: #ffbcbc;
+    color: #900;
+}
+
+.pay-btn {
+    transition: transform .2s, box-shadow .2s;
+}
+
+    .pay-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px #85e3c5a0;
+    }
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+    .icon-btn:focus {
+        outline: none;
+    }
+
+.fadeOut {
+    animation: fadeOut .35s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+}
+
+.days-input {
+    width: 70px;
+    text-align: center;
+}

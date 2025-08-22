@@ -3,6 +3,7 @@ using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.Serives.GenarateToken;
 using Management_Hotel_2025.Serives.Interface;
+using Management_Hotel_2025.Serives.VNPay;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +62,8 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<IApiServices,ApiCall>();
             builder.Services.AddTransient<ApiCall>();
             builder.Services.AddHttpClient(); // Thêm HttpClient để gọi API bên ngoài
+
+            builder.Services.AddScoped<IVnPayService, VnPayService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

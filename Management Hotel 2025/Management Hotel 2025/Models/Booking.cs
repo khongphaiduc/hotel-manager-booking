@@ -26,4 +26,5 @@ public partial class Booking
     public virtual Room Room { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

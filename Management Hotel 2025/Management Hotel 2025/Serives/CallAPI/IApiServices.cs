@@ -4,10 +4,11 @@ namespace Management_Hotel_2025.Serives.CallAPI
 {
     public interface IApiServices
     {
-        public Task<List<ViewRoomModel>> GetListRoomFromAPIAsync(string Token);
 
+        // View Detail Room
         public Task<ViewDetailRoom> ViewDetaiRoomAIPAsync(int id);
 
+        // Search Room Advance and Pagination
         public Task<PaginatedResult<ViewRoomModel>> ViewDetaiRoomAIPAsyncVer2(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person);
     }
 }

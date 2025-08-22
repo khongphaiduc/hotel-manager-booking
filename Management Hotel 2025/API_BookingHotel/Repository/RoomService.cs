@@ -26,19 +26,19 @@ namespace API_BookingHotel.Repository
                           .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
                                 (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
                                 (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
-                                (!Person.HasValue || s.RoomType.MaxGuests >= Person.Value))
-                          .OrderBy(s => s.RoomType.Price) 
-                          .Skip(ItemSkip)                 
+                                (!Person.HasValue || s.RoomType.MaxGuests == Person.Value))
+                          .OrderBy(s => s.RoomType.Price)
+                          .Skip(ItemSkip)
                           .Take(ItermNumberOfPage)
                           .Select(room => new ViewRoom()
-                            {
-                               IdRoom = room.RoomId,
-                               Name = room.RoomType.Name,
-                               Floor = room.Floor,
-                               Description = room.Description,
-                               Image = room.PathImage,
-                               Price = room.RoomType.Price.ToString()
-                              })
+                          {
+                              IdRoom = room.RoomId,
+                              Name = room.RoomType.Name,
+                              Floor = room.Floor,
+                              Description = room.Description,
+                              Image = room.PathImage,
+                              Price = room.RoomType.Price
+                          })
                              .ToListAsync(); 
 
             return ListItem;

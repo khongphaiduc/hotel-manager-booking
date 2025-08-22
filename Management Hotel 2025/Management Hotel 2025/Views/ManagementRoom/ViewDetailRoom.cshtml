@@ -1,30 +1,6 @@
 ﻿@{
   
     Layout = null;
-
-    
-    var room = new
-    {
-        Name = "Phòng Deluxe",
-        Price = "2.200.000đ/đêm",
-        Gallery = new[]{
-            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80",
-            "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=1200&q=80",
-            "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=1200&q=80",
-            "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&q=80"
-        },
-        Desc = "Phòng Deluxe mang đến không gian rộng rãi, hiện đại, nội thất cao cấp và view biển tuyệt đẹp. Phù hợp cho kỳ nghỉ dưỡng sang trọng hoặc chuyến công tác đẳng cấp.",
-        Features = new[]{
-            "Giường King size, nệm cao cấp",
-            "Wifi tốc độ cao miễn phí",
-            "Tivi 65 inch, truyền hình quốc tế",
-            "Ban công riêng với view biển",
-            "Phòng tắm đá cẩm thạch, bồn tắm lớn",
-            "Minibar, trà/cafe miễn phí",
-            "Bàn làm việc, két an toàn",
-            "Dọn phòng hàng ngày"
-        }
-    };
 }
 
 @model Management_Hotel_2025.ViewModel.ViewDetailRoom
@@ -58,7 +34,7 @@
             <div class="room-slider-half room-slider-half-bottom">
                 <div class="room-detail-info">
                     <h1 class="room-title">@Model.NameType</h1>
-                    <div class="room-price">@Model.Price</div>
+                    <div class="room-price">  @string.Format("{0:N0}", Model.Price)</div>
                     <div class="room-desc">@Model.Description</div>
                     <ul class="room-features">
                         @* @foreach (var f in room.Features)

@@ -28,12 +28,12 @@ namespace API_BookingHotel.Controllers
         public async Task<IActionResult> SearchRoomAdvance(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
         {
             // lấy db trước khi mà skip
-            int TotalItems = _dbcontext.Rooms
+            int TotalItems = await _dbcontext.Rooms
                          .Include(s => s.RoomType)
                          .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
                                (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
                                (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
-                               (!Person.HasValue || s.RoomType.MaxGuests >= Person.Value)).Count();
+                               (!Person.HasValue || s.RoomType.MaxGuests == Person.Value)).CountAsync();
 
             var list = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person);
 

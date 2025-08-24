@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
 using System.Collections.Generic;
 
 namespace Management_Hotel_2025.Models;
@@ -7,24 +8,18 @@ public partial class Booking
 {
     public int BookingId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }   // có thể null nếu là khách walk-in
 
-    public int RoomId { get; set; }
+    public string BookingSource { get; set; } = "Website";   // Website, App, Phone, WalkIn, TravelAgency    
 
-    public DateOnly CheckIn { get; set; }
+    public string Status { get; set; } = "Pending";   // Pending, Confirmed, Cancelled, CheckedIn, CheckedOut
 
-    public DateOnly CheckOut { get; set; }
+    public DateTime BookingDate { get; set; } = DateTime.Now;
 
-    public int Guests { get; set; }
+  
+    public virtual User? User { get; set; }
 
-    public string? Status { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
-    public DateTime? UpdatedAt { get; set; }
-
-    public virtual Room Room { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+    public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
 }

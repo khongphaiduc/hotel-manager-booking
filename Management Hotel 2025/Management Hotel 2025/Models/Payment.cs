@@ -1,34 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
-namespace Management_Hotel_2025.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace Management_Hotel_2025.Models;
+
+public partial class Payment
 {
-    [Table("Payments")]
-    public class Payment
-    {
-        [Key]
-        public int PaymentId { get; set; }
+    public int PaymentId { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Amount { get; set; }  
+    public decimal Amount { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string PaymentMethod { get; set; } = string.Empty; // Cash, Card, VnPay, MoMo...
+    public string PaymentMethod { get; set; } = null!;
 
-        [MaxLength(100)]
-        public string? TransactionId { get; set; } // có thể null nếu thanh toán tiền mặt
+    public string? TransactionId { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string Status { get; set; } = "Pending"; // Pending, Paid, Failed, Refunded
+    public string Status { get; set; } = null!;
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; }
 
-      
-        public int BookingId { get; set; }
-        [ForeignKey("BookingId")]
-        public virtual Booking Booking { get; set; } = null!;
-    }
+    public int BookingId { get; set; }
+
+    public virtual Booking Booking { get; set; } = null!;
 }

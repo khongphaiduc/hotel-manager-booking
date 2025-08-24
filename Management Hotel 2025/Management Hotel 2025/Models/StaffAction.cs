@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace Management_Hotel_2025.Models;
-
 public partial class StaffAction
 {
     public int ActionId { get; set; }

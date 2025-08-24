@@ -19,6 +19,8 @@ public partial class ManagermentHotelContext : DbContext
 
     public virtual DbSet<Notification> Notifications { get; set; }
 
+    public virtual DbSet<Payment> Payments { get; set; }
+
     public virtual DbSet<Review> Reviews { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
@@ -27,12 +29,15 @@ public partial class ManagermentHotelContext : DbContext
 
     public virtual DbSet<StaffAction> StaffActions { get; set; }
 
+    public virtual DbSet<Token> Tokens { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 
     }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,28 +48,7 @@ public partial class ManagermentHotelContext : DbContext
             entity.ToTable("bookings");
 
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
-            entity.Property(e => e.CheckIn).HasColumnName("check_in");
-            entity.Property(e => e.CheckOut).HasColumnName("check_out");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Guests).HasColumnName("guests");
-            entity.Property(e => e.RoomId).HasColumnName("room_id");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasDefaultValue("pending")
-                .HasColumnName("status");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Room).WithMany(p => p.Bookings)
-                .HasForeignKey(d => d.RoomId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__bookings__room_i__5BE2A6F2");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.UserId)
@@ -95,6 +79,18 @@ public partial class ManagermentHotelContext : DbContext
                 .HasConstraintName("FK__notificat__user___693CA210");
         });
 
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasIndex(e => e.BookingId, "IX_Payments_BookingId");
+
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PaymentMethod).HasMaxLength(50);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.TransactionId).HasMaxLength(100);
+
+            entity.HasOne(d => d.Booking).WithMany(p => p.Payments).HasForeignKey(d => d.BookingId);
+        });
+
         modelBuilder.Entity<Review>(entity =>
         {
             entity.HasKey(e => e.ReviewId).HasName("PK__reviews__60883D904168ABEB");
@@ -123,7 +119,13 @@ public partial class ManagermentHotelContext : DbContext
             entity.ToTable("rooms");
 
             entity.Property(e => e.RoomId).HasColumnName("room_id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(400)
+                .HasDefaultValue("");
             entity.Property(e => e.Floor).HasColumnName("floor");
+            entity.Property(e => e.PathImage)
+                .HasMaxLength(200)
+                .HasDefaultValue("");
             entity.Property(e => e.RoomNumber)
                 .HasMaxLength(20)
                 .HasColumnName("room_number");
@@ -178,6 +180,19 @@ public partial class ManagermentHotelContext : DbContext
                 .HasConstraintName("FK__staff_act__staff__5FB337D6");
         });
 
+        modelBuilder.Entity<Token>(entity =>
+        {
+            entity.HasKey(e => e.IdToken);
+
+            entity.ToTable("Token");
+
+            entity.HasIndex(e => e.IdUser, "IX_Token_IdUser");
+
+            entity.Property(e => e.ToketContent).HasMaxLength(500);
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Tokens).HasForeignKey(d => d.IdUser);
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__users__B9BE370F41C6AE08");
@@ -185,7 +200,6 @@ public partial class ManagermentHotelContext : DbContext
             entity.ToTable("users");
 
             entity.HasIndex(e => e.Email, "UQ__users__AB6E6164AD37B433").IsUnique();
-          
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.CreatedAt)
@@ -207,6 +221,7 @@ public partial class ManagermentHotelContext : DbContext
             entity.Property(e => e.Role)
                 .HasMaxLength(10)
                 .HasColumnName("role");
+            entity.Property(e => e.Salt).HasDefaultValue("");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")

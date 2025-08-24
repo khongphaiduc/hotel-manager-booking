@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Management_Hotel_2025.Models;
 
@@ -12,9 +11,6 @@ public partial class User
 
     public string PasswordHash { get; set; } = null!;
 
-    public string Salt { get; set; } = null!;
-
-    [EmailAddress(ErrorMessage = "Invalid email format")]
     public string Email { get; set; } = null!;
 
     public string? FullName { get; set; }
@@ -27,6 +23,8 @@ public partial class User
 
     public DateTime? UpdatedAt { get; set; }
 
+    public string Salt { get; set; } = null!;
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
@@ -35,5 +33,5 @@ public partial class User
 
     public virtual ICollection<StaffAction> StaffActions { get; set; } = new List<StaffAction>();
 
-     public virtual ICollection<MyToken> MyTokens { get; set; } = new List<MyToken>();
+    public virtual ICollection<Token> Tokens { get; set; } = new List<Token>();
 }

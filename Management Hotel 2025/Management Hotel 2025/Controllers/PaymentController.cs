@@ -15,7 +15,10 @@ namespace Management_Hotel_2025.Controllers
 
         public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
         {
+       
+
             var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
+            Console.WriteLine("URL VNPAY: " + url);
 
             return Redirect(url);
         }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Management_Hotel_2025.ViewModel.VNPay.PaymentInformationModel
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -97,9 +98,19 @@
                     <div class="fs-5 fw-bold total-price">
                         Tổng cộng: <span id="cart-total">$1080</span>
                     </div>
-                    <a href="/Checkout" class="btn btn-success btn-lg shadow pay-btn">
-                        <i class="bi bi-credit-card"></i> Thanh toán
-                    </a>
+
+                    <form asp-controller="Payment" asp-action="CreatePaymentUrlVnpay" method="post">
+                        <input type="hidden" asp-for="OrderType" value="other" />
+                        <input type="hidden" asp-for="Amount" value="8989898" />
+
+                        <input type="hidden" asp-for="OrderDescription" value="Pham Trung Duc Test Thanh Toan 1" />
+
+                        <input type="hidden" asp-for="Name" value="other" />
+                        <input type="submit" name="name" value="Thanh toán" />
+                    </form>
+
+
+                    
                 </div>
             </div>
         </div>

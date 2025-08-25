@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Serives\ManagementRoom\**" />
+    <Content Remove="Serives\ManagementRoom\**" />
+    <EmbeddedResource Remove="Serives\ManagementRoom\**" />
+    <None Remove="Serives\ManagementRoom\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.19" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.19" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
@@ -26,10 +33,6 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Serives\ManagementRoom\" />
   </ItemGroup>
 
 </Project>

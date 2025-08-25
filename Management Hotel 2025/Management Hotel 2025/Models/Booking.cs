@@ -16,7 +16,10 @@ public partial class Booking
 
     public DateTime BookingDate { get; set; } = DateTime.Now;
 
-  
+    public decimal DepositAmount { get; set; } = 0;  // số tiền mà khách đã thành toán khi đặt cọc phòng 
+
+    public decimal TotalAmountBooking { get; set; }  // tổng số tiền của booking tiền phòng chưa bao gom dịch vụ
+
     public virtual User? User { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

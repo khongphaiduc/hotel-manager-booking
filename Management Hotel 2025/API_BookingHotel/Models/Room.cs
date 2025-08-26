@@ -11,7 +11,7 @@ public partial class Room
 
     public string RoomNumber { get; set; } = null!;
 
-    public int Floor { get; set; }
+    public int? Floor { get; set; }
 
     public string? Status { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Room
 
     public string PathImage { get; set; } = null!;
 
-    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+    public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
 
     public virtual RoomType RoomType { get; set; } = null!;
 }

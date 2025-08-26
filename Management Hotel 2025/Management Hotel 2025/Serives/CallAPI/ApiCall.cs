@@ -48,7 +48,7 @@ namespace Management_Hotel_2025.Serives.CallAPI
 
                 if (!response.IsSuccessStatusCode)
                 {
-                   
+
                     var error = await response.Content.ReadAsStringAsync();
                     throw new Exception($"API call failed ({response.StatusCode}): {error}");
                 }
@@ -62,22 +62,22 @@ namespace Management_Hotel_2025.Serives.CallAPI
         }
 
         // call API to get detail of room with pagination
-        public async Task<PaginatedResult<ViewRoomModel>> ViewDetaiRoomAIPAsyncVer2(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
+        public async Task<PaginatedResult<ViewRoomModel>> ViewDetaiRoomAIPAsyncVer2(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
         {
 
             if (PageCurrent == null)
             {
                 PageCurrent = 1;
             }
-            if(NumerItemOfPage == null)
+            if (NumerItemOfPage == null)
             {
-                NumerItemOfPage = 10; 
+                NumerItemOfPage = 10;
             }
-            var url = $"{_IConfiguration["ApiHotel:ViewListRoomByPaginationByType"]}?PageCurrent={PageCurrent}&NumerItemOfPage={NumerItemOfPage}&Floor={Floor}&PriceMin={PriceMin}&PriceMax={PriceMax}&Person={Person}";
+            var url = $"{_IConfiguration["ApiHotel:ViewListRoomByPaginationByType"]}?PageCurrent={PageCurrent}&NumerItemOfPage={NumerItemOfPage}&Floor={Floor}&PriceMin={PriceMin}&PriceMax={PriceMax}&Person={Person}&StartDate={StartDate}&EndDate={EndDate}";
 
             //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _IConfiguration["ApiHotel:Token"]); // Ghi Token vào header để gửi đi đến Api (nếu có)
-            var response = await  _httpClient.GetAsync(url);
-            var result = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.GetAsync(url);   // call 
+            var result = await response.Content.ReadAsStringAsync();  // đọc nội dung trả về
 
             if (!response.IsSuccessStatusCode)
             {
@@ -86,19 +86,19 @@ namespace Management_Hotel_2025.Serives.CallAPI
             }
             else
             {
-                var paginatedResult = JsonSerializer.Deserialize<PaginatedResult<ViewRoomModel>>( result,
+                var paginatedResult = JsonSerializer.Deserialize<PaginatedResult<ViewRoomModel>>(result,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 return paginatedResult ?? new PaginatedResult<ViewRoomModel>
                 {
                     Data = new List<ViewRoomModel>(),
                     TotalCount = 0,
                     CurrentPage = PageCurrent,
-                    PageSize= NumerItemOfPage
+                    PageSize = NumerItemOfPage
                 };
             }
 
         }
 
-       
+
     }
 }

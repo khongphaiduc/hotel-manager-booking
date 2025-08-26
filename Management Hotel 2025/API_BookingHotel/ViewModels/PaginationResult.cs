@@ -11,7 +11,9 @@
         public bool HasPrevious { get; set; }
         public bool HasNext { get; set; }
 
-        public PaginationResult(List<T> data, int totalItem, int currentPage, int pageSize)
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public PaginationResult(List<T> data, int totalItem, int currentPage, int pageSize, DateTime startDate, DateTime endDate)
         {
             Data = data;
             TotalCount = totalItem;
@@ -20,6 +22,8 @@
             TotalPages = (int)Math.Ceiling((double)totalItem / pageSize);
             HasPrevious = currentPage > 1;
             HasNext = currentPage < TotalPages;
+            StartDate = startDate;
+            EndDate = endDate;
         }
     }
 }

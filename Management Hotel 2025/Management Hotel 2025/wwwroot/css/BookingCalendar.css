@@ -1,0 +1,58 @@
+﻿.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+    .calendar-table th, .calendar-table td {
+        width: 14.2%;
+        text-align: center;
+        padding: 6px 0;
+        border: 1px solid #eaeaea;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        position: relative;
+        user-select: none;
+    }
+
+        .calendar-table td.booked {
+            background: #ffe066;
+            color: #b8860b;
+            cursor: not-allowed;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        .calendar-table td.selectable:not(.booked):hover,
+        .calendar-table td.selected:not(.booked),
+        .calendar-table td.in-range:not(.booked) {
+            background: #d1f2eb;
+            color: #218c74;
+            border-radius: 8px;
+        }
+
+        .calendar-table td.today {
+            border: 2px solid #0d6efd;
+        }
+
+        .calendar-table td.disabled {
+            background: #f4f6f7;
+            color: #c2c2c2;
+            cursor: not-allowed;
+        }
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+    .calendar-nav button {
+        background: none;
+        border: none;
+        color: #2980b9;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+    }

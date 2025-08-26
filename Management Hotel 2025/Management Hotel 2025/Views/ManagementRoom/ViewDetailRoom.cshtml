@@ -1,5 +1,5 @@
 ﻿@{
-  
+
     Layout = null;
 }
 
@@ -19,14 +19,12 @@
             <div class="room-slider-half room-slider-half-top">
                 <div class="slider-wrapper">
                     <img id="mainSliderImg" src="@Model.PathImage" alt="Ảnh Room"
-                         class="slider-img"
-                        />
+                         class="slider-img" />
                     <div class="slider-controls">
                         <button class="slider-btn prev-btn" onclick="changeSlide(-1)">&#10094;</button>
                         <button class="slider-btn next-btn" onclick="changeSlide(1)">&#10095;</button>
                     </div>
                     <div class="slider-dots" id="sliderDots">
-                      
                     </div>
                 </div>
             </div>
@@ -51,8 +49,13 @@
 
                     </ul>
                     <div class="room-detail-actions">
-                        <button class="btn-primary" onclick="luxBookNow('@Model.NameType')">Đặt phòng ngay</button>
-                        <a class="btn-primary" >Thêm vào giỏ hàng</a>
+                        <a asp-action="InformationBooking"
+                           asp-controller="Payment"
+                           asp-route-Amount="@Model.Price"
+                           asp-route-NameRoom="@Model.NameType"
+
+                           class="btn-primary">Đặt phòng ngay</a>
+                        <a class="btn-primary">Thêm vào giỏ hàng</a>
                         <button class="btn-outline" onclick="window.history.back()">Quay lại</button>
                     </div>
                 </div>

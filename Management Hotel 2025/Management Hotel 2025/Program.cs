@@ -47,6 +47,9 @@ namespace Management_Hotel_2025
                 options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:GoogleSecret").Value;
             });
 
+
+            builder.Services.AddSession();  //  đăng ký dịch vụ Session trong ứng dụng ASP.NET Core.
+
             // CookieAuthenticationDefaults trong ASP.NET Core thực chất là một class chứa các hằng  số (constant) được Microsoft định nghĩa sẵn để dùng cho cấu hình Cookie Authentication.
 
             // bản chất nó là builder.Services.AddAuthentication("Cookies").AddCookie(); nhưng khuyếch nghị dùng (CookieAuthenticationDefaults.AuthenticationScheme) để tránh lỗi chính tả và dễ dàng thay đổi trong tương lai.
@@ -62,7 +65,7 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<IApiServices,ApiCall>();
             builder.Services.AddTransient<ApiCall>();
             builder.Services.AddHttpClient(); // Thêm HttpClient để gọi API bên ngoài
-
+            builder.Services.AddHttpContextAccessor();  // Thêm HttpContextAccessor để truy cập HttpContext trong các dịch vụ
             builder.Services.AddScoped<IVnPayService, VnPayService>();
             var app = builder.Build();
 
@@ -73,7 +76,7 @@ namespace Management_Hotel_2025
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSession();    // Kích hoạt Session trong ứng dụng
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

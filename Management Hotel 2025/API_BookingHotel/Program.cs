@@ -19,7 +19,7 @@ namespace API_BookingHotel
             builder.Services.AddControllers();
             builder.Services.AddDbContext<ManagermentHotelContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-                
+
 
 
             builder.Services.AddAuthentication(

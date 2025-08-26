@@ -1,0 +1,65 @@
+﻿body {
+    background: #f5f6fa;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+.card {
+    border-radius: 16px;
+    border: none;
+}
+
+.card-header {
+    border-bottom: 1px solid #eaeaea;
+    background: linear-gradient(90deg, #f5f6fa 0%, #fff 100%);
+}
+
+.form-label.fw-bold {
+    font-size: 1.1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 2px #0d6efd33;
+    border-color: #0d6efd;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #2980b9 0%, #6dd5fa 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background 0.3s;
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #2471a3 0%, #48c6ef 100%);
+        color: white;
+    }
+
+.bg-light {
+    background: #f9fafb !important;
+}
+
+input[type="checkbox"]:focus {
+    box-shadow: none;
+}
+
+.form-check-input:checked {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.text-warning {
+    color: #ff8c00 !important;
+}
+
+hr {
+    margin: 0.5rem 0;
+    opacity: .1;
+}
+
+#applyVoucher {
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 8px;
+}

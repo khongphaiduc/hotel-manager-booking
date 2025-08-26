@@ -7,23 +7,21 @@ public partial class Booking
 {
     public int BookingId { get; set; }
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
-    public int RoomId { get; set; }
+    public DateTime BookingDate { get; set; }
 
-    public DateOnly CheckIn { get; set; }
+    public string BookingSource { get; set; } = null!;
 
-    public DateOnly CheckOut { get; set; }
+    public string Status { get; set; } = null!;
 
-    public int Guests { get; set; }
+    public decimal DepositAmount { get; set; }
 
-    public string? Status { get; set; }
+    public decimal TotalAmountBooking { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
 
-    public DateTime? UpdatedAt { get; set; }
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual Room Room { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

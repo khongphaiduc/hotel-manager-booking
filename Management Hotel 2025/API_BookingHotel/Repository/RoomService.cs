@@ -16,17 +16,26 @@ namespace API_BookingHotel.Repository
 
 
         // tìm kiếm advance của room
-        public async Task<List<ViewRoom>> SearchRoomByAdvance(int CurrentPage, int ItermNumberOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person)
+        public async Task<List<ViewRoom>> SearchRoomByAdvance(int CurrentPage, int ItermNumberOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
         {
 
             var ItemSkip = (CurrentPage - 1) * ItermNumberOfPage; // số lượng item sẽ bỏ qua
+
+            DateTime newCheckIn = DateTime.Parse(StartDate);
+            DateTime newCheckOut = DateTime.Parse(EndDate);
 
             var ListItem = await _dbcontext.Rooms
                           .Include(s => s.RoomType)
                           .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
                                 (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
                                 (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
-                                (!Person.HasValue || s.RoomType.MaxGuests == Person.Value))
+                                (!Person.HasValue || s.RoomType.MaxGuests == Person.Value) &&
+                                 !s.BookingDetails.Any(bd =>
+                                                       bd.Booking.Status != "Cancelled" &&
+                                                       newCheckIn < bd.CheckOutDate &&
+                                                       newCheckOut > bd.CheckInDate )
+                                      
+                                )
                           .OrderBy(s => s.RoomType.Price)
                           .Skip(ItemSkip)
                           .Take(ItermNumberOfPage)
@@ -34,12 +43,12 @@ namespace API_BookingHotel.Repository
                           {
                               IdRoom = room.RoomId,
                               Name = room.RoomType.Name,
-                              Floor = room.Floor,
+                              Floor = (int)room.Floor,
                               Description = room.Description,
                               Image = room.PathImage,
                               Price = room.RoomType.Price
                           })
-                             .ToListAsync(); 
+                             .ToListAsync();
 
             return ListItem;
         }

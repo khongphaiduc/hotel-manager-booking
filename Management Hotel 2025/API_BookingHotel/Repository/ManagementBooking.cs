@@ -8,16 +8,16 @@ namespace API_BookingHotel.Repository
     {
         private readonly ManagermentHotelContext _dbcontext;
 
-        public ManagementBooking(ManagermentHotelContext dbcontext )
+        public ManagementBooking(ManagermentHotelContext dbcontext)
         {
-            _dbcontext =dbcontext;
+            _dbcontext = dbcontext;
         }
 
         // Allow user to view detail the room   
         public async Task<ViewRoomDetail> ViewDetailRoomAsync(int roomID)
         {
-            
-            var s  = await _dbcontext.Rooms
+
+            var s = await _dbcontext.Rooms
                 .Include(s => s.RoomType)
                 .Where(s => s.RoomId == roomID)
                 .Select(room => new ViewRoomDetail
@@ -26,18 +26,18 @@ namespace API_BookingHotel.Repository
                     RoomTypeId = room.RoomTypeId,
                     NameType = room.RoomType.Name,
                     RoomNumber = room.RoomNumber,
-                    Floor = room.Floor,
+                    Floor = (int)room.Floor,
                     Status = room.Status,
                     Description = room.Description,
                     PathImage = room.PathImage,
-                    Price = room.RoomType.Price,              
+                    Price = room.RoomType.Price,
                     MaxGuests = room.RoomType.MaxGuests.ToString(),
                 })
                 .FirstOrDefaultAsync();
 
             return s ?? new ViewRoomDetail();
-            
-        }   
+
+        }
 
 
     }

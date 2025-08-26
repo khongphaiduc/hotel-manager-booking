@@ -123,6 +123,22 @@ html, body {
             color: #fff;
         }
 
+    /* Thêm style cho input date */
+    .lux-room-filter input[type="date"] {
+        border-radius: 8px;
+        border: 1px solid #c7b8f9;
+        padding: 6px 12px;
+        font-size: 1rem;
+        background: #23223b;
+        color: #ffd200;
+        outline: none;
+        margin: 0 6px;
+    }
+
+        .lux-room-filter input[type="date"]:focus {
+            border-color: #ffd200;
+        }
+
 /* Danh sách phòng */
 .lux-room-list {
     display: flex;
@@ -397,3 +413,6 @@ html, body {
         .pagination a:hover:not(.active) {
             background-color: #ddd;
         }
+
+
+

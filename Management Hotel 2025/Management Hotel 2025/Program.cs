@@ -1,18 +1,15 @@
-﻿using Management_Hotel_2025.Models;
+﻿
+using Management_Hotel_2025.Models;
+using Management_Hotel_2025.Modules.AuthenSerive;
+using Management_Hotel_2025.Modules.CallAPI;
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.Serives.GenarateToken;
-using Management_Hotel_2025.Serives.Interface;
-using Management_Hotel_2025.Serives.VNPay;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System;
-using System.Net;
-using System.Reflection.Metadata;
+
 namespace Management_Hotel_2025
 {
     public class Program
@@ -56,7 +53,11 @@ namespace Management_Hotel_2025
 
 
 
+            //Transient : mỗi lần inject sẽ là  1 instance mới  được tạo ra
+            // Scoped   : 1 request sẽ inject duy nhất 1 instance 
+            //Singleton : 1 instance sẽ tồn tại đến hết vòng đời của ứng dụng  (tất cả các lần inject đều dùng chung 1 instance)
 
+            builder.Services.AddScoped<IVnPayService, VnPayService>();
             builder.Services.AddSingleton<IEncoding, MyEncoding>();
             builder.Services.AddScoped<RegisterAccount>();
             builder.Services.AddScoped<ValidationAuthen>();
@@ -66,7 +67,7 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<ApiCall>();
             builder.Services.AddHttpClient(); // Thêm HttpClient để gọi API bên ngoài
             builder.Services.AddHttpContextAccessor();  // Thêm HttpContextAccessor để truy cập HttpContext trong các dịch vụ
-            builder.Services.AddScoped<IVnPayService, VnPayService>();
+          
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

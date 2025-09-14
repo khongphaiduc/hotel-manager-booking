@@ -1,65 +1,136 @@
-﻿body {
-    background: #f5f6fa;
+﻿body.bg-modern {
+    background: linear-gradient(135deg, #e0eafb 0%, #fffbe7 100%);
+    min-height: 100vh;
     font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
 }
 
-.card {
-    border-radius: 16px;
+.modern-card {
+    border-radius: 2rem;
     border: none;
+    background: #fff;
+    box-shadow: 0 12px 32px 0 rgba(41,128,185,.07), 0 1.5px 7px 0 rgba(0,0,0,0.04);
 }
 
-.card-header {
-    border-bottom: 1px solid #eaeaea;
-    background: linear-gradient(90deg, #f5f6fa 0%, #fff 100%);
+.modern-header {
+    border-bottom: 1px solid #f2f2f2;
+    background: linear-gradient(90deg, #e0eafb 0%, #fff 100%);
+    border-radius: 2rem 2rem 0 0;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
 }
 
-.form-label.fw-bold {
+.modern-back {
     font-size: 1.1rem;
+    transition: color 0.18s;
 }
 
-input:focus, select:focus, textarea:focus {
-    box-shadow: 0 0 0 2px #0d6efd33;
-    border-color: #0d6efd;
-}
-
-.btn-primary {
-    background: linear-gradient(90deg, #2980b9 0%, #6dd5fa 100%);
-    border: none;
-    color: white;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: background 0.3s;
-}
-
-    .btn-primary:hover {
-        background: linear-gradient(90deg, #2471a3 0%, #48c6ef 100%);
-        color: white;
+    .modern-back:hover {
+        color: #2980b9;
     }
 
-.bg-light {
-    background: #f9fafb !important;
+.modern-title {
+    font-size: 1.5rem;
+    letter-spacing: .05em;
+    color: #2980b9;
 }
 
-input[type="checkbox"]:focus {
-    box-shadow: none;
+.modern-input, .form-select {
+    border-radius: 1.1rem;
+    font-size: 1.06rem;
+    padding: 0.75rem 1.1rem;
+    border: 1.5px solid #d6e6fa;
+    background: #f8fbff;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-check-input:checked {
-    background-color: #2980b9;
-    border-color: #2980b9;
+    .modern-input:focus, .form-select:focus {
+        border: 1.5px solid #6dd5fa;
+        box-shadow: 0 0 0 2px #2980b933;
+        background: #fff;
+    }
+
+/* Nút hiện đại có border màu, hiệu ứng gradient nổi bật */
+.btn-modern-outline {
+    background: #fff;
+    color: #ff8c00;
+    border: 3px solid transparent;
+    border-image: linear-gradient(90deg, #ff8c00 0%, #ff7eb3 50%, #65c7f7 100%);
+    border-image-slice: 1;
+    border-radius: 2rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    box-shadow: 0 8px 32px rgba(255,140,0,0.10), 0 1.5px 7px 0 rgba(101,199,247,0.08);
+    transition: box-shadow 0.28s, background 0.28s, color 0.18s, border 0.28s, transform 0.16s;
+    outline: none;
+    position: relative;
+    z-index: 1;
 }
 
-.text-warning {
-    color: #ff8c00 !important;
+    .btn-modern-outline:hover, .btn-modern-outline:focus {
+        color: #fff;
+        background: linear-gradient(90deg, #ff8c00 0%, #ff7eb3 50%, #65c7f7 100%);
+        border: 3px solid #fff;
+        box-shadow: 0 14px 40px 0 rgba(250,112,154,0.18), 0 5px 20px 0 rgba(101,199,247,0.13), 0 0 0 4px #ff8c0040;
+        transform: translateY(-2px) scale(1.015);
+        outline: none;
+    }
+
+    .btn-modern-outline.loading {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    .btn-modern-outline .animated-icon {
+        animation: rotateStar 2.5s linear infinite;
+        font-size: 1.35em;
+    }
+
+@keyframes rotateStar {
+    0% {
+        transform: rotate(-10deg);
+    }
+
+    40% {
+        transform: rotate(10deg);
+    }
+
+    80% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(-10deg);
+    }
 }
 
-hr {
-    margin: 0.5rem 0;
-    opacity: .1;
+.bg-gradient-light {
+    background: linear-gradient(120deg, #f9fafb 60%, #e0eafb 100%);
 }
 
-#applyVoucher {
-    font-size: 0.95rem;
-    font-weight: 500;
-    border-radius: 8px;
+.modern-policy {
+    font-size: 0.98rem;
 }
+
+.voucher-area .form-control {
+    border-radius: 1.1rem 0 0 1.1rem;
+}
+
+.voucher-area .btn {
+    border-radius: 0 1.1rem 1.1rem 0;
+}
+
+.modern-summary {
+    border-radius: 1.5rem;
+    box-shadow: 0 5px 20px 0 rgba(41,128,185,.06);
+    border: none;
+}
+
+.alert-light {
+    background: linear-gradient(90deg, #fffbe7 0%, #f9fafb 100%);
+    border-radius: 0.9rem;
+    font-size: 0.97rem;
+    color: #d35400 !important;
+}
+
+/* Animation import */
+@import url('https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css');

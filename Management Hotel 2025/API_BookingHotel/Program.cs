@@ -1,6 +1,6 @@
 ﻿using API_BookingHotel.Models;
-using API_BookingHotel.Repository;
-using API_BookingHotel.Serives;
+using API_BookingHotel.Modules.Payment.VNPay;
+using API_BookingHotel.Modules.Rooms.RoomsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
@@ -55,9 +55,9 @@ namespace API_BookingHotel
             });
 
 
-
-            builder.Services.AddTransient<ManagementBooking>();
-            builder.Services.AddTransient<IRoomService, RoomService>();
+            //builder.Services.AddTransient<IVnPayService, VnPayService>();
+            builder.Services.AddTransient<RoomViewDetail>();
+            builder.Services.AddTransient<IRoomService, RoomSearchWithPagination>();
 
             var app = builder.Build();
 

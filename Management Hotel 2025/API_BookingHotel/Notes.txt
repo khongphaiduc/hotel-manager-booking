@@ -1,0 +1,1 @@
+﻿- Trong WEB API của ASP.NET thì các model chuyền qua OK(object) sẽ tự động chuyển thành JSON

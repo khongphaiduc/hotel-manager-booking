@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Serives\ManagementRoom\**" />
-    <Content Remove="Serives\ManagementRoom\**" />
-    <EmbeddedResource Remove="Serives\ManagementRoom\**" />
-    <None Remove="Serives\ManagementRoom\**" />
+    <Compile Remove="Modules\ManagementRoom\**" />
+    <Content Remove="Modules\ManagementRoom\**" />
+    <EmbeddedResource Remove="Modules\ManagementRoom\**" />
+    <None Remove="Modules\ManagementRoom\**" />
   </ItemGroup>
 
   <ItemGroup>

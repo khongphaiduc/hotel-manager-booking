@@ -66,7 +66,7 @@ Các tính năng của dụ án (theo dự kiến)
 
   + Quản lý phản hồi/đánh giá từ khách hàng
 
- ### 3. Admin (Quản trị hệ thống)
+ ###  3. Admin (Quản trị hệ thống)
 
   + Đăng nhập quản trị
 
@@ -102,4 +102,4 @@ Các tính năng của dụ án (theo dự kiến)
 
   + Quản lý nhân viên (tài khoản, phân ca, lịch làm việc)
 
-### 4 / Cung cấp API cho các đối tác như các tính năng Xem danh sách phòng,Xem danh sách phòng còn chống , Xem thông tin chi tiết của từng phòng , Search Advance , Đặt Phòng ,  Hủy Phòng , Thanh Toán ...
+### 4. Cung cấp API cho các đối tác như các tính năng Xem danh sách phòng,Xem danh sách phòng còn chống , Xem thông tin chi tiết của từng phòng , Search Advance , Đặt Phòng ,  Hủy Phòng , Thanh Toán ...

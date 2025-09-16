@@ -1,4 +1,4 @@
-*# Hệ Thống Đặt Phòng & Quản Lý Khách Sạn 2025*
+# Hệ Thống Đặt Phòng & Quản Lý Khách Sạn 2025
 
 Dự Án Đang Trong Quá Trình Phát Triển  ( 10/08/2025 )
 

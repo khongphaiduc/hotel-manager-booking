@@ -1,13 +1,25 @@
-Một Dự Án Đặt Phòng và Quản lý Khách Sạn Hiện Đại Phong Cách Mới 
+# Hệ Thống Đặt Phòng & Quản Lý Khách Sạn – Phong Cách Hiện Đại
 
-Dự Án Đang Trong Quá Trình Phát Triển   :  10/August/2025
+Dự Án Đang Trong Quá Trình Phát Triển  ( 10/08/2025 )
 
 Software Engineer : Phạm Trung Đức 
 
 Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
 
-Các tính năng của dụ án (theo dụ kiến)
-1. User (Khách hàng)
+Công nghệ được sử dụng 
+
+Backend: ASP.NET Core / Web API
+
+Frontend: ASP.NET MVC / Razor Pages 
+
+Database: SQL Server (Entity Framework Core)
+
+Authentication: JWT, OAuth2
+
+Payment Gateway: VNPAY
+
+Các tính năng của dụ án (theo dự kiến)
+### 1. User (Khách hàng)
   + Đăng ký / Đăng nhập / Quên mật khẩu
 
   + Xem danh sách phòng (theo loại, giá, số người, tiện nghi, tình trạng trống)
@@ -34,13 +46,13 @@ Các tính năng của dụ án (theo dụ kiến)
 
   + Nhận email / SMS xác nhận (khi đặt phòng, thanh toán, hủy phòng)
 
-2. Staff (Nhân viên khách sạn)
+### 2. Staff (Nhân viên khách sạn)
 
   + Đăng nhập nhân viên
 
   + Xem & quản lý danh sách booking (theo ngày, theo phòng, theo khách)
 
-  + Check-in / Check-out khách
+  + Check-in / Check-out khách tại quầy
 
   + Cập nhật tình trạng phòng (trống, đang dọn, đã đặt, đang ở, bảo trì)
 
@@ -54,7 +66,7 @@ Các tính năng của dụ án (theo dụ kiến)
 
   + Quản lý phản hồi/đánh giá từ khách hàng
 
-3. Admin (Quản trị hệ thống)
+ ### 3. Admin (Quản trị hệ thống)
 
   + Đăng nhập quản trị
 
@@ -90,4 +102,4 @@ Các tính năng của dụ án (theo dụ kiến)
 
   + Quản lý nhân viên (tài khoản, phân ca, lịch làm việc)
 
-4 / Cung cấp API cho các đối tác như các tính năng Xem danh sách phòng,Xem danh sách phòng còn chống , Xem thông tin chi tiết của từng phòng,Search Advance , Đặt Phòng,  Hủy Phòng , Thanh Toán ,,,
+### 4 / Cung cấp API cho các đối tác như các tính năng Xem danh sách phòng,Xem danh sách phòng còn chống , Xem thông tin chi tiết của từng phòng , Search Advance , Đặt Phòng ,  Hủy Phòng , Thanh Toán ...

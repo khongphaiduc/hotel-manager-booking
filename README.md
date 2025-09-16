@@ -6,19 +6,21 @@ Software Engineer : Phạm Trung Đức
 
 Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
 
-Các ảnh được sử dụng trong dự án tổng hợp trên internet
+Các ảnh được sử dụng trong dự án được tổng hợp từ  internet 
+
+Link Demo : chưa có hihi
 
 ## Công nghệ được sử dụng 
 
-- Backend: ASP.NET Core / Web API
+- Backend: C# , ASP.NET , JavaScript
 
-- Frontend: ASP.NET MVC / Razor Pages 
+- Frontend: ASP.NET MVC / Razor Pages ,JavaScript , CSS ,Boostrapt , Html
 
 - Database: SQL Server (Entity Framework Core)
 
 - Authentication: JWT, OAuth2
 
-- Payment Gateway: VNPAY
+- Payment Gateway: VNPAY,Momo (dự kiến)
 
 ### Các tính năng của dụ án (theo dự kiến)
 ### 1. User (Khách hàng)

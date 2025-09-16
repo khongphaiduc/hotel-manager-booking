@@ -65,7 +65,7 @@ Các tính năng của dụ án (theo dụ kiến)
   + Khóa/mở tài khoản
 
   + Quản lý phòng
-  + 
+    
   + Thêm/sửa/xóa loại phòng
 
   + Cập nhật giá phòng, số lượng phòng

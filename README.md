@@ -1,4 +1,4 @@
-# Hệ Thống Đặt Phòng & Quản Lý Khách Sạn – Phong Cách Hiện Đại
+# Hệ Thống Đặt Phòng & Quản Lý Khách Sạn 2025
 
 Dự Án Đang Trong Quá Trình Phát Triển  ( 10/08/2025 )
 
@@ -6,19 +6,19 @@ Software Engineer : Phạm Trung Đức
 
 Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
 
-Công nghệ được sử dụng 
+## Công nghệ được sử dụng 
 
-Backend: ASP.NET Core / Web API
+- Backend: ASP.NET Core / Web API
 
-Frontend: ASP.NET MVC / Razor Pages 
+- Frontend: ASP.NET MVC / Razor Pages 
 
-Database: SQL Server (Entity Framework Core)
+- Database: SQL Server (Entity Framework Core)
 
-Authentication: JWT, OAuth2
+- Authentication: JWT, OAuth2
 
-Payment Gateway: VNPAY
+- Payment Gateway: VNPAY
 
-Các tính năng của dụ án (theo dự kiến)
+### Các tính năng của dụ án (theo dự kiến)
 ### 1. User (Khách hàng)
   + Đăng ký / Đăng nhập / Quên mật khẩu
 

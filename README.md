@@ -22,7 +22,7 @@ Link Demo : chưa có hihi
 
 - Payment Gateway: VNPAY,Momo (dự kiến)
 
-### Các tính năng của dụ án (theo dự kiến)
+### Các tính năng của dự án (theo dự kiến)
 ### 1. User (Khách hàng)
   + Đăng ký / Đăng nhập / Quên mật khẩu
 

@@ -1,6 +1,11 @@
 Một Dự Án Đặt Phòng và Quản lý Khách Sạn Hiện Đại Phong Cách Mới 
+
 Dự Án Đang Trong Quá Trình Phát Triển   :  10/August/2025
+
 Software Engineer : Phạm Trung Đức 
+
+Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
+
 Các tính năng của dụ án (theo dụ kiến)
 1. User (Khách hàng)
   + Đăng ký / Đăng nhập / Quên mật khẩu

@@ -1,19 +1,13 @@
-﻿using AspNetCoreGeneratedDocument;
+﻿
 using Management_Hotel_2025.Models;
 using Management_Hotel_2025.Serives.AuthenSerive;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Security.Principal;
 using System.Data;
 using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using System.Text.Json;
+
 
 namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 {
@@ -23,13 +17,15 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
         private readonly RegisterAccount _MyRegister;
         private readonly ValidationAuthen _Validation;
         private readonly Login _Login;
+        private readonly ILogger<AuthenController> _Logger;
 
-        public AuthenController(ManagermentHotelContext dbcontext, RegisterAccount MyRegister, ValidationAuthen Validation, Login login)
+        public AuthenController(ManagermentHotelContext dbcontext, RegisterAccount MyRegister, ValidationAuthen Validation, Login login, ILogger<AuthenController> logger)
         {
             _dbContext = dbcontext;
             _MyRegister = MyRegister;
             _Validation = Validation;
             _Login = login;
+            _Logger = logger;
         }
 
         [HttpPost]
@@ -45,9 +41,11 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
                 return Json(new { success = false });
             }
 
-            int IdUser = _dbContext.Users.FirstOrDefault(s => s.Email == users.Email).UserId  ;
+            var IdUser = (from a in _dbContext.Users
+                          where a.Email == users.Email
+                          select a.UserId).FirstOrDefault();
 
-            HttpContext.Session.SetInt32("UserId", IdUser);
+
             // 2. Lấy thông tin user từ DB (bao gồm role)
             var userFromDb = _dbContext.Users.FirstOrDefault(u => u.Email == email);
             if (userFromDb == null)
@@ -61,6 +59,7 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
                new Claim(ClaimTypes.Name, userFromDb.Email),
                new Claim(ClaimTypes.Role, userFromDb.Role),   // Role từ DB
                new Claim("FullName", userFromDb.FullName), // Thêm claim FullName nếu cần
+               new Claim("IdUser", IdUser.ToString())
             };
 
             /* Trong bảo mật, Claim là một thông tin về người dùng mà hệ thống xác nhận là đúng sau khi người đó đăng nhập.
@@ -122,7 +121,7 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 
         [HttpGet]
         public ActionResult Login()
-        {       
+        {
             return View();
         }
 
@@ -226,20 +225,22 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
                     Email = email,
                     FullName = name,
                     Role = "User",
-                    PasswordHash="**************",
-                    Salt= "**************",
-                    Username=name,
+                    PasswordHash = "**************",
+                    Salt = "**************",
+                    Username = name,
                     CreatedAt = DateTime.Now
                 });
 
                 _dbContext.SaveChanges();
-                user= _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();  // gắn lại giá trị cho user
+                user = _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();  // gắn lại giá trị cho user
             }
-            
+
             var claim = new List<Claim>
            {
+
                new Claim(ClaimTypes.Role,user.Role),
-               new  Claim("FullName", user.FullName)
+               new  Claim("FullName", user.Username),
+               new Claim("IdUser", user.UserId.ToString())
            };
 
             var identity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -253,7 +254,7 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
             return RedirectToAction("Index", "Home");
 
         }
-   
+
         public ActionResult SignOut()
         {
 

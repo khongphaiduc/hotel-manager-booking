@@ -6,7 +6,7 @@ namespace Management_Hotel_2025.Modules.MyToken.TokensControllers
     public class ProviderTokenHotelController : Controller
     {
 
-        [Authorize(Roles ="User,Admin,Staff")]
+        [Authorize(Roles ="Admin")]
         public IActionResult ViewGetInfo()
         {
             return View();

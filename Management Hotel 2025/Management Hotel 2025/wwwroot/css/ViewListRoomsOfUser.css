@@ -1,0 +1,29 @@
+﻿.text-gradient {
+    background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.room-card-horizontal {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 16px rgba(0,123,255,0.09), 0 1.5px 3px rgba(0,0,0,0.10);
+    transition: box-shadow 0.3s, transform 0.3s;
+    display: block;
+}
+
+    .room-card-horizontal:hover {
+        box-shadow: 0 8px 24px rgba(0,123,255,0.18), 0 3px 6px rgba(0,0,0,0.13);
+        transform: translateY(-3px) scale(1.01);
+    }
+
+.room-img-horizontal {
+    height: 140px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.room-card-horizontal.hide {
+    display: none !important;
+}

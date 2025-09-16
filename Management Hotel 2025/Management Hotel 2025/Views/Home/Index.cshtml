@@ -1,6 +1,4 @@
-﻿
-
-<!-- sẽ chỉ file này là  1 endpoint có thể truy cập trực tiếp qua URL.(thông thường mỗi 1 file  thì phải run quan controller) -->
+﻿<!-- sẽ chỉ file này là  1 endpoint có thể truy cập trực tiếp qua URL.(thông thường mỗi 1 file  thì phải run quan controller) -->
 @{
     Layout = null;
 }
@@ -38,15 +36,25 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="#"> <i class="bi bi-house-door-fill"></i>Trang chủ</a></li>
                     <li class="nav-item"><a target="_blank" class="nav-link" asp-controller="ManagementRoom" asp-action="ViewListRoomVer2" asp-route-PageCurrent="1" asp-route-NumerItemOfPage="8"> <i class="bi bi-door-closed-fill"></i>Rooms</a></li>
-                    <li class="nav-item"><a target="_blank" class="nav-link" asp-controller="Cart" asp-action="ViewCart"> <i class="bi bi-cart"></i> Giỏ Hàng</a></li>
+
                     @if (User.IsInRole("staff") || User.IsInRole("User") || User.IsInRole("admin"))
                     {
+                        <li class="nav-item">
+                            <a target="_blank" class="nav-link" asp-controller="RoomsOfUser" asp-action="ViewListRooms">
+                                <i class="bi bi-door-closed"></i> Phòng của tôi
+                            </a>
+                        </li>
                         <li class="nav-item"><a class="nav-link"><i class="bi bi-person-circle"></i> @User.FindFirst("FullName")?.Value</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Authen" asp-action="SignOut"> |<i class="bi bi-box-arrow-right"></i> Đăng Xuất</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="ProviderTokenHotel" asp-action="ViewGetInfo"> |  API </a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="ProviderTokenHotel" asp-action="ViewGetInfo"> |  API Đối Tác </a></li>
                     }
                     else
                     {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Authen" asp-action="Login">
+                                <i class="bi bi-building"></i> Giới Thiệu Khách Sạn
+                            </a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Authen" asp-action="Login"> <i class="bi bi-person-circle"></i>Đăng Nhập</a></li>
 
                     }

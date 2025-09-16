@@ -49,7 +49,7 @@
                                                 <i class="bi bi-info-circle me-1"></i>
                                                 Hủy: Nếu hủy hoặc thay đổi đặt sớm hơn 7 ngày trước ngày nhận phòng, không có khoản phí hủy phòng nào phải thanh toán...
                                             </small>
-                                            <small class="d-block mb-1"><i class="bi bi-credit-card-2-front me-1"></i> Thanh toán toàn bộ giá trị tiền đặt phòng.</small>
+                                            <small class="d-block mb-1"><i class="bi bi-credit-card-2-front me-1"></i> Đặt cọc 20% giá trị của phòng</small>
                                             <small class="d-block"><i class="bi bi-cup-straw me-1"></i> Đã bao gồm ăn sáng</small>
                                         </div>
                                     </div>
@@ -64,10 +64,10 @@
                                     <input type="hidden" asp-for="OrderDescription" value="Đặt Cọc Phòng" />
                                     <input type="hidden" asp-for="OrderType" value="Other" />
 
-                                    <button type="submit" class="btn btn-modern-outline btn-lg w-100 fw-bold position-relative overflow-hidden d-flex justify-content-center align-items-center" id="bookingBtn">
-                                        <span class="d-flex align-items-center">
+                                    <button style="background-color:bisque" type="submit" class="btn btn-modern-outline btn-lg w-100 fw-bold position-relative overflow-hidden d-flex justify-content-center align-items-center" id="bookingBtn">
+                                        <span  class="d-flex align-items-center">
                                             <i class="bi bi-stars animated-icon me-2"></i>
-                                            <span>THỰC HIỆN ĐẶT PHÒNG</span>
+                                            <span >THỰC HIỆN ĐẶT PHÒNG</span>
                                         </span>
                                         <span class="spinner-border spinner-border-sm d-none ms-2" id="submitSpinner"></span>
                                     </button>

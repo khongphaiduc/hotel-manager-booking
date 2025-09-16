@@ -33,6 +33,15 @@ public partial class ManagermentHotelContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+
+    // new 
+    public virtual DbSet<BookingDetail> BookingDetails { get; set; }
+
+    public virtual DbSet<Services> HotelServices { get; set; }    
+
+
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 
@@ -41,6 +50,9 @@ public partial class ManagermentHotelContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<BookingDetail>();
+        modelBuilder.Entity<Services>();
+
         modelBuilder.Entity<Booking>(entity =>
         {
             entity.HasKey(e => e.BookingId).HasName("PK__bookings__5DE3A5B1846038DC");

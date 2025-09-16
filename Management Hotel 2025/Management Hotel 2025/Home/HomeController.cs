@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Management_Hotel_2025.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,14 +7,17 @@ namespace Management_Hotel_2025.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ManagermentHotelContext _dbcontext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,ManagermentHotelContext context)
         {
             _logger = logger;
+            _dbcontext = context;
         }
 
         public IActionResult Index()
         {
+         
             return View();
         }
 

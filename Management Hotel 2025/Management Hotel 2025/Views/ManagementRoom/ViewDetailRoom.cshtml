@@ -54,8 +54,8 @@
                            asp-controller="Payment"
                            asp-route-Amount="@Model.Price"
                            asp-route-NameRoom="@Model.NameType"
-
-                           class="btn-primary">Đặt phòng ngay</a>
+                           asp-route-IdRoom="@Model.RoomId"
+                           class="btn-primary" style="text-decoration-line:none">Đặt phòng ngay</a>
 
                         <a class="btn-primary">Thêm vào giỏ hàng</a>
                         <button class="btn-outline" onclick="window.history.back()">Quay lại</button>

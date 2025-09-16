@@ -6,6 +6,8 @@ Software Engineer : Phạm Trung Đức
 
 Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
 
+Các ảnh được sử dụng trong dự án tổng hợp trên internet
+
 ## Công nghệ được sử dụng 
 
 - Backend: ASP.NET Core / Web API

@@ -1,10 +1,11 @@
-﻿using API_BookingHotel.Models;
+﻿
 using API_BookingHotel.Modules.Rooms.RoomsService;
 using API_BookingHotel.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mydata.Models;
 using System.Threading.Tasks;
 
 namespace API_BookingHotel.Modules.Rooms.RoomsController

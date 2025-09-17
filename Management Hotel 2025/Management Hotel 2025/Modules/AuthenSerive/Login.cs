@@ -1,6 +1,7 @@
-﻿using Management_Hotel_2025.Models;
+﻿
 using Management_Hotel_2025.Modules.AuthenSerive;
 using Microsoft.AspNetCore.Identity.Data;
+using Mydata.Models;
 
 namespace Management_Hotel_2025.Serives.AuthenSerive
 {

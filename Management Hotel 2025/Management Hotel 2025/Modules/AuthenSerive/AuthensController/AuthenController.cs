@@ -1,5 +1,5 @@
 ﻿
-using Management_Hotel_2025.Models;
+
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.Data;
 using Microsoft.AspNetCore.Authentication.Google;
+using Mydata.Models;
 
 
 namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
@@ -214,7 +215,7 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 
             var email = results.Principal.FindFirst(ClaimTypes.Email)?.Value;
             var name = results.Principal.FindFirst(ClaimTypes.Name)?.Value;
-
+            var avatar = results.Principal.FindFirst("avatar")?.Value;
             var user = _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();
 
             if (user == null)   //  nếu bằng user bằng null có nghĩa là thằng này chưa từng đăng nhập
@@ -237,10 +238,10 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 
             var claim = new List<Claim>
            {
-
                new Claim(ClaimTypes.Role,user.Role),
                new  Claim("FullName", user.Username),
-               new Claim("IdUser", user.UserId.ToString())
+               new Claim("IdUser", user.UserId.ToString()),
+               new Claim("MyAvatar",avatar)
            };
 
             var identity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEST", "TEST\TEST.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_BookingHotel", "API_BookingHotel\API_BookingHotel.csproj", "{7463B188-B8E2-46E5-8307-FFA3028BBC5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Temperature", "Temperature\Temperature.csproj", "{5B8A28DF-DCD6-454C-8893-CBD19807A97E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyData", "MyData\MyData.csproj", "{0440527F-4D2D-4542-9241-8F41E7B70864}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7463B188-B8E2-46E5-8307-FFA3028BBC5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B8A28DF-DCD6-454C-8893-CBD19807A97E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B8A28DF-DCD6-454C-8893-CBD19807A97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B8A28DF-DCD6-454C-8893-CBD19807A97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B8A28DF-DCD6-454C-8893-CBD19807A97E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0440527F-4D2D-4542-9241-8F41E7B70864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0440527F-4D2D-4542-9241-8F41E7B70864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0440527F-4D2D-4542-9241-8F41E7B70864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0440527F-4D2D-4542-9241-8F41E7B70864}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

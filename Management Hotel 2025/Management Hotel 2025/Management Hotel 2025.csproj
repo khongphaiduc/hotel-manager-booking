@@ -39,4 +39,8 @@
     <Folder Include="Modules\Rooms\MRoom\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyData\MyData.csproj" />
+  </ItemGroup>
+
 </Project>

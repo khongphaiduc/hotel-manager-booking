@@ -1,14 +1,16 @@
 ﻿
-using Management_Hotel_2025.Models;
+
 using Management_Hotel_2025.Modules.AuthenSerive;
 using Management_Hotel_2025.Modules.CallAPI;
+using Management_Hotel_2025.Modules.Rooms.RoomService;
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.Serives.GenarateToken;
-
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using Microsoft.EntityFrameworkCore;
+using Mydata.Models;
 
 namespace Management_Hotel_2025
 {
@@ -19,7 +21,7 @@ namespace Management_Hotel_2025
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();       
             builder.Services.AddDbContext<ManagermentHotelContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
@@ -42,6 +44,7 @@ namespace Management_Hotel_2025
             {
                 options.ClientId = builder.Configuration.GetSection("GoogleKeys:GoogleID").Value;
                 options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:GoogleSecret").Value;
+                options.ClaimActions.MapJsonKey("avatar", "picture", "url");         // Lấy giá trị picture trong JSON của Google và lưu nó vào Claims với tên ‘avatar’. 
             });
 
 
@@ -67,7 +70,9 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<ApiCall>();
             builder.Services.AddHttpClient(); // Thêm HttpClient để gọi API bên ngoài
             builder.Services.AddHttpContextAccessor();  // Thêm HttpContextAccessor để truy cập HttpContext trong các dịch vụ
-          
+
+            builder.Services.AddTransient<IRoomService, RoomSerices>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

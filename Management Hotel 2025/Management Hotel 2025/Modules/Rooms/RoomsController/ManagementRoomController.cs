@@ -1,10 +1,11 @@
-﻿using Management_Hotel_2025.Models;
+﻿
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Mydata.Models;
 using System.Text.Json;
 using System.Threading.Tasks;
 

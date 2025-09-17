@@ -44,7 +44,14 @@
                                 <i class="bi bi-door-closed"></i> Phòng của tôi
                             </a>
                         </li>
-                        <li class="nav-item"><a class="nav-link"><i class="bi bi-person-circle"></i> @User.FindFirst("FullName")?.Value</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                <img src="@User.FindFirst("MyAvatar")?.Value"
+                                     alt="avatar"
+                                     style="width:30px;height:30px;border-radius:50%;" />
+                                @User.FindFirst("FullName")?.Value
+                            </a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Authen" asp-action="SignOut"> |<i class="bi bi-box-arrow-right"></i> Đăng Xuất</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="ProviderTokenHotel" asp-action="ViewGetInfo"> |  API Đối Tác </a></li>
                     }

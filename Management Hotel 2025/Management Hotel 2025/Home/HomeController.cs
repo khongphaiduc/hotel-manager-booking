@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
-using Management_Hotel_2025.Models;
+
 using Microsoft.AspNetCore.Mvc;
+using Mydata.Models;
 
 namespace Management_Hotel_2025.Controllers
 {

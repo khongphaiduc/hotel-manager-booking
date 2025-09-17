@@ -1,6 +1,7 @@
-﻿using API_BookingHotel.Models;
+﻿
 using API_BookingHotel.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Mydata.Models;
 
 namespace API_BookingHotel.Modules.Rooms.RoomsService
 {

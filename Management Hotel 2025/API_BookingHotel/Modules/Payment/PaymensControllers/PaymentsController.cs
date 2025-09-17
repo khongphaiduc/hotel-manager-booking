@@ -1,7 +1,8 @@
-﻿using API_BookingHotel.Models;
+﻿
 using API_BookingHotel.Modules.Payment.VNPay;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Mydata.Models;
 using System.Text.Json;
 
 namespace API_BookingHotel.Modules.Payment.PaymensControllers

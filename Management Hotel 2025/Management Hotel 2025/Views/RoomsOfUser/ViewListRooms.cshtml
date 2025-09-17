@@ -1,8 +1,9 @@
-﻿@{
+﻿@model IEnumerable<Management_Hotel_2025.Modules.Rooms.RoomViewModel.ViewListRoomsOfUser>
+@{
     ViewBag.Title = "Danh sách phòng đã đặt";
     Layout = null;
     var rooms = new List<dynamic> {
-        new { RoomNumber = "101", RoomType = "Deluxe", ImageUrl = "https://housedesign.vn/wp-content/uploads/2020/03/thiet-ke-noi-that-khach-san-5-sao.jpg", Price = 1200000, GuestCount = 2, CheckIn = "2025-09-20", CheckOut = "2025-09-23", Status = "Đã nhận phòng", Services = "Ăn sáng, Wifi, Hồ bơi", Note = "Yêu cầu tầng cao" },
+    new { RoomNumber = "101", RoomType = "Deluxe", ImageUrl = "https://housedesign.vn/wp-content/uploads/2020/03/thiet-ke-noi-that-khach-san-5-sao.jpg", Price = 1200000, GuestCount = 2, CheckIn = "2025-09-20", CheckOut = "2025-09-23", Status = "Đã nhận phòng", Services = "Ăn sáng, Wifi, Hồ bơi", Note = "Yêu cầu tầng cao" },
     new { RoomNumber = "202", RoomType = "Suite", ImageUrl = "https://housedesign.vn/wp-content/uploads/2020/08/phong-cach-thiet-ke-noi-that-luxury-768x576.jpg", Price = 1800000, GuestCount = 3, CheckIn = "2025-09-25", CheckOut = "2025-09-28", Status = "Đang chờ", Services = "Ăn sáng, Đưa đón sân bay, Spa", Note = "" },
     new { RoomNumber = "303", RoomType = "Standard", ImageUrl = "https://housedesign.vn/wp-content/uploads/2020/08/phong-cach-thiet-ke-noi-that-luxury-768x576.jpg", Price = 900000, GuestCount = 1, CheckIn = "2025-10-01", CheckOut = "2025-10-03", Status = "Đã xác chờ", Services = "Wifi", Note = "Phòng không hút thuốc" }
 };
@@ -20,46 +21,49 @@
         </div>
     </div>
     <div id="roomList">
-        @foreach (var room in rooms)
+
+     
+
+        @foreach (var room in Model)
         {
             <div class="room-card-horizontal mb-3 p-2"
-                 data-roomnumber="@room.RoomNumber"
-                 data-roomtype="@room.RoomType.ToLower()"
-                 data-services="@room.Services.ToLower()">
+               >
                 <div class="row g-0 align-items-center">
                     <div class="col-md-3">
-                        <img src="@room.ImageUrl" class="img-fluid rounded-start room-img-horizontal" alt="Ảnh phòng @room.RoomType">
+                        <img src="@room.ImageRoom" class="img-fluid rounded-start room-img-horizontal" alt="Ảnh phòng @room.TypeRoom">
                     </div>
                     <div class="col-md-6 px-3">
-                        <h5 class="fw-bold text-primary">@room.RoomType - Phòng @room.RoomNumber</h5>
+                        <h5 class="fw-bold text-primary">@room.TypeRoom  Phòng @room.NumberRoom</h5>
                         <div class="mb-1">
-                            <span class="badge bg-info">@room.Status</span>
+                            <span class="badge bg-info"> Trạng thái : @room.StatusRoom</span>
                         </div>
                         <ul class="list-unstyled mb-2 small">
-                            <li><strong>Giá phòng:</strong> <span class="text-danger">@room.Price.ToString("N0") VNĐ/đêm</span></li>
-                            <li><strong>Số lượng khách:</strong> @room.GuestCount</li>
-                            <li><strong>Ngày nhận phòng dự kiến:</strong> @room.CheckIn</li>
-                            <li><strong>Ngày trả phòng dự kiến:</strong> @room.CheckOut</li>
-                            <li><strong>Dịch vụ:</strong> @room.Services</li>
-                            @if (!string.IsNullOrEmpty(room.Note))
-                            {
-                                <li><strong>Ghi chú:</strong> @room.Note</li>
-                            }
+                            <li><strong>Giá phòng:</strong> <span class="text-danger">@(room.PriceRoom.HasValue ? room.PriceRoom.Value.ToString("N0") : "0") VNĐ/đêm</span></li>
+                         
+                            <li><strong>Ngày nhận phòng dự kiến:</strong> @room.DateCheckIn</li>
+                            <li><strong>Ngày trả phòng dự kiến:</strong> @room.DateCheckout</li>
+                            <li><strong>Mô Tả:</strong> @room.DescriptionRoom</li>
+                          
                         </ul>
                     </div>
+
                     <div class="col-md-3 text-end d-flex flex-column align-items-end justify-content-center">
                         <button class="btn btn-outline-primary btn-sm mb-2"
-                                onclick="showRoomDetail('@room.RoomNumber', '@room.RoomType', '@room.ImageUrl', '@room.Price', '@room.GuestCount', '@room.CheckIn', '@room.CheckOut', '@room.Status', '@room.Services', '@room.Note')">
+                                onclick="showRoomDetail('@room.Floor', '@room.TypeRoom', '@room.ImageRoom', '@room.PriceRoom', '@room.NameRoom', '@room.DateCheckIn', '@room.DateCheckout', '@room.StatusRoom', '@room.StatusRoom', '@room.DescriptionRoom')">
                             Xem chi tiết
                         </button>
                         <button class="btn btn-outline-primary btn-sm mb-2"
-                                onclick="showRoomDetail('@room.RoomNumber', '@room.RoomType', '@room.ImageUrl', '@room.Price', '@room.GuestCount', '@room.CheckIn', '@room.CheckOut', '@room.Status', '@room.Services', '@room.Note')">
-                            Thêm dịch vụ
+                                onclick="showRoomDetail('@room.Floor', '@room.TypeRoom', '@room.ImageRoom', '@room.PriceRoom', '@room.NameRoom', '@room.DateCheckIn', '@room.DateCheckout', '@room.StatusRoom', '@room.StatusRoom', '@room.DescriptionRoom')">
+                           Hủy Đặt Phòng
                         </button>
                     </div>
+                    
+
+
                 </div>
             </div>
         }
+
     </div>
 </div>
 

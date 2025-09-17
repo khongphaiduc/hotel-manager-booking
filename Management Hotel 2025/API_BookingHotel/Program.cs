@@ -1,10 +1,11 @@
-﻿using API_BookingHotel.Models;
+﻿
 using API_BookingHotel.Modules.Payment.VNPay;
 using API_BookingHotel.Modules.Rooms.RoomsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Mydata.Models;
 
 namespace API_BookingHotel
 {

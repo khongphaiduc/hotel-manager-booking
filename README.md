@@ -12,7 +12,7 @@ Link Demo : chưa có hihi
 
 ## Công nghệ được sử dụng 
 
-- Backend: C# , ASP.NET , JavaScript
+- Backend: C# , ASP.NET, Web API , JavaScript 
 
 - Frontend: ASP.NET MVC / Razor Pages ,JavaScript , CSS ,Boostrapt , Html
 

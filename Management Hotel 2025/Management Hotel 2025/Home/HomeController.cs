@@ -10,7 +10,7 @@ namespace Management_Hotel_2025.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ManagermentHotelContext _dbcontext;
 
-        public HomeController(ILogger<HomeController> logger,ManagermentHotelContext context)
+        public HomeController(ILogger<HomeController> logger, ManagermentHotelContext context)
         {
             _logger = logger;
             _dbcontext = context;
@@ -18,8 +18,16 @@ namespace Management_Hotel_2025.Controllers
 
         public IActionResult Index()
         {
-         
-            return View();
+            // nếu là nhân viên hay là thằng admin thì chuyển giao diện
+            if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+            {
+                return RedirectToAction("StaffViewListRoom", "StaffManagementRoom");
+            }
+            else
+            {
+                return View();
+            }
+
         }
 
         public IActionResult Privacy()

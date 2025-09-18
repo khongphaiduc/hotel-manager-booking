@@ -1,0 +1,150 @@
+﻿@{
+    ViewBag.Title = "Danh sách phòng";
+    Layout = "~/Views/Shared/StaffHeader.cshtml"; // Hoặc layout bạn đang dùng
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+    .room-card {
+        transition: box-shadow 0.3s;
+        border-radius: 1rem;
+        border: none;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        margin-bottom: 1.4rem;
+    }
+
+        .room-card:hover {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        }
+
+    .filter-label {
+        font-weight: 600;
+        margin-right: 6px;
+    }
+
+    .badge-vacant {
+        background: linear-gradient(90deg,#48c6ef,#6f86d6);
+        color: #fff;
+    }
+
+    .badge-occupied {
+        background: linear-gradient(90deg,#ff5858,#f09819);
+        color: #fff;
+    }
+</style>
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center fw-bold"><i class="bi bi-door-open"></i> Danh sách các phòng</h2>
+    <!-- Bộ lọc -->
+    <form id="filterForm" class="row g-3 mb-4 bg-light rounded p-3 shadow-sm">
+        <div class="col-md-3">
+            <label class="filter-label">Ngày check-in</label>
+            <input type="date" class="form-control" id="checkinFilter" name="checkin" />
+        </div>
+        <div class="col-md-3">
+            <label class="filter-label">Ngày check-out</label>
+            <input type="date" class="form-control" id="checkoutFilter" name="checkout" />
+        </div>
+        <div class="col-md-3">
+            <label class="filter-label">Loại phòng</label>
+            <select class="form-select" id="typeFilter">
+                <option value="">Tất cả</option>
+                <option value="single">Đơn</option>
+                <option value="double">Đôi</option>
+                <option value="suite">Suite</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="filter-label">Tình trạng</label>
+            <select class="form-select" id="statusFilter">
+                <option value="">Tất cả</option>
+                <option value="vacant">Còn trống</option>
+                <option value="occupied">Đã đặt</option>
+            </select>
+        </div>
+        <div class="col-12 text-end">
+            <button type="button" class="btn btn-primary" onclick="filterRooms()">
+                <i class="bi bi-funnel-fill"></i> Lọc
+            </button>
+            <button type="reset" class="btn btn-outline-secondary" onclick="resetFilter()">Đặt lại</button>
+        </div>
+    </form>
+
+    <!-- Danh sách phòng -->
+    <div id="roomsList" class="row">
+        <!-- Các card phòng sẽ được render bằng JS -->
+    </div>
+</div>
+
+<!-- Bootstrap icon CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<script>
+    // Dữ liệu mẫu, thay bằng model từ server nếu cần
+    const rooms = [
+        {
+            id: 101, name: 'Phòng 101', type: 'single', status: 'vacant', checkin: '', checkout: '', price: 500000
+        },
+        {
+            id: 102, name: 'Phòng 102', type: 'double', status: 'occupied', checkin: '2025-09-18', checkout: '2025-09-20', price: 700000
+        },
+        {
+            id: 103, name: 'Phòng 103', type: 'suite', status: 'vacant', checkin: '', checkout: '', price: 1200000
+        },
+        // Thêm phòng khác...
+    ];
+
+    function renderRooms(filteredRooms) {
+        const roomsList = document.getElementById('roomsList');
+        roomsList.innerHTML = '';
+        if (filteredRooms.length == 0) {
+            roomsList.innerHTML = `<div class="col-12"><div class="alert alert-warning">Không tìm thấy phòng phù hợp!</div></div>`;
+            return;
+        }
+        filteredRooms.forEach(room => {
+            roomsList.innerHTML += `
+            <div class="col-md-4">
+                <div class="card room-card">
+                    <div class="card-body">
+                        <h5 class="card-title">${room.name} <span class="badge ${room.status==='vacant'?'badge-vacant':'badge-occupied'} ms-2">${room.status==='vacant'?'Còn trống':'Đã đặt'}</span></h5>
+                        <p class="card-text">
+                            <i class="bi bi-tag"></i> Loại: <b>${room.type}</b><br>
+                            <i class="bi bi-calendar-check"></i> Check-in: <b>${room.checkin||'--'}</b><br>
+                            <i class="bi bi-calendar-x"></i> Check-out: <b>${room.checkout||'--'}</b><br>
+                            <i class="bi bi-currency-exchange"></i> Giá: <span class="text-success fw-bold">${room.price.toLocaleString()} VNĐ</span>
+                        </p>
+                        <div class="text-end">
+                            <button class="btn btn-outline-primary btn-sm">Chi tiết</button>
+                            ${room.status==='vacant'?'<button class="btn btn-success btn-sm ms-2">Đặt phòng</button>':''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+    }
+
+    function filterRooms() {
+        const checkin = document.getElementById('checkinFilter').value;
+        const checkout = document.getElementById('checkoutFilter').value;
+        const type = document.getElementById('typeFilter').value;
+        const status = document.getElementById('statusFilter').value;
+        const filtered = rooms.filter(room => {
+            if (checkin && room.checkin !== checkin) return false;
+            if (checkout && room.checkout !== checkout) return false;
+            if (type && room.type !== type) return false;
+            if (status && room.status !== status) return false;
+            return true;
+        });
+        renderRooms(filtered);
+    }
+
+    function resetFilter() {
+        renderRooms(rooms);
+    }
+
+    // Khởi tạo giao diện
+    document.addEventListener('DOMContentLoaded', function() {
+        renderRooms(rooms);
+    });
+</script>

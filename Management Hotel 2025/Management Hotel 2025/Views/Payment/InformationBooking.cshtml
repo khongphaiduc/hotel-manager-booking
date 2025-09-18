@@ -70,10 +70,12 @@
                                         <label class="form-label fw-bold">Phương thức thanh toán</label>
                                         <select class="form-select modern-input" id="paymentMethod" name="paymentMethod" required>
                                             <option value="vnpay">VNPAY (ATM/QR/Thẻ quốc tế)</option>
+                                            <option value="vnpay">Momo  (ATM/QR/Thẻ quốc tế)</option>
+                                           
                                         </select>
                                     </div>
                                     <input type="hidden" asp-for="Name" value="@User.Identity.Name" />
-                                    <input type="hidden" asp-for="Amount" value="@HttpContextAccessor.HttpContext.Session.GetString("Amount")" />
+                                    <input type="hidden" asp-for="Amount" value="@HttpContextAccessor.HttpContext.Session.GetString("DepositAmount")" />
                                     <input type="hidden" asp-for="OrderDescription" value="Đặt Cọc Phòng" />
                                     <input type="hidden" asp-for="OrderType" value="Other" />
 
@@ -113,7 +115,19 @@
                                                 if (!string.IsNullOrEmpty(amountStr))
                                                     decimal.TryParse(amountStr, out amount);
                                             }
-                                            <span class="fw-bold text-primary fs-5 d-block mt-2">Giá phòng: @string.Format("{0:N0}", amount) đ</span>
+                                            <span class="fw-bold text-primary fs-5 d-block mt-2">Giá phòng: @string.Format("{0:N0}", amount) đ/Đêm</span>
+                                        </div>
+                                        <div class="small mt-2">
+                                            <i class="bi bi-house-door"></i> Số ngày ở của bạn: @HttpContextAccessor.HttpContext.Session.GetString("TotalDays") ngày <br>
+                                            <i class="bi bi-calendar-range"></i> Early Bird 7/2025<br>
+                                            <i class="bi bi-people"></i> Dành cho: 1 Người lớn - 0 Trẻ em - 0 Em bé<br>
+                                            @{
+                                                var TotalAmount = HttpContextAccessor.HttpContext.Session.GetString("TotalRoom");
+                                                decimal Amount = 0;
+                                                if (!string.IsNullOrEmpty(TotalAmount))
+                                                    decimal.TryParse(TotalAmount, out Amount);
+                                            }
+                                            <span class="fw-bold text-primary fs-5 d-block mt-2">Giá phòng sau @HttpContextAccessor.HttpContext.Session.GetString("TotalDays") ngày : @string.Format("{0:N0}", Amount) đ</span>
                                         </div>
                                     </div>
                                     <hr>
@@ -127,9 +141,18 @@
                                         <div class="mt-2 small text-success d-none" id="voucherSuccess"><i class="bi bi-check-circle"></i> Mã hợp lệ!</div>
                                         <div class="mt-2 small text-danger d-none" id="voucherError"><i class="bi bi-x-circle"></i> Mã không hợp lệ.</div>
                                     </div>
+
                                     <div class="mb-2 d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold">Tổng giá:</span>
-                                        <span class="fw-bold text-warning fs-4"> @string.Format("{0:N0}", amount) đ</span>
+                                        <span class="fw-bold">Số tiền cần đặt cọc là :</span>
+                                        @{
+                                            var depositAmount = HttpContextAccessor.HttpContext.Session.GetString("DepositAmount");
+                                            decimal amounts = 0;
+                                            if (!string.IsNullOrEmpty(depositAmount))
+                                                decimal.TryParse(depositAmount, out amounts);
+                                        }
+
+
+                                        <span class="fw-bold text-warning fs-4"> @string.Format("{0:N0}", amounts) đ</span>
                                     </div>
                                     <div class="alert alert-light text-danger border-0 py-2 px-3 mt-3 mb-0">
                                         <i class="bi bi-info-circle"></i>

@@ -1,14 +1,13 @@
 ﻿
 
 using Management_Hotel_2025.Modules.AuthenSerive;
-using Management_Hotel_2025.Modules.CallAPI;
+using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
 using Management_Hotel_2025.Modules.Rooms.RoomService;
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.Serives.GenarateToken;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
 
@@ -59,7 +58,7 @@ namespace Management_Hotel_2025
             //Transient : mỗi lần inject sẽ là  1 instance mới  được tạo ra
             // Scoped   : 1 request sẽ inject duy nhất 1 instance 
             //Singleton : 1 instance sẽ tồn tại đến hết vòng đời của ứng dụng  (tất cả các lần inject đều dùng chung 1 instance)
-
+            builder.Services.AddTransient<INotifications, Email>();
             builder.Services.AddScoped<IVnPayService, VnPayService>();
             builder.Services.AddSingleton<IEncoding, MyEncoding>();
             builder.Services.AddScoped<RegisterAccount>();
@@ -82,7 +81,7 @@ namespace Management_Hotel_2025
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseSession();    // Kích hoạt Session trong ứng dụng
+            app.UseSession();             // Kích hoạt Session trong ứng dụng
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

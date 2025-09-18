@@ -238,6 +238,7 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 
             var claim = new List<Claim>
            {
+               new Claim(ClaimTypes.Email,email),
                new Claim(ClaimTypes.Role,user.Role),
                new  Claim("FullName", user.Username),
                new Claim("IdUser", user.UserId.ToString()),

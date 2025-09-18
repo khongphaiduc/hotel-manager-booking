@@ -12,7 +12,6 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         {
             _IRoomService = roomService;
 
-
         }
 
         [Authorize(Roles ="User")]
@@ -21,8 +20,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             int IdUser = User.FindFirst("IdUser") != null ? int.Parse(User.FindFirst("IdUser").Value) : 0;
 
             var ListRooms = _IRoomService.GetListRoomOfUser(IdUser);
-
-           
+    
             return View(ListRooms);
         }
 

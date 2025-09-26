@@ -1,0 +1,235 @@
+﻿body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e1eaff 100%);
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+h2 {
+    font-weight: 800;
+    color: #174ea6;
+    letter-spacing: 1px;
+}
+
+.carousel-inner img {
+    height: 350px;
+    object-fit: cover;
+    border-radius: 14px;
+    box-shadow: 0 6px 32px 0 rgba(30, 64, 175, 0.12);
+    transition: transform .3s;
+}
+
+    .carousel-inner img:hover {
+        transform: scale(1.04) rotate(-2deg);
+        box-shadow: 0 12px 38px 0 rgba(30, 64, 175, 0.25);
+    }
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    background-color: #174ea6;
+    border-radius: 50%;
+}
+
+.badge {
+    font-size: 1rem;
+    padding: 8px 12px;
+    margin-right: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(23, 78, 166, 0.08);
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+    font-size: 1.15rem;
+    position: relative;
+    padding-left: 26px;
+    color: #333;
+    transition: color 0.2s;
+}
+
+    .list-unstyled li:hover {
+        color: #174ea6;
+    }
+
+    .list-unstyled li i {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        color: #174ea6;
+        font-size: 1.2em;
+        transition: transform 0.2s;
+    }
+
+    .list-unstyled li:hover i {
+        transform: scale(1.2);
+    }
+
+.btn-lg {
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 4px 18px rgba(255, 193, 7, 0.10);
+    animation: pulse 1.8s infinite;
+    transition: background 0.3s, transform 0.2s;
+}
+
+    .btn-lg:hover {
+        background: linear-gradient(90deg, #ffbb00 0%, #ffdb70 100%);
+        transform: scale(1.04);
+    }
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.5);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(255, 193, 7, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+    }
+}
+
+.btn-outline-secondary {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .btn-outline-secondary:hover {
+        background: #174ea6;
+        color: #fff;
+    }
+
+.container {
+    background: rgba(255,255,255,0.96);
+    border-radius: 18px;
+    box-shadow: 0 6px 40px rgba(23, 78, 166, 0.08);
+    padding: 32px 24px;
+}
+
+/* Giới thiệu & tiện ích nổi bật - Card hiện đại */
+.intro-card {
+    background: linear-gradient(135deg, #f9fafc 0%, #dbeafe 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(23, 78, 166, 0.08);
+    padding: 32px 24px;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+    .intro-card:hover {
+        box-shadow: 0 8px 36px rgba(23, 78, 166, 0.18);
+        transform: translateY(-3px) scale(1.02);
+    }
+
+    .intro-card h4, .intro-card h5 {
+        color: #174ea6;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        letter-spacing: 0.5px;
+        position: relative;
+    }
+
+        .intro-card h4::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 4px;
+            background: linear-gradient(90deg, #174ea6 0%, #60a5fa 100%);
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+            top: -10px;
+        }
+
+    .intro-card ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+        .intro-card ul li {
+            font-size: 1.12rem;
+            background: rgba(96, 165, 250, 0.07);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 10px 14px 10px 40px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(96,165,250,0.05);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+            .intro-card ul li:hover {
+                background: linear-gradient(90deg, #e0f2fe 0%, #bae6fd 100%);
+                box-shadow: 0 4px 16px rgba(96,165,250,0.11);
+            }
+
+            .intro-card ul li::before {
+                content: '★';
+                position: absolute;
+                left: 12px;
+                top: 12px;
+                color: #174ea6;
+                font-size: 1.25rem;
+                transition: color 0.2s;
+            }
+
+            .intro-card ul li:hover::before {
+                color: #2563eb;
+            }
+
+    .intro-card p {
+        font-size: 1.13rem;
+        color: #374151;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+        animation: fadein 1.2s;
+    }
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+h4, h5 {
+    color: #174ea6;
+    font-weight: 700;
+    margin-top: 1.5rem;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+::-webkit-scrollbar {
+    height: 8px;
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #174ea6;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 4px;
+    }
+
+    .carousel-inner img {
+        height: 220px;
+    }
+
+    .intro-card {
+        padding: 16px 8px;
+    }
+}

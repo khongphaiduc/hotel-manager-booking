@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+}
+@model Management_Hotel_2025.ViewModel.ViewDetailRoom
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết phòng ngủ</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/roomdetail.css" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+
+                        @for (int i = 0; i < Model.ListPathImage.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@Model.ListPathImage[i]" class="d-block w-100 rounded" alt="Phòng ngủ">
+                            </div>
+                        }
+                    </div>
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-3">@Model.NameType</h2>
+                <h5 class="text-muted">Khách sạn TrungDuc Luxury , Tầng @Model.Floor, Phòng :@Model.RoomNumber</h5>
+                <div class="mb-3">
+                    <span class="badge bg-success">Còn phòng</span>
+                    <span class="badge bg-primary">Miễn phí bữa sáng</span>
+                </div>
+                <div class="mb-3">
+                    <h4 class="text-danger">@String.Format("{0:N0}", Model.Price) VNĐ / đêm</h4>
+                </div>
+                <ul class="list-unstyled mb-4">
+                    <li><i class="bi bi-arrows-angle-expand"></i> Diện tích: 35m²</li>
+                    <li><i class="bi bi-person"></i> Sức chứa: @Model.MaxGuests người</li>
+                    <li><i class="bi bi-wifi"></i> Wifi miễn phí</li>
+                    <li><i class="bi bi-tv"></i> TV thông minh</li>
+                    <li><i class="bi bi-cup-hot"></i> Máy pha cà phê</li>
+                    <li><i class="bi bi-bathtub"></i>🛁 Bồn tắm</li>
+                </ul>
+                <a class="btn btn-warning btn-lg w-100 mb-2" asp-action="InformationBooking"
+                   asp-controller="Payment"
+                   asp-route-Amount="@Model.Price"
+                   asp-route-NameRoom="@Model.NameType"
+                   asp-route-IdRoom="@Model.RoomId"
+                   class="btn-primary" style="text-decoration-line:none">Đặt phòng ngay</a>
+
+                <button class="btn btn-outline-secondary w-100" onclick="window.history.back()">Quay lại</button>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="intro-card">
+                    <h4>Giới thiệu</h4>
+                    <p>@Model.Description</p>
+                    <p>
+                        Phòng Deluxe King được thiết kế sang trọng, hiện đại, phù hợp cho các cặp đôi hoặc gia đình nhỏ. View hướng ra thành phố, trang bị đầy đủ tiện nghi, đảm bảo mang lại trải nghiệm nghỉ dưỡng tuyệt vời nhất.
+                    </p>
+                    <h5>Tiện ích nổi bật</h5>
+                    <ul>
+                        <li>Dịch vụ phòng 24/7</li>
+                        <li>Hồ bơi, phòng gym, spa miễn phí</li>
+                        <li>Xe đưa đón sân bay</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

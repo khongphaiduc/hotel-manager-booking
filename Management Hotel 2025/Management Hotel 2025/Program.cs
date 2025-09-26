@@ -20,7 +20,8 @@ namespace Management_Hotel_2025
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();       
+            builder.Services.AddControllersWithViews();  
+            
             builder.Services.AddDbContext<ManagermentHotelContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
@@ -71,6 +72,7 @@ namespace Management_Hotel_2025
             builder.Services.AddHttpContextAccessor();  // Thêm HttpContextAccessor để truy cập HttpContext trong các dịch vụ
 
             builder.Services.AddTransient<IRoomService, RoomSerices>();
+
 
             var app = builder.Build();
 

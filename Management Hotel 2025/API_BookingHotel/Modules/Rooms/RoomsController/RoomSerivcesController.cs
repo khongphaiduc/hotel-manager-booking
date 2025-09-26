@@ -57,9 +57,9 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
 
                          .CountAsync();
 
-            var list = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
+            var ListResult  = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
 
-            return Ok(new PaginationResult<ViewRoom>(list, TotalItems, PageCurrent, NumerItemOfPage, newCheckIn, newCheckOut));  //  lưu vào construcor của PaginationResult để trả về
+            return Ok(new PaginationResult<ViewRoom>(ListResult , TotalItems, PageCurrent, NumerItemOfPage, newCheckIn, newCheckOut));  //  lưu vào construcor của PaginationResult để trả về
 
         }
 

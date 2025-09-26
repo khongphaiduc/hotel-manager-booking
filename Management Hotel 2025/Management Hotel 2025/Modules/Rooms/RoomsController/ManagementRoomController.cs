@@ -16,12 +16,14 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         private readonly ManagermentHotelContext _dbContext;
         private readonly IApiServices _ApiService;
         private readonly HttpClient _httpClient;
+        private readonly ILogger<ManagementRoomController> _logger;
 
-        public ManagementRoomController(ManagermentHotelContext dbcontext, IApiServices api, HttpClient httpClient)
+        public ManagementRoomController(ManagermentHotelContext dbcontext, IApiServices api, HttpClient httpClient,ILogger<ManagementRoomController> logger)
         {
             _dbContext = dbcontext;
             _ApiService = api;
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _logger = logger;
         }
 
         // hiện thi danh sách phòng(advance) và phân trang
@@ -64,10 +66,33 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
         }
 
+        //[AllowAnonymous]
+        //public async Task<IActionResult> ViewDetailRoom([FromQuery] int IdRoom)
+        //{
+        //    var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);
+
+        //    if (Room != null)
+        //    {
+        //        return View(Room);
+        //    }
+        //    else
+        //    {
+        //        return NotFound("Room not found.");
+        //    }
+
+        //}
+
+
         [AllowAnonymous]
-        public async Task<IActionResult> ViewDetailRoom([FromQuery] int IdRoom)
+        public async Task<IActionResult> ViewDetailRoomVer2([FromQuery] int IdRoom)
         {
             var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);
+
+
+            foreach(string s in Room.ListPathImage)
+            {
+                _logger.LogInformation("ảnh 1 :" +s);
+            }
 
             if (Room != null)
             {
@@ -76,8 +101,9 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             else
             {
                 return NotFound("Room not found.");
-            }
-
+            }   
         }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿@using Management_Hotel_2025.ViewModel
 
 @{
+
     Layout = null;
 }
 
@@ -16,13 +17,26 @@
 </head>
 <body>
     <div class="lux-hotel-bg">
-        <div class="lux-hotel-header">
-            <h1>Danh sách phòng khách sạn</h1>
-            <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
-        </div>
 
+        @if (!User.IsInRole("Staff"))
+        {
+            <div class="lux-hotel-header">
+                <h1>Danh sách phòng khách sạn</h1>
+                <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
+            </div>
+        }
+        
         <div class="lux-room-filter">
             <form id="lux-filter-form" asp-action="ViewListRoomVer2" asp-controller="ManagementRoom" method="get" style="display: flex; gap: 32px; align-items: center;">
+                <label>
+                    Trạng Thái:
+                    <select  id="filter-floor" onchange="resetPageAndSubmit()">
+                        <option value="">Tất cả</option>
+                        <option value="1" selected="@(ViewBag.Floor == 1 ? "selected" : null)">Phòng Trống</option>            
+                    </select>
+
+
+                </label>
                 <label>
                     Tầng:
                     <select name="Floor" id="filter-floor" onchange="resetPageAndSubmit()">
@@ -106,7 +120,7 @@
                                 <span class="lux-room-price">
                                     @string.Format("{0:N0} VND", room.Price)
                                 </span>
-                                <a asp-action="ViewDetailRoom"
+                                <a asp-action="ViewDetailRoomVer2"
                                    asp-controller="ManagementRoom"
                                    asp-route-idRoom="@room.IdRoom" class="lux-book-btn" target="_blank" style="text-decoration:none">
                                     Xem chi tiết

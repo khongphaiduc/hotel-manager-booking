@@ -13,6 +13,6 @@
         public string? PathImage { get; set; }
         public decimal Price { get; set; }
         public string MaxGuests { get; set; }
-
+        public ICollection<string> ListPathImage { get; set; } = new List<string>();
     }
 }

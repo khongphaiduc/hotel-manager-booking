@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyData.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Mydata.Models;
@@ -22,4 +23,6 @@ public partial class Room
     public virtual RoomType RoomType { get; set; } = null!;
 
     public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
+
+    public virtual ICollection<Images> Images { get; set; } = new List<Images>();
 }

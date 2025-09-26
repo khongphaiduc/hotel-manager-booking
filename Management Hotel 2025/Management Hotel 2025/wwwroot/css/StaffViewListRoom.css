@@ -1,0 +1,125 @@
+﻿html, body, .hotel-bg {
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+}
+
+body, .hotel-bg {
+    background: linear-gradient(120deg, #f4f6fb 0%, #e7edf8 100%);
+    font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.container-fluid {
+    width: 100vw;
+    max-width: 100vw;
+}
+
+/* CSS Grid chia đều 5 cột */
+.room-grid-custom {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+    justify-items: center;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+/* Card hiện đại và hài hòa */
+.card-room.card-modern {
+    background: #fff;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 24px rgba(60, 120, 180, 0.06), 0 1.5px 8px rgba(0,0,0,.05);
+    border: none;
+    min-width: 265px;
+    max-width: 320px;
+    width: 100%;
+    min-height: 235px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: box-shadow .18s, transform .14s;
+    position: relative;
+}
+
+    .card-room.card-modern:hover {
+        box-shadow: 0 12px 32px rgba(60,120,180,.14), 0 2.5px 14px rgba(0,0,0,.08);
+        transform: translateY(-4px) scale(1.04);
+        border: 1.5px solid #e3e8ef;
+    }
+
+.card-room .badge {
+    font-size: 0.93em;
+    font-weight: 500;
+    border-radius: 8px;
+    background: #f6f7fa;
+}
+
+.card-room strong {
+    font-weight: 600;
+}
+
+.card-room .text-primary {
+    color: #3176d6 !important;
+}
+
+.card-room .text-secondary {
+    color: #a2aec7 !important;
+}
+
+.card-room .room-action .btn {
+    border-radius: 1.5em;
+    font-weight: 500;
+    font-size: 0.95em;
+    box-shadow: 0 2px 6px rgba(49,118,214,.07);
+    transition: background .18s, color .18s, box-shadow .18s;
+}
+
+    .card-room .room-action .btn:hover {
+        background: #3176d6;
+        color: #fff;
+        box-shadow: 0 8px 24px rgba(49,118,214,.13);
+    }
+
+.filter-bar {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.03);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-box input {
+    border-radius: 0.7em;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .room-grid-custom {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1100px) {
+    .room-grid-custom {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .room-grid-custom {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .room-grid-custom {
+        grid-template-columns: 1fr;
+    }
+
+    .card-room {
+        min-width: 170px;
+        max-width: 100%;
+    }
+}

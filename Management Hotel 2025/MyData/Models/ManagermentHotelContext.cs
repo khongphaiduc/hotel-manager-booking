@@ -13,6 +13,7 @@ public partial class ManagermentHotelContext : DbContext
     public ManagermentHotelContext(DbContextOptions<ManagermentHotelContext> options)
         : base(options)
     {
+
     }
 
     public virtual DbSet<Booking> Bookings { get; set; }
@@ -37,14 +38,14 @@ public partial class ManagermentHotelContext : DbContext
     // new 
     public virtual DbSet<BookingDetail> BookingDetails { get; set; }
 
-    public virtual DbSet<Services> HotelServices { get; set; }    
+    public virtual DbSet<Services> HotelServices { get; set; }
 
 
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
+        optionsBuilder.UseSqlServer("Data Source=PHAMTRUNGDUC\\SQLEXPRESS;Initial Catalog=Managerment_Hotel;User ID=sa;Password=123;Trust Server Certificate=True;");
     }
 
 

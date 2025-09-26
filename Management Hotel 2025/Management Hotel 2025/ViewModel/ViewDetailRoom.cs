@@ -14,5 +14,6 @@ namespace Management_Hotel_2025.ViewModel
         public string? PathImage { get; set; }
         public decimal Price { get; set; }
         public string MaxGuests { get; set; }
+        public List<string> ListPathImage { get; set; } = new List<string>();
     }
 }

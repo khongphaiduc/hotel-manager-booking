@@ -170,9 +170,9 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
 </ul>
 
 <p>Quý khách vui lòng có mặt tại khách sạn vào ngày nhận phòng và mang theo giấy tờ tùy thân để hoàn tất thủ tục check-in.</p>
-
+<p>Trong trường hợp nếu quý khách không check in phòng trong ngày nhận thì phòng sẽ được hủy theo quy định của khách sạn .</p>
 <p>Nếu Quý khách có bất kỳ yêu cầu đặc biệt hoặc cần hỗ trợ thêm, xin vui lòng liên hệ với chúng tôi qua:<br>
-📞 Hotline: [033333333]<br>
+📞 Hotline: 033333333<br>
 📧 Email: [hotelluxurytrungduc@gmail.com]</p>
 
 <p>Một lần nữa, xin cảm ơn Quý khách đã lựa chọn <b>Khách sạn Luxury Trung Đức</b>.<br>

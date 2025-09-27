@@ -1,88 +1,459 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = "~/Views/Shared/StaffHeader.cshtml";
+    // Layout = null;
+    // Dữ liệu mẫu
+    var rooms = new List<dynamic>
+    {
+        new { number = "101", type = "standard", floor = 1, status = "available", price = "500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa" }, guest = "", date = "2025-09-10", imageUrl = "/images/room101.jpg" },
+        new { number = "102", type = "deluxe", floor = 1, status = "occupied", price = "800,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar" }, guest = "Nguyễn Văn A", date = "2025-09-11", imageUrl = "" },
+        new { number = "103", type = "suite", floor = 1, status = "maintenance", price = "1,200,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar", "Jacuzzi" }, guest = "", date = "2025-09-12", imageUrl = "" },
+        new { number = "201", type = "standard", floor = 2, status = "available", price = "500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa" }, guest = "", date = "2025-09-13", imageUrl = "" },
+        new { number = "202", type = "deluxe", floor = 2, status = "available", price = "800,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar" }, guest = "", date = "2025-09-13", imageUrl = "" },
+        new { number = "203", type = "vip", floor = 2, status = "occupied", price = "1,500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar", "Jacuzzi", "Ban công" }, guest = "Trần Thị B", date = "2025-09-14", imageUrl = "" },
+        new { number = "301", type = "standard", floor = 3, status = "available", price = "500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa" }, guest = "", date = "2025-09-15", imageUrl = "" },
+        new { number = "302", type = "deluxe", floor = 3, status = "occupied", price = "800,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar" }, guest = "Lê Văn C", date = "2025-09-16", imageUrl = "" },
+        new { number = "303", type = "suite", floor = 3, status = "available", price = "1,200,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar", "Jacuzzi" }, guest = "", date = "2025-09-18", imageUrl = "" }
+    };
+    Func<string, string> getStatusText = s =>
+    {
+        switch (s)
+        {
+            case "available": return "Trống";
+            case "occupied": return "Đã thuê";
+            case "maintenance": return "Bảo trì";
+            default: return s;
+        }
+    };
+    Func<string, string> getTypeText = t =>
+    {
+        switch (t)
+        {
+            case "standard": return "Standard";
+            case "deluxe": return "Deluxe";
+            case "suite": return "Suite";
+            case "vip": return "VIP";
+            default: return t;
+        }
+    };
+}
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8" />
-    <title>Quản Lý Phòng Khách Sạn</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link href="~/css/StaffViewListRoom.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Phòng Khách sạn</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            overflow: hidden;
+            padding-bottom: 2rem;
+        }
+        /* THU NHỎ BỘ LỌC */
+        .filter-section {
+            background: var(--light-bg);
+            padding: 0.5rem 1rem 0.5rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .filter-card {
+            background: white;
+            border-radius: 10px;
+            padding: 0.7rem 0.7rem 0.2rem 0.7rem;
+            box-shadow: var(--card-shadow);
+            border: none;
+        }
+
+        .form-label {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 0.3rem 0.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 0.92rem;
+            height: 30px;
+        }
+
+            .form-control[type="date"] {
+                height: 30px;
+            }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--secondary-color);
+                box-shadow: 0 0 0 0.15rem rgba(52, 152, 219, 0.08);
+            }
+
+        .btn-filter {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 0.32rem 0.7rem;
+            font-weight: 500;
+            font-size: 0.92rem;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+            .btn-filter:hover {
+                background: #2980b9;
+                transform: translateY(-2px);
+            }
+
+        .btn-reset {
+            background: var(--warning-color);
+            border: none;
+            border-radius: 8px;
+            padding: 0.32rem 0.7rem;
+            font-weight: 500;
+            font-size: 0.92rem;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+            .btn-reset:hover {
+                background: #d68910;
+                transform: translateY(-2px);
+            }
+
+        .rooms-container {
+            padding: 2rem 2.5rem 1rem 2.5rem;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: box-shadow 0.3s, transform 0.3s;
+            border: none;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+            .room-card:hover {
+                transform: translateY(-5px) scale(1.025);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.13);
+            }
+
+        .room-image {
+            height: 190px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #bbb;
+            overflow: hidden;
+        }
+
+        .room-info {
+            padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+        }
+
+        .room-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .room-type {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 18px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-available {
+            background: rgba(39, 174, 96, 0.13);
+            color: var(--success-color);
+            border: 1px solid rgba(39, 174, 96, 0.25);
+        }
+
+        .status-occupied {
+            background: rgba(231, 76, 60, 0.13);
+            color: var(--danger-color);
+            border: 1px solid rgba(231, 76, 60, 0.25);
+        }
+
+        .status-maintenance {
+            background: rgba(243, 156, 18, 0.13);
+            color: var(--warning-color);
+            border: 1px solid rgba(243, 156, 18, 0.25);
+        }
+
+        .room-features {
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .feature-icon {
+            margin-right: 0.4rem;
+            color: var(--secondary-color);
+        }
+
+        .room-actions {
+            padding: 0.7rem 1.2rem;
+            background: var(--light-bg);
+            border-top: 1px solid #e9ecef;
+            text-align: right;
+        }
+
+        .btn-action {
+            margin-right: 0.35rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            padding: 0.38rem 1rem;
+        }
+
+        .stats-section {
+            background: var(--light-bg);
+            padding: 0.5rem 1rem 0.5rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 0.6rem 0.3rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.1rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: #6c757d;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@media (max-width: 1200px) {
+            .rooms-container, .stats-section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="hotel-bg">
-        <div class="container-fluid px-0 py-4">
-            <!-- Bộ lọc & Tìm kiếm -->
-            <form class="filter-bar d-flex flex-wrap align-items-center gap-3 mb-4 justify-content-center" method="get">
-                <div>
-                    <label class="me-1 fw-semibold">Giá từ:</label>
-                    <input type="number" class="form-control form-control-sm d-inline-block" name="minPrice" style="width:90px;" min="0" placeholder="Min" />
+    <div class="main-container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-card">
+                <form method="get" onsubmit="return false;">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-lg-2 col-md-3 col-6">
+                            <label class="form-label">Tìm kiếm</label>
+                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-6">
+                            <label class="form-label">Trạng thái</label>
+                            <select class="form-select">
+                                <option value="">Tất cả</option>
+                                <option value="available">Trống</option>
+                                <option value="occupied">Đã thuê</option>
+                                <option value="maintenance">Bảo trì</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-6">
+                            <label class="form-label">Loại phòng</label>
+                            <select class="form-select">
+                                <option value="">Tất cả</option>
+                                <option value="standard">Standard</option>
+                                <option value="deluxe">Deluxe</option>
+                                <option value="suite">Suite</option>
+                                <option value="vip">VIP</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-6">
+                            <label class="form-label">Tầng</label>
+                            <select class="form-select">
+                                <option value="">Tất cả</option>
+                                <option value="1">Tầng 1</option>
+                                <option value="2">Tầng 2</option>
+                                <option value="3">Tầng 3</option>
+                                <option value="4">Tầng 4</option>
+                                <option value="5">Tầng 5</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-12">
+                            <label class="form-label">Ngày</label>
+                            <input type="date" class="form-control" />
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-12">
+                            <div class="d-flex mt-2 mt-lg-0 gap-2">
+                                <button type="button" class="btn btn-filter text-white flex-fill">
+                                    <i class="fas fa-search me-2"></i>Lọc
+                                </button>
+                                <button type="button" class="btn btn-reset text-white flex-fill">
+                                    <i class="fas fa-undo me-2"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="row g-3">
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number text-primary">9</div>
+                        <div class="stat-label">Tổng số phòng</div>
+                    </div>
                 </div>
-                <div>
-                    <label class="me-1 fw-semibold">Đến:</label>
-                    <input type="number" class="form-control form-control-sm d-inline-block" name="maxPrice" style="width:90px;" min="0" placeholder="Max" />
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number text-success">5</div>
+                        <div class="stat-label">Phòng trống</div>
+                    </div>
                 </div>
-                <div>
-                    <label class="me-1 fw-semibold">Tầng:</label>
-                    <select class="form-select form-select-sm" name="filterTang" style="width:90px;">
-                        <option value="">Tất cả</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number text-danger">3</div>
+                        <div class="stat-label">Đã thuê</div>
+                    </div>
                 </div>
-                <div>
-                    <label class="me-1 fw-semibold">Loại phòng:</label>
-                    <select class="form-select form-select-sm" name="filterLoai" style="width:120px;">
-                        <option value="">Tất cả</option>
-                        <option value="Standard">Standard</option>
-                        <option value="Deluxe">Deluxe</option>
-                        <option value="Suite">Suite</option>
-                    </select>
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number text-warning">1</div>
+                        <div class="stat-label">Bảo trì</div>
+                    </div>
                 </div>
-                <div>
-                    <label class="fw-semibold me-2">Trạng thái:</label>
-                    <select class="form-select form-select-sm" name="filterTrangThai" style="width:130px;">
-                        <option value="">Tất cả</option>
-                        <option value="trong">Trống</option>
-                        <option value="o">Đang ở</option>
-                        <option value="dattruoc">Đặt trước</option>
-                        <option value="dangdon">Đang dọn</option>
-                        <option value="baotri">Bảo trì</option>
-                    </select>
-                </div>
-                <div class="search-box d-flex align-items-center gap-2">
-                    <input class="form-control form-control-sm" type="text" name="searchCustomer" placeholder="Tìm tên khách..." style="width:150px;" />
-                    <input class="form-control form-control-sm" type="text" name="searchRoom" placeholder="Tìm số phòng..." style="width:120px;" />
-                </div>
-                <div>
-                    <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-filter"></i> Lọc</button>
-                </div>
-            </form>
-            <!-- Grid phòng -->
-            <div class="room-grid-custom">
-                @for (int i = 0; i < 10; i++)
+            </div>
+        </div>
+        <!-- Rooms Container -->
+        <div class="rooms-container">
+            <div class="row">
+                @foreach (var room in rooms)
                 {
-                    <div class="card card-room card-modern">
-                        <div class="card-body d-flex flex-column justify-content-between h-100">
-                            <div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="fs-5 fw-bold me-2 text-primary"><i class="fa fa-circle text-secondary"></i> 10@(i + 1)</span>
-                                    <span class="badge bg-light text-dark ms-auto">Standard</span>
+                    var statusClass = $"status-{room.status}";
+                    var statusText = getStatusText(room.status);
+                    var typeText = getTypeText(room.type);
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 fade-in">
+                        <div class="room-card h-100 d-flex flex-column">
+                            <div class="room-image">
+                                @if (!string.IsNullOrEmpty(room.imageUrl))
+                                {
+                                    <img src="https://symbols.vn/wp-content/uploads/2022/02/Hinh-Rose-Blackpink-cuc-xinh.jpg" alt="Phòng @room.number" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+                                }
+                                else
+                                {
+                                    <i class="fas fa-bed"></i>
+                                }
+                            </div>
+                            <div class="room-info flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="room-number">Phòng @room.number</div>
+                                        <div class="room-type">@typeText</div>
+                                    </div>
+                                    <span class="status-badge @statusClass">@statusText</span>
                                 </div>
-                                <div class="mb-1"><strong>Giá:</strong> 500,000đ</div>
-                                <div class="mb-1"><strong>Tầng:</strong> @(i % 4 + 1)</div>
-                                <div class="mb-1"><strong>Trạng thái:</strong> <span class="text-muted">Trống</span></div>
-                                <div class="mb-1"><strong>Khách:</strong> <span class="text-muted">-</span></div>
-                                <div class="mb-1"><strong>Check-in:</strong> <span class="text-muted">-</span></div>
-                                <div class="mb-1"><strong>Check-out:</strong> <span class="text-muted">-</span></div>
+                                <div class="mt-2 mb-1">
+                                    <strong class="text-primary">@room.price/đêm</strong>
+                                </div>
+                                <div class="room-features">
+                                    @foreach (var feature in room.features)
+                                    {
+                                        <span class="me-2 mb-1 d-inline-block"><i class="fas fa-check feature-icon"></i>@feature</span>
+                                    }
+                                </div>
+                                @if (!string.IsNullOrEmpty(room.guest))
+                                {
+                                    <div class="mt-1"><small class="text-muted"><i class="fas fa-user me-1"></i>Khách: @room.guest</small></div>
+                                }
+                                <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: @room.date</small></div>
                             </div>
-                            <div class="room-action mt-3">
-                                <button class="btn btn-outline-primary btn-sm rounded-pill px-3"><i class="fa fa-eye"></i> Xem chi tiết</button>
+                            <div class="room-actions">
+                                @if (room.status == "available")
+                                {
+                                    <button class="btn btn-success btn-sm btn-action" style="pointer-events:none;opacity:1;">
+                                        <i class="fas fa-plus me-1"></i>Check-in
+                                    </button>
+                                    <button class="btn btn-warning btn-sm btn-action" style="pointer-events:none;opacity:1;">
+                                        <i class="fas fa-tools me-1"></i>Bảo trì
+                                    </button>
+                                }
+                                else if (room.status == "occupied")
+                                {
+                                    <button class="btn btn-danger btn-sm btn-action" style="pointer-events:none;opacity:1;">
+                                        <i class="fas fa-minus me-1"></i>Check-out
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-success btn-sm btn-action" style="pointer-events:none;" tabindex="-1">
+                                        <i class="fas fa-check me-1"></i>Hoàn thành
+                                    </button>
+                                }
+                                <button class="btn btn-outline-primary btn-sm btn-action" style="pointer-events:none;" tabindex="-1">
+                                    <i class="fas fa-eye me-1"></i>Chi tiết
+                                </button>
                             </div>
+
                         </div>
                     </div>
                 }

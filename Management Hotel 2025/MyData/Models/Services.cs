@@ -24,5 +24,6 @@ namespace Mydata.Models
 
         public virtual ICollection<BookingService> BookingServices { get; set; } = new List<BookingService>();
 
+         
     }
 }

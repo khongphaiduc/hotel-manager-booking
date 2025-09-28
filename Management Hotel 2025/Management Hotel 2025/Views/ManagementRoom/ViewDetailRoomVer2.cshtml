@@ -16,6 +16,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/roomdetail.css" />
+    <!-- AOS CSS for animate on scroll -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
 </head>
 <body>
     <div class="container mt-5">
@@ -30,8 +32,6 @@
                             </div>
                         }
                     </div>
-
-
                     <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </button>
@@ -64,7 +64,6 @@
                    asp-route-NameRoom="@Model.NameType"
                    asp-route-IdRoom="@Model.RoomId"
                    class="btn-primary" style="text-decoration-line:none">Đặt phòng ngay</a>
-
                 <button class="btn btn-outline-secondary w-100" onclick="window.history.back()">Quay lại</button>
             </div>
         </div>
@@ -78,9 +77,23 @@
                     </p>
                     <h5>Tiện ích nổi bật</h5>
                     <ul>
-                        <li>Dịch vụ phòng 24/7</li>
-                        <li>Hồ bơi, phòng gym, spa miễn phí</li>
-                        <li>Xe đưa đón sân bay</li>
+                        @for (int i = 0; i < Model.ListAmenites.Count; i++)
+                        {
+                            var amenity = Model.ListAmenites.ElementAt(i); // Nếu là ICollection, dùng ElementAt
+                            bool isImageLeft = i % 2 == 0;
+                            <section class="amenity-feature my-5 py-4">
+                                <div class="row align-items-center g-4 flex-column-reverse flex-md-row @(isImageLeft ? "" : "flex-md-row-reverse")">
+                                    <div class="col-md-6">
+                                        <h3 class="fw-bold mb-3 text-primary">@amenity.Name</h3>
+                                        <p class="lead mb-0">@amenity.Description</p>
+                                    </div>
+                                    <div class="col-md-6 text-center"
+                                         data-aos="fade-@((isImageLeft ? "left" : "right"))">
+                                        <img src="@amenity.UrlImage" alt="@amenity.Name" class="amenity-feature-img img-fluid rounded-4 shadow-lg" />
+                                    </div>
+                                </div>
+                            </section>
+                        }
                     </ul>
                 </div>
             </div>
@@ -88,5 +101,13 @@
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS for animate on scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 2000,
+            once: true
+        });
+    </script>
 </body>
 </html>

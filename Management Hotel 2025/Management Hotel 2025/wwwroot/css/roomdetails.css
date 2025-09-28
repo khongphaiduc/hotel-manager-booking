@@ -17,10 +17,10 @@ h2 {
     transition: transform .3s;
 }
 
-    .carousel-inner img:hover {
-        transform: scale(1.04) rotate(-2deg);
-        box-shadow: 0 12px 38px 0 rgba(30, 64, 175, 0.25);
-    }
+.carousel-inner img:hover {
+    transform: scale(1.04) rotate(-2deg);
+    box-shadow: 0 12px 38px 0 rgba(30, 64, 175, 0.25);
+}
 
 .carousel-control-next-icon,
 .carousel-control-prev-icon {
@@ -45,22 +45,22 @@ h2 {
     transition: color 0.2s;
 }
 
-    .list-unstyled li:hover {
-        color: #174ea6;
-    }
+.list-unstyled li:hover {
+    color: #174ea6;
+}
 
-    .list-unstyled li i {
-        position: absolute;
-        left: 0;
-        top: 2px;
-        color: #174ea6;
-        font-size: 1.2em;
-        transition: transform 0.2s;
-    }
+.list-unstyled li i {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #174ea6;
+    font-size: 1.2em;
+    transition: transform 0.2s;
+}
 
-    .list-unstyled li:hover i {
-        transform: scale(1.2);
-    }
+.list-unstyled li:hover i {
+    transform: scale(1.2);
+}
 
 .btn-lg {
     font-size: 1.2rem;
@@ -70,20 +70,18 @@ h2 {
     transition: background 0.3s, transform 0.2s;
 }
 
-    .btn-lg:hover {
-        background: linear-gradient(90deg, #ffbb00 0%, #ffdb70 100%);
-        transform: scale(1.04);
-    }
+.btn-lg:hover {
+    background: linear-gradient(90deg, #ffbb00 0%, #ffdb70 100%);
+    transform: scale(1.04);
+}
 
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.5);
     }
-
     70% {
         box-shadow: 0 0 0 12px rgba(255, 193, 7, 0);
     }
-
     100% {
         box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
     }
@@ -95,10 +93,10 @@ h2 {
     transition: background 0.2s, color 0.2s;
 }
 
-    .btn-outline-secondary:hover {
-        background: #174ea6;
-        color: #fff;
-    }
+.btn-outline-secondary:hover {
+    background: #174ea6;
+    color: #fff;
+}
 
 .container {
     background: rgba(255,255,255,0.96);
@@ -119,81 +117,80 @@ h2 {
     overflow: hidden;
 }
 
-    .intro-card:hover {
-        box-shadow: 0 8px 36px rgba(23, 78, 166, 0.18);
-        transform: translateY(-3px) scale(1.02);
-    }
+.intro-card:hover {
+    box-shadow: 0 8px 36px rgba(23, 78, 166, 0.18);
+    transform: translateY(-3px) scale(1.02);
+}
 
-    .intro-card h4, .intro-card h5 {
-        color: #174ea6;
-        font-weight: 800;
-        margin-bottom: 1rem;
-        letter-spacing: 0.5px;
-        position: relative;
-    }
+.intro-card h4, .intro-card h5 {
+    color: #174ea6;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+    position: relative;
+}
 
-        .intro-card h4::before {
-            content: '';
-            display: inline-block;
-            width: 32px;
-            height: 4px;
-            background: linear-gradient(90deg, #174ea6 0%, #60a5fa 100%);
-            border-radius: 2px;
-            position: absolute;
-            left: 0;
-            top: -10px;
-        }
+.intro-card h4::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 4px;
+    background: linear-gradient(90deg, #174ea6 0%, #60a5fa 100%);
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    top: -10px;
+}
 
-    .intro-card ul {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
-    }
+.intro-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
 
-        .intro-card ul li {
-            font-size: 1.12rem;
-            background: rgba(96, 165, 250, 0.07);
-            border-radius: 8px;
-            margin-bottom: 10px;
-            padding: 10px 14px 10px 40px;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(96,165,250,0.05);
-            transition: background 0.2s, box-shadow 0.2s;
-        }
+.intro-card ul li {
+    font-size: 1.12rem;
+    background: rgba(96, 165, 250, 0.07);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px 14px 10px 40px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(96,165,250,0.05);
+    transition: background 0.2s, box-shadow 0.2s;
+}
 
-            .intro-card ul li:hover {
-                background: linear-gradient(90deg, #e0f2fe 0%, #bae6fd 100%);
-                box-shadow: 0 4px 16px rgba(96,165,250,0.11);
-            }
+.intro-card ul li:hover {
+    background: linear-gradient(90deg, #e0f2fe 0%, #bae6fd 100%);
+    box-shadow: 0 4px 16px rgba(96,165,250,0.11);
+}
 
-            .intro-card ul li::before {
-                content: '★';
-                position: absolute;
-                left: 12px;
-                top: 12px;
-                color: #174ea6;
-                font-size: 1.25rem;
-                transition: color 0.2s;
-            }
+.intro-card ul li::before {
+    content: '★';
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: #174ea6;
+    font-size: 1.25rem;
+    transition: color 0.2s;
+}
 
-            .intro-card ul li:hover::before {
-                color: #2563eb;
-            }
+.intro-card ul li:hover::before {
+    color: #2563eb;
+}
 
-    .intro-card p {
-        font-size: 1.13rem;
-        color: #374151;
-        line-height: 1.7;
-        margin-bottom: 1.5rem;
-        animation: fadein 1.2s;
-    }
+.intro-card p {
+    font-size: 1.13rem;
+    color: #374151;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    animation: fadein 1.2s;
+}
 
 @keyframes fadein {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: none;
@@ -224,12 +221,61 @@ ul {
     .container {
         padding: 16px 4px;
     }
-
     .carousel-inner img {
         height: 220px;
     }
-
     .intro-card {
         padding: 16px 8px;
     }
+}
+
+/* Tiện ích nổi bật - section hiện đại + hiệu ứng vào/ra chậm */
+.amenity-feature {
+    background: linear-gradient(135deg, #f8fafc 60%, #e1eaff 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(23,78,166,0.08);
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.25s, transform 0.18s;
+}
+.amenity-feature:hover {
+    box-shadow: 0 16px 40px rgba(23,78,166,0.12);
+    transform: scale(1.01) translateY(-2px);
+}
+.amenity-feature-img {
+    max-width: 420px;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 6px 28px rgba(23,78,166,0.13);
+    background: #e1eaff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.amenity-feature:hover .amenity-feature-img {
+    transform: scale(1.03) rotate(-2deg);
+    box-shadow: 0 12px 38px 0 rgba(30, 64, 175, 0.22);
+}
+@media (max-width: 768px) {
+    .amenity-feature-img {
+        height: 160px;
+        max-width: 100%;
+    }
+}
+
+/* Hiệu ứng trượt vào/ra khi scroll */
+.fade-in-left, .fade-in-right {
+    opacity: 0;
+    transition: opacity 1.3s cubic-bezier(0.23, 1, 0.32, 1), transform 1.3s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: opacity, transform;
+}
+.fade-in-left {
+    transform: translateX(-60px);
+}
+.fade-in-right {
+    transform: translateX(60px);
+}
+.show {
+    opacity: 1;
+    transform: none;
 }

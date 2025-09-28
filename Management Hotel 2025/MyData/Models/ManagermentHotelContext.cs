@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using MyData.Models;
 
 namespace Mydata.Models;
 
@@ -39,6 +40,14 @@ public partial class ManagermentHotelContext : DbContext
     public virtual DbSet<BookingDetail> BookingDetails { get; set; }
 
     public virtual DbSet<Services> HotelServices { get; set; }
+
+    // ngày thêm 2024-09-27
+    public virtual DbSet<Images> Images { get; set; }
+
+    // ngày thêm 2024-09-28
+
+    public virtual DbSet<RoomAmenity> RoomAmenities { get; set; }
+
 
 
 

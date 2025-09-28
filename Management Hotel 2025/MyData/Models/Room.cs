@@ -25,4 +25,6 @@ public partial class Room
     public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
 
     public virtual ICollection<Images> Images { get; set; } = new List<Images>();
+
+    public virtual ICollection<RoomAmenity> RoomAmenities { get; set; } = new List<RoomAmenity>();
 }

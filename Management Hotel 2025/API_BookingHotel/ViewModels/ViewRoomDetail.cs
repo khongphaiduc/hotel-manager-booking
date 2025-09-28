@@ -14,5 +14,8 @@
         public decimal Price { get; set; }
         public string MaxGuests { get; set; }
         public ICollection<string> ListPathImage { get; set; } = new List<string>();
+
+        public IList<Amenity> ListAmenites { get; set; } = new List<Amenity>();
+
     }
 }

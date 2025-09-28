@@ -63,5 +63,55 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
 
         }
 
+        [AllowAnonymous]
+        [HttpGet("rooms")]
+        public async Task<IActionResult> GetListRoom(string option,int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
+        {
+            if (option.Equals("all"))
+            {
+
+            }
+
+
+            if (StartDate == null)
+            {
+                StartDate = DateTime.Now.ToString();
+            }
+            if (EndDate == null)
+            {
+                DateTime Today = DateTime.Now;
+                EndDate = Today.AddDays(7).ToString();
+            }
+
+            DateTime newCheckIn = DateTime.Parse(StartDate);
+            DateTime newCheckOut = DateTime.Parse(EndDate);
+
+            // lấy db trước khi mà skip
+            int TotalItems = await _dbcontext.Rooms
+                         .Include(s => s.RoomType).Include(s => s.BookingDetails)
+                         .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
+                               (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
+                               (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
+                               (!Person.HasValue || s.RoomType.MaxGuests == Person.Value) &&
+                                                      !s.BookingDetails.Any(bd =>
+
+                                                      
+                                                       option == "all" ? 
+
+
+                                                       !( bd.Booking.Status != "Cancelled" &&
+                                                       newCheckIn < bd.CheckOutDate &&
+                                                       newCheckOut > bd.CheckInDate) :bd.StatusCheckRoom=="s")
+                                                      
+                          ).CountAsync();
+
+                       
+
+            var ListResult = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
+
+            return Ok(new PaginationResult<ViewRoom>(ListResult, TotalItems, PageCurrent, NumerItemOfPage, newCheckIn, newCheckOut));  //  lưu vào construcor của PaginationResult để trả về
+
+        }
+
     }
 }

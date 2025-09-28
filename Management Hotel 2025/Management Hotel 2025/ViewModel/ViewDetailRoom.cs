@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using MyData.Models;
 
 namespace Management_Hotel_2025.ViewModel
 {
@@ -15,5 +16,6 @@ namespace Management_Hotel_2025.ViewModel
         public decimal Price { get; set; }
         public string MaxGuests { get; set; }
         public List<string> ListPathImage { get; set; } = new List<string>();
+        public IList<Amenity> ListAmenites { get; set; } = new List<Amenity>();    //Ilist hỗ trợ truy cập index mà thăng IColection nó  không hỗ trợ 
     }
 }

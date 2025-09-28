@@ -33,8 +33,8 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                                  !s.BookingDetails.Any(bd =>
                                                        bd.Booking.Status != "Cancelled" &&
                                                        newCheckIn < bd.CheckOutDate &&
-                                                       newCheckOut > bd.CheckInDate )
-                                      
+                                                       newCheckOut > bd.CheckInDate)
+
                                 )
                           .OrderBy(s => s.RoomType.Price)
                           .Skip(ItemSkip)                                     // bỏ qua số lượng Item cần skip
@@ -49,6 +49,80 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                               Price = room.RoomType.Price
                           })
                              .ToListAsync();
+
+            return ListItem;
+        }
+
+
+        // tìm kiếm advance của room của  thằng  management
+        public async Task<List<ViewRoom>> SearchRoomByAdvanceForManagement(
+        string option, int CurrentPage, int ItermNumberOfPage,
+        int? Floor, int? PriceMin, int? PriceMax, int? Person,
+        string? StartDate, string? EndDate)
+        {
+            var ItemSkip = (CurrentPage - 1) * ItermNumberOfPage; // số lượng item sẽ bỏ qua
+
+            DateTime newCheckIn = DateTime.Parse(StartDate);
+            DateTime newCheckOut = DateTime.Parse(EndDate);
+
+            var query = _dbcontext.Rooms
+                .Include(s => s.RoomType)
+                .Where(s =>
+                    (!Floor.HasValue || s.Floor == Floor.Value) &&
+                    (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
+                    (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
+                    (!Person.HasValue || s.RoomType.MaxGuests == Person.Value)
+                );
+
+            // lấy phòng đã booking
+            if (option.Equals("book", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.Where(s =>
+                    s.BookingDetails.Any(bd =>
+                        bd.Booking.Status != "Cancelled" &&
+                        bd.StatusCheckRoom != "Checkout" &&
+                        newCheckIn < bd.CheckOutDate &&
+                        newCheckOut > bd.CheckInDate
+                    )
+                );
+            }
+            // lấy phòng bảo trì
+            else if (option.Equals("maintenance", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.Where(s =>
+                    s.BookingDetails.Any(bd =>
+                        bd.Booking.Status == "maintenance"
+                    )
+                );
+            }
+            // lấy phòng trống 
+            else
+            {
+                query = query.Where(s =>
+                    !s.BookingDetails.Any(bd =>
+                        bd.Booking.Status != "Cancelled" &&
+                        bd.StatusCheckRoom != "Checkout" &&
+                        newCheckIn < bd.CheckOutDate &&
+                        newCheckOut > bd.CheckInDate
+                    )
+                );
+            }
+
+            var ListItem = await query
+                .OrderBy(s => s.RoomType.Price)
+                .Skip(ItemSkip)
+                .Take(ItermNumberOfPage)
+                .Select(room => new ViewRoom()
+                {
+                    IdRoom = room.RoomId,
+                    Name = room.RoomType.Name,
+                    Floor = (int)room.Floor,
+                    Description = room.Description,
+                    Image = room.PathImage,
+                    Price = room.RoomType.Price,
+                    NumberOfRooms = room.RoomNumber
+                })
+                .ToListAsync();
 
             return ListItem;
         }

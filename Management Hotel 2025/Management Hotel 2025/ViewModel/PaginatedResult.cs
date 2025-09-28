@@ -5,11 +5,13 @@
         public List<T> Data { get; set; } = new();
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
+
         public int TotalCount { get; set; } // Tổng số items trong toàn bộ database
         public int TotalPages { get; set; }  // Tổng  số trang  
         public bool HasPrevious { get; set; }
         public bool HasNext { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public PaginatedResult(List<T> data, int totalCount, int currentPage, int pageSize)
         {
             Data = data;

@@ -1,4 +1,5 @@
-﻿body {
+﻿
+body {
     background: linear-gradient(135deg, #f8fafc 0%, #e1eaff 100%);
     font-family: 'Montserrat', Arial, sans-serif;
 }
@@ -279,3 +280,4 @@ ul {
     opacity: 1;
     transform: none;
 }
+

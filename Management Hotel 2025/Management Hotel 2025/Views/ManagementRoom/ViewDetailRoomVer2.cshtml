@@ -7,7 +7,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chi tiết phòng ngủ</title>
+    <title>Chi tiết phòng ngủ @Model.RoomNumber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts Montserrat -->
@@ -18,6 +19,17 @@
     <link rel="stylesheet" href="~/css/roomdetail.css" />
     <!-- AOS CSS for animate on scroll -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+
+    <style>
+        .intro-title {
+            font-family: 'Great Vibes', cursive; /* chữ bay bổng mềm mại */
+            font-size: 2.5rem; /* chữ to hơn */
+            color: #8e44ad; /* tím sang trọng */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* bóng mờ nhẹ */
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -70,12 +82,12 @@
         <div class="row mt-5">
             <div class="col-12">
                 <div class="intro-card">
-                    <h4>Giới thiệu</h4>
+                    <h4 class="intro-title">Giới thiệu</h4>
                     <p>@Model.Description</p>
                     <p>
                         Phòng Deluxe King được thiết kế sang trọng, hiện đại, phù hợp cho các cặp đôi hoặc gia đình nhỏ. View hướng ra thành phố, trang bị đầy đủ tiện nghi, đảm bảo mang lại trải nghiệm nghỉ dưỡng tuyệt vời nhất.
                     </p>
-                    <h5>Tiện ích nổi bật</h5>
+                    <h4 class="intro-title">Tiện ích nổi bật dành cho quý khách</h4>
                     <ul>
                         @for (int i = 0; i < Model.ListAmenites.Count; i++)
                         {

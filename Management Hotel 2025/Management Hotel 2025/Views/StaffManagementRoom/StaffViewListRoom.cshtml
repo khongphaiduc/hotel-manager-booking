@@ -1,42 +1,11 @@
-﻿@{
-    Layout = "~/Views/Shared/StaffHeader.cshtml";
-    // Layout = null;
-    // Dữ liệu mẫu
-    var rooms = new List<dynamic>
-    {
-        new { number = "101", type = "standard", floor = 1, status = "available", price = "500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa" }, guest = "", date = "2025-09-10", imageUrl = "/images/room101.jpg" },
-        new { number = "102", type = "deluxe", floor = 1, status = "occupied", price = "800,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar" }, guest = "Nguyễn Văn A", date = "2025-09-11", imageUrl = "" },
-        new { number = "103", type = "suite", floor = 1, status = "maintenance", price = "1,200,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar", "Jacuzzi" }, guest = "", date = "2025-09-12", imageUrl = "" },
-        new { number = "201", type = "standard", floor = 2, status = "available", price = "500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa" }, guest = "", date = "2025-09-13", imageUrl = "" },
-        new { number = "202", type = "deluxe", floor = 2, status = "available", price = "800,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar" }, guest = "", date = "2025-09-13", imageUrl = "" },
-        new { number = "203", type = "vip", floor = 2, status = "occupied", price = "1,500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar", "Jacuzzi", "Ban công" }, guest = "Trần Thị B", date = "2025-09-14", imageUrl = "" },
-        new { number = "301", type = "standard", floor = 3, status = "available", price = "500,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa" }, guest = "", date = "2025-09-15", imageUrl = "" },
-        new { number = "302", type = "deluxe", floor = 3, status = "occupied", price = "800,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar" }, guest = "Lê Văn C", date = "2025-09-16", imageUrl = "" },
-        new { number = "303", type = "suite", floor = 3, status = "available", price = "1,200,000 VNĐ", features = new[] { "WiFi", "TV", "Điều hòa", "Minibar", "Jacuzzi" }, guest = "", date = "2025-09-18", imageUrl = "" }
-    };
-    Func<string, string> getStatusText = s =>
-    {
-        switch (s)
-        {
-            case "available": return "Trống";
-            case "occupied": return "Đã thuê";
-            case "maintenance": return "Bảo trì";
-            default: return s;
-        }
-    };
-    Func<string, string> getTypeText = t =>
-    {
-        switch (t)
-        {
-            case "standard": return "Standard";
-            case "deluxe": return "Deluxe";
-            case "suite": return "Suite";
-            case "vip": return "VIP";
-            default: return t;
-        }
-    };
-}
+﻿@* @{ *@
 
+@{
+    Layout = "~/Views/Shared/StaffHeader.cshtml";
+}
+@using System.Globalization
+@using Management_Hotel_2025.ViewModel
+@model Management_Hotel_2025.ViewModel.PaginatedResult<ViewRoomModel>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -301,24 +270,31 @@
         <!-- Filter Section -->
         <div class="filter-section">
             <div class="filter-card">
-                <form method="get" onsubmit="return false;">
+                <form method="post" asp-action="StaffViewListRoom" asp-controller="StaffManagementRoom" onsubmit="return false;">
                     <div class="row g-2 align-items-end">
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <label class="form-label">Tìm kiếm</label>
-                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <label class="form-label">Trạng thái</label>
-                            <select class="form-select">
+
+                        <div class="col-lg-2 col-md-3 col-6" >
+                            <label class="form-label">Trạng thái phòng</label>
+                            <select class="form-select" style="height : 32px">
                                 <option value="">Tất cả</option>
                                 <option value="available">Trống</option>
                                 <option value="occupied">Đã thuê</option>
                                 <option value="maintenance">Bảo trì</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6">
+                        <div class="col-lg-2 col-md-3 col-6" style="width : 150px">
+                            <label class="form-label">Tầng</label>
+                            <select class="form-select" style="height : 32px">
+                                <option value="">1</option>
+                                <option value="standard">2</option>
+                                <option value="deluxe">3</option>
+                                <option value="suite">3</option>
+                                <option value="vip">4</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-6" >
                             <label class="form-label">Loại phòng</label>
-                            <select class="form-select">
+                            <select class="form-select" style="height : 32px">
                                 <option value="">Tất cả</option>
                                 <option value="standard">Standard</option>
                                 <option value="deluxe">Deluxe</option>
@@ -326,20 +302,29 @@
                                 <option value="vip">VIP</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <label class="form-label">Tầng</label>
-                            <select class="form-select">
+                        <div class="col-lg-2 col-md-3 col-6" style="width : 150px">
+                            <label class="form-label">Giá Min</label>
+                            <select class="form-select" style="height : 32px">
                                 <option value="">Tất cả</option>
-                                <option value="1">Tầng 1</option>
-                                <option value="2">Tầng 2</option>
-                                <option value="3">Tầng 3</option>
-                                <option value="4">Tầng 4</option>
-                                <option value="5">Tầng 5</option>
+                                <option value="standard">1Tr</option>
+                                <option value="deluxe">2Tr</option>
+                                <option value="suite">3Tr</option>
+                                <option value="vip">4Tr</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-4 col-12">
-                            <label class="form-label">Ngày</label>
-                            <input type="date" class="form-control" />
+                        <div class="col-lg-2 col-md-3 col-6" style="width : 150px">
+                            <label class="form-label">Giá Max</label>
+                            <select class="form-select" style="height : 32px">
+                                <option value="">Tất cả</option>
+                                <option value="standard">3Tr</option>
+                                <option value="deluxe">5Tr</option>
+                                <option value="suite">9Tr</option>
+                                <option value="vip">20Tr</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-6">
+                            <label class="form-label">Tìm kiếm bằng id khách </label>
+                            <input style="height : 32px" type="text" class="form-control" placeholder="Tìm kiếm...">
                         </div>
                         <div class="col-lg-2 col-md-5 col-12">
                             <div class="d-flex mt-2 mt-lg-0 gap-2">
@@ -387,17 +372,14 @@
         <!-- Rooms Container -->
         <div class="rooms-container">
             <div class="row">
-                @foreach (var room in rooms)
+                @foreach (var room in Model.Data)
                 {
-                    var statusClass = $"status-{room.status}";
-                    var statusText = getStatusText(room.status);
-                    var typeText = getTypeText(room.type);
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 fade-in">
                         <div class="room-card h-100 d-flex flex-column">
                             <div class="room-image">
-                                @if (!string.IsNullOrEmpty(room.imageUrl))
+                                @if (!string.IsNullOrEmpty(room.Name))
                                 {
-                                    <img src="https://symbols.vn/wp-content/uploads/2022/02/Hinh-Rose-Blackpink-cuc-xinh.jpg" alt="Phòng @room.number" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+                                    <img src="@room.Image" alt="Phòng @room.Floor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
                                 }
                                 else
                                 {
@@ -407,51 +389,43 @@
                             <div class="room-info flex-grow-1">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
-                                        <div class="room-number">Phòng @room.number</div>
-                                        <div class="room-type">@typeText</div>
+                                        <div class="room-number">Phòng @room.NumberOfRooms</div>
+                                        <div class="room-type">@room.Name</div>
                                     </div>
-                                    <span class="status-badge @statusClass">@statusText</span>
+
                                 </div>
                                 <div class="mt-2 mb-1">
-                                    <strong class="text-primary">@room.price/đêm</strong>
+                                    <strong class="text-primary">
+                                        @room.Price.ToString("C0", CultureInfo.GetCultureInfo("vi-VN")) / đêm
+                                    </strong>
                                 </div>
                                 <div class="room-features">
-                                    @foreach (var feature in room.features)
-                                    {
-                                        <span class="me-2 mb-1 d-inline-block"><i class="fas fa-check feature-icon"></i>@feature</span>
-                                    }
+                                    @* @foreach (var feature in room.features) *@
+                                    @* { *@
+                                    @*     <span class="me-2 mb-1 d-inline-block"><i class="fas fa-check feature-icon"></i>@feature</span> *@
+                                    @* } *@
                                 </div>
-                                @if (!string.IsNullOrEmpty(room.guest))
-                                {
-                                    <div class="mt-1"><small class="text-muted"><i class="fas fa-user me-1"></i>Khách: @room.guest</small></div>
-                                }
-                                <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: @room.date</small></div>
+
+                                <div class="mt-1"><small class="text-muted"><i class="fas fa-user me-1"></i>Khách:</small></div>
+
+                                <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: @Model.StartDate</small></div>
+                                <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: @Model.EndDate</small></div>
                             </div>
                             <div class="room-actions">
-                                @if (room.status == "available")
-                                {
-                                    <button class="btn btn-success btn-sm btn-action" style="pointer-events:none;opacity:1;">
-                                        <i class="fas fa-plus me-1"></i>Check-in
-                                    </button>
-                                    <button class="btn btn-warning btn-sm btn-action" style="pointer-events:none;opacity:1;">
-                                        <i class="fas fa-tools me-1"></i>Bảo trì
-                                    </button>
-                                }
-                                else if (room.status == "occupied")
-                                {
-                                    <button class="btn btn-danger btn-sm btn-action" style="pointer-events:none;opacity:1;">
-                                        <i class="fas fa-minus me-1"></i>Check-out
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-success btn-sm btn-action" style="pointer-events:none;" tabindex="-1">
-                                        <i class="fas fa-check me-1"></i>Hoàn thành
-                                    </button>
-                                }
-                                <button class="btn btn-outline-primary btn-sm btn-action" style="pointer-events:none;" tabindex="-1">
-                                    <i class="fas fa-eye me-1"></i>Chi tiết
+
+                                <button class="btn btn-success btn-sm btn-action" style="pointer-events:none;opacity:1;">
+                                    <i class="fas fa-plus me-1"></i>Check-in
                                 </button>
+                                <button class="btn btn-warning btn-sm btn-action" style="pointer-events:none;opacity:1;">
+                                    <i class="fas fa-tools me-1"></i>Bảo trì
+                                </button>
+
+                                <a class="btn btn-warning btn-sm btn-action" asp-action="ViewDetailRoomVer2"
+                                   asp-controller="ManagementRoom"
+                                   asp-route-idRoom="@room.IdRoom" class="lux-book-btn" target="_blank" style="text-decoration:none">
+                                    Xem chi tiết phòng
+                                </a>
+
                             </div>
 
                         </div>

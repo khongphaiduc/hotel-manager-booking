@@ -72,7 +72,7 @@ namespace Management_Hotel_2025
             builder.Services.AddHttpContextAccessor();  // Thêm HttpContextAccessor để truy cập HttpContext trong các dịch vụ
 
             builder.Services.AddTransient<IRoomService, RoomSerices>();
-
+            builder.Services.AddTransient<IManagementRoom, ManagementViewListRoom>();
 
             var app = builder.Build();
 

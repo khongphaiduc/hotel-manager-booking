@@ -55,14 +55,16 @@ namespace API_BookingHotel
 
             });
 
-
+         
             //builder.Services.AddTransient<IVnPayService, VnPayService>();
             builder.Services.AddTransient<RoomViewDetail>();
             builder.Services.AddTransient<IRoomService, RoomSearchWithPagination>();
-
+            builder.Services.AddControllers();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            app.UseStaticFiles();   // cho phép truy cập ảnh tĩnh trong project wwwroot
+
 
             app.UseHttpsRedirection();
 

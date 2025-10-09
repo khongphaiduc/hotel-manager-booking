@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mydata.Models;
 
@@ -11,9 +12,11 @@ using Mydata.Models;
 namespace Mydata.Migrations
 {
     [DbContext(typeof(ManagermentHotelContext))]
-    partial class ManagermentHotelContextModelSnapshot : ModelSnapshot
+    [Migration("20251009021427_v14")]
+    partial class v14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

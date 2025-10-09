@@ -1,6 +1,4 @@
-﻿@* @{ *@
-
-@{
+﻿@{
     Layout = "~/Views/Shared/StaffHeader.cshtml";
 }
 @using System.Globalization
@@ -263,38 +261,59 @@
                 padding-right: 1rem;
             }
         }
+
+
+        .filter-card form .d-flex {
+            gap: 10px;
+        }
+
+            .filter-card form .d-flex::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .filter-card form .d-flex::-webkit-scrollbar-thumb {
+                background: rgba(0,0,0,0.2);
+                border-radius: 3px;
+            }
     </style>
 </head>
 <body>
     <div class="main-container">
         <!-- Filter Section -->
+        <!-- Filter Section -->
         <div class="filter-section">
             <div class="filter-card">
-                <form method="post" asp-action="StaffViewListRoom" asp-controller="StaffManagementRoom" onsubmit="return false;">
-                    <div class="row g-2 align-items-end">
+                <form id="lux-filter-form" method="get" asp-action="StaffViewListRoom" asp-controller="StaffManagementRoom" onsubmit="return false;">
+                    <div class="d-flex flex-wrap align-items-end gap-2">
 
-                        <div class="col-lg-2 col-md-3 col-6" >
-                            <label class="form-label">Trạng thái phòng</label>
-                            <select class="form-select" style="height : 32px">
-                                <option value="">Tất cả</option>
-                                <option value="available">Trống</option>
-                                <option value="occupied">Đã thuê</option>
-                                <option value="maintenance">Bảo trì</option>
+                        <div class="col-auto flex-fill" style="min-width:120px;">
+                            <label class="form-label">Trạng thái</label>
+                            <select name="option" class="form-select" onchange="resetPageAndSubmit()">
+                                <option value="all">Tất cả</option>
+                                <option value="available" selected="@(ViewBag.option == "available" ? "selected" : null)">Trống</option>
+                                <option value="occupied" selected="@(ViewBag.option == "occupied" ? "selected" : null)">Đã thuê</option>
+                                <option value="maintenance" selected="@(ViewBag.option== "maintenance" ? "selected" : null)">Bảo trì</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6" style="width : 150px">
+
+                        <div class="col-auto flex-fill" style="min-width:120px;">
                             <label class="form-label">Tầng</label>
-                            <select class="form-select" style="height : 32px">
-                                <option value="">1</option>
-                                <option value="standard">2</option>
-                                <option value="deluxe">3</option>
-                                <option value="suite">3</option>
-                                <option value="vip">4</option>
+                            <select name="Floor" class="form-select" onchange="resetPageAndSubmit()">
+                                <option value="">Tất cả</option>
+                                <option value="1" selected="@(ViewBag.Floor == 1 ? "selected" : null)">Tầng 1</option>
+                                <option value="2" selected="@(ViewBag.Floor == 2 ? "selected" : null)">Tầng 2</option>
+                                <option value="3" selected="@(ViewBag.Floor == 3 ? "selected" : null)">Tầng 3</option>
+                                <option value="4" selected="@(ViewBag.Floor == 4 ? "selected" : null)">Tầng 4</option>
+                                <option value="5" selected="@(ViewBag.Floor == 5 ? "selected" : null)">Tầng 5</option>
+                                <option value="6" selected="@(ViewBag.Floor == 6 ? "selected" : null)">Tầng 6</option>
+                                <option value="7" selected="@(ViewBag.Floor == 7 ? "selected" : null)">Tầng 7</option>
+                                <option value="8" selected="@(ViewBag.Floor == 8 ? "selected" : null)">Tầng 8</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6" >
+
+                        <div class="col-auto flex-fill" style="min-width:120px;">
                             <label class="form-label">Loại phòng</label>
-                            <select class="form-select" style="height : 32px">
+                            <select class="form-select">
                                 <option value="">Tất cả</option>
                                 <option value="standard">Standard</option>
                                 <option value="deluxe">Deluxe</option>
@@ -302,44 +321,57 @@
                                 <option value="vip">VIP</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6" style="width : 150px">
+
+                        <div class="col-auto flex-fill" style="min-width:100px;">
                             <label class="form-label">Giá Min</label>
-                            <select class="form-select" style="height : 32px">
-                                <option value="">Tất cả</option>
-                                <option value="standard">1Tr</option>
-                                <option value="deluxe">2Tr</option>
-                                <option value="suite">3Tr</option>
-                                <option value="vip">4Tr</option>
+                            <select name="PriceMin" class="form-select" onchange="resetPageAndSubmit()">
+                                <option value="">Giá Min</option>
+                                <option value="500000" selected="@(ViewBag.PriceMin == 500000 ? "selected" : null)">500K</option>
+                                <option value="800000" selected="@(ViewBag.PriceMin == 800000 ? "selected" : null)">800K</option>
+                                <option value="1500000" selected="@(ViewBag.PriceMin == 1500000 ? "selected" : null)"> 1500K</option>
+                                <option value="1800000" selected="@(ViewBag.PriceMin == 1800000 ? "selected" : null)"> 1800K</option>
+                                <option value="2500000" selected="@(ViewBag.PriceMin == 2500000 ? "selected" : null)"> 2500K</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6" style="width : 150px">
+
+                        <div class="col-auto flex-fill" style="min-width:100px;">
                             <label class="form-label">Giá Max</label>
-                            <select class="form-select" style="height : 32px">
-                                <option value="">Tất cả</option>
-                                <option value="standard">3Tr</option>
-                                <option value="deluxe">5Tr</option>
-                                <option value="suite">9Tr</option>
-                                <option value="vip">20Tr</option>
+                            <select name="PriceMax" class="form-select" onchange="resetPageAndSubmit()">
+                                <option value="">Giá Max</option>
+                                <option value="3000000" selected="@(ViewBag.PriceMax == 3000000 ? "selected" : null)">3 Tr</option>
+                                <option value="5000000" selected="@(ViewBag.PriceMax == 5000000 ? "selected" : null)">5 Tr</option>
+                                <option value="10000000" selected="@(ViewBag.PriceMax == 10000000 ? "selected" : null)">10 Tr</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <label class="form-label">Tìm kiếm bằng id khách </label>
-                            <input style="height : 32px" type="text" class="form-control" placeholder="Tìm kiếm...">
+
+                        <div class="col-auto flex-fill" style="min-width:130px;">
+                            <label class="form-label">Ngày bắt đầu</label>
+                            <input type="date" class="form-control" name="StartDate" onchange="resetPageAndSubmit()">
                         </div>
-                        <div class="col-lg-2 col-md-5 col-12">
-                            <div class="d-flex mt-2 mt-lg-0 gap-2">
-                                <button type="button" class="btn btn-filter text-white flex-fill">
-                                    <i class="fas fa-search me-2"></i>Lọc
-                                </button>
-                                <button type="button" class="btn btn-reset text-white flex-fill">
-                                    <i class="fas fa-undo me-2"></i>Reset
-                                </button>
-                            </div>
+
+                        <div class="col-auto flex-fill" style="min-width:130px;">
+                            <label class="form-label">Ngày kết thúc</label>
+                            <input type="date" class="form-control" name="EndDate" onchange="resetPageAndSubmit()">
                         </div>
+                        <button type="button" class="btn btn-reset text-white flex-fill">
+                            <i class="fas fa-undo me-1"></i>Reset
+                        </button>
+                        <div class="col-auto flex-fill" style="min-width:140px;">
+                            <label class="form-label">Tìm kiếm ID khách</label>
+                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                        </div>
+
+                        <div class="col-auto d-flex gap-2 align-items-end flex-fill" style="min-width:150px;">
+                            <button type="button" class="btn btn-filter text-white flex-fill">
+                                <i class="fas fa-search me-1"></i>Tìm
+                            </button>
+                        </div>
+
                     </div>
                 </form>
             </div>
         </div>
+
         <!-- Stats Section -->
         <div class="stats-section">
             <div class="row g-3">
@@ -413,9 +445,10 @@
                             </div>
                             <div class="room-actions">
 
-                                <button class="btn btn-success btn-sm btn-action" style="pointer-events:none;opacity:1;">
-                                    <i class="fas fa-plus me-1"></i>Check-in
-                                </button>
+                                <a class="btn btn-success btn-sm btn-action" style="opacity:1;" target="_blank" asp-controller="StaffManagementRoom" asp-action="CheckInPassenger">
+                                    <i class="fas fa-plus me-1">   </i>Check-in
+                                </a>
+
                                 <button class="btn btn-warning btn-sm btn-action" style="pointer-events:none;opacity:1;">
                                     <i class="fas fa-tools me-1"></i>Bảo trì
                                 </button>
@@ -434,5 +467,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function resetPageAndSubmit() {
+
+            document.getElementById("lux-filter-form").submit();
+        }
+        function resetOption() {
+            document.querySelector('[name="Floor"]').value = "";
+            document.querySelector('[name="PriceMax"]').value = "";
+            document.querySelector('[name="PriceMin"]').value = "";
+            document.querySelector('[name="Person"]').value = "";
+            document.querySelector('[name="StartDate"]').value = "";
+            document.querySelector('[name="EndDate"]').value = "";
+            document.getElementById("lux-filter-form").submit();
+        }
+
+    </script>
 </body>
 </html>

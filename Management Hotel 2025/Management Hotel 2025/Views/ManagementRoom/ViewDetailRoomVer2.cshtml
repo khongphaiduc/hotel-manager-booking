@@ -2,7 +2,7 @@
     Layout = null;
 }
 @model Management_Hotel_2025.ViewModel.ViewDetailRoom
-
+@using System.Security.Claims
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,12 +70,25 @@
                     <li><i class="bi bi-cup-hot"></i> Máy pha cà phê</li>
                     <li><i class="bi bi-bathtub"></i>🛁 Bồn tắm</li>
                 </ul>
-                <a class="btn btn-warning btn-lg w-100 mb-2" asp-action="InformationBooking"
-                   asp-controller="Payment"
-                   asp-route-Amount="@Model.Price"
-                   asp-route-NameRoom="@Model.NameType"
-                   asp-route-IdRoom="@Model.RoomId"
-                   class="btn-primary" style="text-decoration-line:none">Đặt phòng ngay</a>
+
+                @if (User.IsInRole("Staff"))
+                {
+                    <a class="btn btn-warning btn-lg w-100 mb-2" asp-action="StaffBoookingRoom"
+                       asp-controller="StaffManagementRoom"
+                       target="_blank"
+                       class="btn-primary" style="text-decoration-line:none">Tạo Booking Mới</a>
+                }
+                else
+                {
+                    <a class="btn btn-warning btn-lg w-100 mb-2" asp-action="InformationBooking"
+                       asp-controller="Payment"
+                       asp-route-Amount="@Model.Price"
+                       asp-route-NameRoom="@Model.NameType"
+                       asp-route-IdRoom="@Model.RoomId"
+                       class="btn-primary" style="text-decoration-line:none">Đặt phòng ngay</a>
+
+                }
+
                 <button class="btn btn-outline-secondary w-100" onclick="window.history.back()">Quay lại</button>
             </div>
         </div>

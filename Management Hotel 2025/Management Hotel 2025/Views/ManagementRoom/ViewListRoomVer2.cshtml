@@ -25,14 +25,15 @@
                 <p>Trải nghiệm đẳng cấp với không gian sang trọng và dịch vụ tuyệt vời</p>
             </div>
         }
-        
+
         <div class="lux-room-filter">
             <form id="lux-filter-form" asp-action="ViewListRoomVer2" asp-controller="ManagementRoom" method="get" style="display: flex; gap: 32px; align-items: center;">
                 <label>
                     Trạng Thái:
-                    <select  id="filter-floor" onchange="resetPageAndSubmit()">
+                    <select name="option" id="filter-floor" onchange="resetPageAndSubmit()">
                         <option value="">Tất cả</option>
-                        <option value="1" selected="@(ViewBag.Floor == 1 ? "selected" : null)">Phòng Trống</option>            
+                        <option value="1" selected="@(ViewBag.option == 1 ? "selected" : null)">Chống</option>
+                        <option value="2" selected="@(ViewBag.Floor == 2 ? "selected" : null)">Bảo Trì</option>
                     </select>
 
 

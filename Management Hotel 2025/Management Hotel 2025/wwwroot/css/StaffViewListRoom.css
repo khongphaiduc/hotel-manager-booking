@@ -1,125 +1,248 @@
-﻿html, body, .hotel-bg {
+﻿:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background: #f8f9fa;
     min-height: 100vh;
-    height: 100%;
-    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body, .hotel-bg {
-    background: linear-gradient(120deg, #f4f6fb 0%, #e7edf8 100%);
-    font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+.main-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 30px 0;
+    overflow: hidden;
+    padding-bottom: 2rem;
+}
+/* THU NHỎ BỘ LỌC */
+.filter-section {
+    background: var(--light-bg);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid #dee2e6;
 }
 
-.container-fluid {
-    width: 100vw;
-    max-width: 100vw;
-}
-
-/* CSS Grid chia đều 5 cột */
-.room-grid-custom {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 32px;
-    justify-items: center;
-    align-items: stretch;
-    width: 100%;
-    margin: 0 auto;
-    padding-bottom: 40px;
-}
-
-/* Card hiện đại và hài hòa */
-.card-room.card-modern {
-    background: #fff;
-    border-radius: 16px !important;
-    box-shadow: 0 4px 24px rgba(60, 120, 180, 0.06), 0 1.5px 8px rgba(0,0,0,.05);
+.filter-card {
+    background: white;
+    border-radius: 10px;
+    padding: 0.7rem 0.7rem 0.2rem 0.7rem;
+    box-shadow: var(--card-shadow);
     border: none;
-    min-width: 265px;
-    max-width: 320px;
-    width: 100%;
-    min-height: 235px;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 0.3rem 0.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 0.92rem;
+    height: 30px;
+}
+
+    .form-control[type="date"] {
+        height: 30px;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.15rem rgba(52, 152, 219, 0.08);
+    }
+
+.btn-filter {
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.32rem 0.7rem;
+    font-weight: 500;
+    font-size: 0.92rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+    .btn-filter:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+
+.btn-reset {
+    background: var(--warning-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.32rem 0.7rem;
+    font-weight: 500;
+    font-size: 0.92rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+    .btn-reset:hover {
+        background: #d68910;
+        transform: translateY(-2px);
+    }
+
+.rooms-container {
+    padding: 2rem 2.5rem 1rem 2.5rem;
+}
+
+.room-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.3s, transform 0.3s;
+    border: none;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    min-height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: box-shadow .18s, transform .14s;
-    position: relative;
 }
 
-    .card-room.card-modern:hover {
-        box-shadow: 0 12px 32px rgba(60,120,180,.14), 0 2.5px 14px rgba(0,0,0,.08);
-        transform: translateY(-4px) scale(1.04);
-        border: 1.5px solid #e3e8ef;
+    .room-card:hover {
+        transform: translateY(-5px) scale(1.025);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.13);
     }
 
-.card-room .badge {
-    font-size: 0.93em;
+.room-image {
+    height: 190px;
+    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #bbb;
+    overflow: hidden;
+}
+
+.room-info {
+    padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+}
+
+.room-number {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.2rem;
+}
+
+.room-type {
+    color: var(--secondary-color);
     font-weight: 500;
-    border-radius: 8px;
-    background: #f6f7fa;
+    margin-bottom: 0.6rem;
 }
 
-.card-room strong {
-    font-weight: 600;
-}
-
-.card-room .text-primary {
-    color: #3176d6 !important;
-}
-
-.card-room .text-secondary {
-    color: #a2aec7 !important;
-}
-
-.card-room .room-action .btn {
-    border-radius: 1.5em;
+.status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 18px;
+    font-size: 0.85rem;
     font-weight: 500;
-    font-size: 0.95em;
-    box-shadow: 0 2px 6px rgba(49,118,214,.07);
-    transition: background .18s, color .18s, box-shadow .18s;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
 }
 
-    .card-room .room-action .btn:hover {
-        background: #3176d6;
-        color: #fff;
-        box-shadow: 0 8px 24px rgba(49,118,214,.13);
+.status-available {
+    background: rgba(39, 174, 96, 0.13);
+    color: var(--success-color);
+    border: 1px solid rgba(39, 174, 96, 0.25);
+}
+
+.status-occupied {
+    background: rgba(231, 76, 60, 0.13);
+    color: var(--danger-color);
+    border: 1px solid rgba(231, 76, 60, 0.25);
+}
+
+.status-maintenance {
+    background: rgba(243, 156, 18, 0.13);
+    color: var(--warning-color);
+    border: 1px solid rgba(243, 156, 18, 0.25);
+}
+
+.room-features {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.feature-icon {
+    margin-right: 0.4rem;
+    color: var(--secondary-color);
+}
+
+.room-actions {
+    padding: 0.7rem 1.2rem;
+    background: var(--light-bg);
+    border-top: 1px solid #e9ecef;
+    text-align: right;
+}
+
+.btn-action {
+    margin-right: 0.35rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    padding: 0.38rem 1rem;
+}
+
+.stats-section {
+    background: var(--light-bg);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 0.6rem 0.3rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 0.5rem;
+}
+
+.stat-number {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.1rem;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: #6c757d;
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-in;
+}
+
+@@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
     }
 
-.filter-bar {
-    background: #fff;
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,.03);
-    padding: 1rem;
-    margin-bottom: 2rem;
-}
-
-.search-box input {
-    border-radius: 0.7em;
-}
-
-/* Responsive */
-@media (max-width: 1400px) {
-    .room-grid-custom {
-        grid-template-columns: repeat(4, 1fr);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@media (max-width: 1100px) {
-    .room-grid-custom {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 800px) {
-    .room-grid-custom {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .room-grid-custom {
-        grid-template-columns: 1fr;
-    }
-
-    .card-room {
-        min-width: 170px;
-        max-width: 100%;
+@@media (max-width: 1200px) {
+    .rooms-container, .stats-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }

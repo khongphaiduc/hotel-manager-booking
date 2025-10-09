@@ -20,6 +20,11 @@ public partial class Booking
 
     public decimal TotalAmountBooking { get; set; }  // tổng số tiền của booking tiền phòng chưa bao gom dịch vụ
 
+
+    public string CustomerName { get; set; } = null!;  // tên khách chính trong booking
+
+    public string CustomerPhone { get; set; } = null!; // số điện thoại khách chính trong booking
+
     public virtual User? User { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

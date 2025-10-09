@@ -44,12 +44,13 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
             PageCurrent = PageCurrent <= 0 ? 1 : PageCurrent;
             NumerItemOfPage = NumerItemOfPage <= 0 ? 10 : NumerItemOfPage;
 
-            string UrlApi = $"{_confi["ApiHotel:ManagementListRoom"]}" +
-                            $"?option={option}&PageCurrent={PageCurrent}&NumerItemOfPage={NumerItemOfPage}" +
-                            $"&Floor={Floor}&PriceMin={PriceMin}&PriceMax={PriceMax}" +
-                            $"&Person={Person}&StartDate={StartDate}&EndDate={EndDate}";
+            //string UrlApi = $"{_confi["ApiHotel:ManagementListRoom"]}" +
+            //                $"?option={option}&PageCurrent={PageCurrent}&NumerItemOfPage={NumerItemOfPage}" +
+            //                $"&Floor={Floor}&PriceMin={PriceMin}&PriceMax={PriceMax}" +
+            //                $"&Person={Person}&StartDate={StartDate}&EndDate={EndDate}";
 
-            var response = await _httpClient.GetAsync(UrlApi);
+            var url = $"{_confi["ApiHotel:ViewListRoomByPaginationByType"]}?PageCurrent={PageCurrent}&NumerItemOfPage={NumerItemOfPage}&Floor={Floor}&PriceMin={PriceMin}&PriceMax={PriceMax}&Person={Person}&StartDate={StartDate}&EndDate={EndDate}";
+            var response = await _httpClient.GetAsync(url);
             if (!response.IsSuccessStatusCode)
                 return new PaginatedResult<ViewRoomModel>();
 

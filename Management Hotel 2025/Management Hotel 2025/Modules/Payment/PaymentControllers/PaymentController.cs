@@ -1,6 +1,7 @@
 ﻿
 
 using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Mydata.Models;
@@ -27,10 +28,15 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
         }
 
         [HttpPost]
+
         public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
         {
             var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
+            var CustomterName = Request.Form["CustomerName"];
+            var CustomterPhone = Request.Form["PhoneNumber"];
 
+            HttpContext.Session.SetString("CustomerName", CustomterName);
+            HttpContext.Session.SetString("CustomerPhone", CustomterPhone);
             return Redirect(url);
         }
 
@@ -51,18 +57,32 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
 
             decimal DepositAmount = Convert.ToDecimal(HttpContext.Session.GetString("DepositAmount"));
 
+
+            var CustomerName = HttpContext.Session.GetString("CustomerName");
+            var CustomerPhone = HttpContext.Session.GetString("CustomerPhone");
+
             if (response.Success)
             {
 
                 var NewBooking = new Booking
                 {
-                    UserId = Id,
+
+
+
                     BookingDate = DateTime.Now,
                     BookingSource = Id == 0 ? "Walk" : "Website",
                     DepositAmount = DepositAmount,
                     TotalAmountBooking = TotalRoom,
                     Status = "Success",
+                    CustomerName = CustomerName,
+                    CustomerPhone = CustomerPhone
                 };
+                // check xem có id thằng user không thì mới gán
+                if (Id != 0)
+                {
+                    NewBooking.UserId = Id;
+                }
+
                 _dbcontext.Bookings.Add(NewBooking);
 
 
@@ -91,6 +111,7 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
                 return BadRequest("Payment failed. Please try again.");
             }
         }
+
 
         public IActionResult InformationBooking(string NameRoom, decimal Amount, int IdRoom)
         {

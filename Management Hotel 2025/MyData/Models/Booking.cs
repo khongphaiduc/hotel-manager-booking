@@ -25,6 +25,8 @@ public partial class Booking
 
     public string CustomerPhone { get; set; } = null!; // số điện thoại khách chính trong booking
 
+    public string Nationality { get; set; } = "VietNam";
+
     public virtual User? User { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

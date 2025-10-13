@@ -1,4 +1,5 @@
 ﻿using Management_Hotel_2025.ViewModel;
+using System.Collections;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomService
 {
@@ -8,8 +9,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         public void CreateRoom();
         public void UpdateRoom();
         public void DeleteRoom();
-        public Task<PaginatedResult<ViewRoomModel>> ViewListRoom(string option, int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate);
+      
         public void ViewDetailRoom();
+
+        public Task<List<ViewRoomModel>> FilterRoom(string Option, int? Floor, DateTime startdate, DateTime enddate);
+
+        public Task<ViewRoomModel> FilterByIdRoom(string IdRoom);
 
     }
 }

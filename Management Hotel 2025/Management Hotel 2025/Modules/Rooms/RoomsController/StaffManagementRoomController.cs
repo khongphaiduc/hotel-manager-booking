@@ -1,4 +1,5 @@
 ﻿using Management_Hotel_2025.Modules.Rooms.RoomService;
+using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,39 +9,56 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
     {
         private readonly IManagementRoom _IManagementRoom;
 
+
+        public List<Passengers> PassengersList { get; set; } = new List<Passengers>();
         public StaffManagementRoomController(IManagementRoom managementRoom)
         {
             _IManagementRoom = managementRoom;
         }
 
 
-        //  xem danh sách phòng 
         [Authorize(Roles = "Staff,Admin")]
         [HttpGet]
-        public async Task<IActionResult> StaffViewListRoom(string option, int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
+        public async Task<IActionResult> StaffViewListRoom(string option, int? Floor, DateTime StartDate, DateTime EndDate)
         {
-            ViewBag.option = option;
-            ViewBag.Floor = Floor;
-            ViewBag.PageCurrent = PageCurrent;
-            ViewBag.NumerItemOfPage = NumerItemOfPage;
-            ViewBag.PriceMin = PriceMin;
-            ViewBag.PriceMax = PriceMax;
-            ViewBag.Person = Person;
-
-            var Today = DateTime.Now;
-
-            if (string.IsNullOrEmpty(StartDate) || string.IsNullOrEmpty(EndDate))
+            if (StartDate == DateTime.MinValue || EndDate == DateTime.MinValue)
             {
-                StartDate = Today.ToString("yyyy-MM-dd");
-                EndDate = Today.AddDays(7).ToString("yyyy-MM-dd");
+                var Today = DateTime.Now;
+                StartDate = Today;
+                EndDate = Today.AddDays(7);
             }
 
-            ViewBag.StartDate = StartDate;
-            ViewBag.EndDate = EndDate;
-            var model = await _IManagementRoom.ViewListRoom("all", 1, 12, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
+            // 👇 Gán sau khi đã xử lý mặc định
+            ViewBag.option = option;
+            ViewBag.Floor = Floor;
+            ViewBag.StartDate = StartDate.ToString("yyyy-MM-dd"); // format cho input date
+            ViewBag.EndDate = EndDate.ToString("yyyy-MM-dd");
 
-            return View(model);
+            var ListRoom = await _IManagementRoom.FilterRoom(option, Floor, StartDate, EndDate);
+
+            return View(ListRoom);
         }
+
+        [Authorize(Roles = "Staff,Admin")]
+        [HttpGet]
+        public async Task<IActionResult> StaffSearchByIdRoom(string IdRoom)
+        {
+            if (string.IsNullOrEmpty(IdRoom))
+            {
+                return RedirectToAction("StaffViewListRoom");
+            }
+            else
+            {
+                List<ViewRoomModel> list = new List<ViewRoomModel>();
+                list.Add(await _IManagementRoom.FilterByIdRoom(IdRoom));
+                return View("StaffViewListRoom", list);
+            }
+
+        }
+
+
+
+
 
         // nhân viên tạo phiên đặt phòng  (cho case thằng khách hàng không booking trước )
         public IActionResult StaffBoookingRoom()
@@ -54,9 +72,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
         // check in 
-        public IActionResult CheckInPassenger()
+        public IActionResult CheckInPassenger(Passengers passengers)
         {
-            return View();
+
+            PassengersList.Add(passengers);
+
+            return View(PassengersList);
         }
 
 

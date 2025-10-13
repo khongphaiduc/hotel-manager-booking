@@ -30,8 +30,9 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                                 (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
                                 (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
                                 (!Person.HasValue || s.RoomType.MaxGuests == Person.Value) &&
-                                 !s.BookingDetails.Any(bd =>
-                                                       bd.Booking.Status != "Cancelled" &&
+                                 !s.BookingDetails.Any(bd =>                                                 // cú  pháp Any (điều kiện) :
+                                                                                                             // Dùng để kiểm  trả 1 phần tử hay danh sách có ít nhất item thỏa mãn hay không
+                                                       bd.Booking.Status != "Cancelled" &&                   // nếu có ít nhất 1 item thỏa mãn thì  sẽ return TRUE và ngược lại FALSE   
                                                        newCheckIn < bd.CheckOutDate &&
                                                        newCheckOut > bd.CheckInDate)
 

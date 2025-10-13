@@ -27,6 +27,8 @@ public partial class Booking
 
     public string Nationality { get; set; } = "VietNam";
 
+    public string Email { get; set; } = null!;
+
     public virtual User? User { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

@@ -34,13 +34,20 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
             var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
             var CustomterName = Request.Form["CustomerName"];
             var CustomterPhone = Request.Form["PhoneNumber"];
+            var Email = Request.Form["Email"];
+            var Nationality = Request.Form["Nationality"];
+
 
             HttpContext.Session.SetString("CustomerName", CustomterName);
             HttpContext.Session.SetString("CustomerPhone", CustomterPhone);
+            HttpContext.Session.SetString("Email", Email);
+            HttpContext.Session.SetString("Nationality", Nationality);
             return Redirect(url);
         }
 
 
+
+        
         [HttpGet]
         public IActionResult PaymentCallbackVnpay()
         {
@@ -60,22 +67,23 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
 
             var CustomerName = HttpContext.Session.GetString("CustomerName");
             var CustomerPhone = HttpContext.Session.GetString("CustomerPhone");
-
+            var Nationality = HttpContext.Session.GetString("Nationality");
+            var Email = HttpContext.Session.GetString("Email");
+            // thánh toán thành công 
             if (response.Success)
             {
 
                 var NewBooking = new Booking
                 {
-
-
-
                     BookingDate = DateTime.Now,
                     BookingSource = Id == 0 ? "Walk" : "Website",
                     DepositAmount = DepositAmount,
                     TotalAmountBooking = TotalRoom,
                     Status = "Success",
                     CustomerName = CustomerName,
-                    CustomerPhone = CustomerPhone
+                    CustomerPhone = CustomerPhone,
+                    Nationality = Nationality,
+                    Email = Email,
                 };
                 // check xem có id thằng user không thì mới gán
                 if (Id != 0)

@@ -2,7 +2,7 @@
     ViewData["Title"] = "Check-in Khách sạn 5 Sao";
     Layout = null;
 }
-
+@model Management_Hotel_2025.ViewModel.Passengers
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -159,27 +159,27 @@
                     </div>
                     <div class="col-12">
                         <label for="guestName" class="form-label">Tên hành khách</label>
-                        <input type="text" class="form-control" id="guestName" name="GuestName" required placeholder="Họ và tên" >
+                        <input asp-for="Name" type="text" class="form-control" id="guestName"  required placeholder="Họ và tên" >
                     </div>
                     <div class="col-md-6">
                         <label for="idNumber" class="form-label">Số CMND/CCCD/Hộ chiếu</label>
-                        <input type="text" class="form-control" id="idNumber" name="IdNumber" required placeholder="Nhập số giấy tờ" >
+                        <input asp-for="CodeID" type="text" class="form-control" id="idNumber"  required placeholder="Nhập số giấy tờ" >
                     </div>
                     <div class="col-md-6">
                         <label for="nationality" class="form-label">Quốc tịch</label>
-                        <input type="text" class="form-control" id="nationality" name="Nationality" required placeholder="Quốc tịch" >
+                        <input asp-for="Nationlity" type="text" class="form-control" id="nationality" name="Nationality" required placeholder="Quốc tịch" >
                     </div>
                     <div class="col-md-6">
                         <label for="phoneNumber" class="form-label">Số điện thoại</label>
-                        <input type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" required placeholder="Nhập số điện thoại" >
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" required placeholder="Nhập số điện thoại">
                     </div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="Email" required placeholder="Email" >
+                        <input asp-for="Email" type="email" class="form-control" id="email" name="Email" required placeholder="Email">
                     </div>
                     <div class="col-md-6">
                         <label for="gender" class="form-label">Giới tính</label>
-                        <select id="gender" name="Gender" class="form-select" required>
+                        <select asp-for="Sex" id="gender" name="Gender" class="form-select" required>
                             <option value="">-- Chọn giới tính --</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
@@ -188,15 +188,15 @@
                     </div>
                     <div class="col-md-6">
                         <label for="birthday" class="form-label">Ngày sinh</label>
-                        <input type="date" class="form-control" id="birthday" name="Birthday" required >
+                        <input asp-for="DateOfBirth" type="date" class="form-control" id="birthday" name="Birthday" required>
                     </div>
                     <div class="col-12">
                         <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="address" name="Address" required placeholder="Địa chỉ liên hệ">
+                        <input asp-for="Address" type="text" class="form-control" id="address" name="Address" required placeholder="Địa chỉ liên hệ">
                     </div>
                     <div class="col-12">
                         <label for="specialRequest" class="form-label">Yêu cầu đặc biệt</label>
-                        <textarea class="form-control" id="specialRequest" name="SpecialRequest" rows="2" placeholder="Nhập yêu cầu (nếu có)"></textarea>
+                        <textarea asp-for="Note" class="form-control" id="specialRequest" name="SpecialRequest" rows="2" placeholder="Nhập yêu cầu (nếu có)"></textarea>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-checkin w-100 mt-4">

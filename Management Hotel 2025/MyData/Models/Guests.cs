@@ -18,10 +18,10 @@ namespace Mydata.Models
         [Required]
         public string FullName { get; set; } = null!;
 
-        
+
         public string? Gender { get; set; }
 
- 
+
         public string? PhoneNumber { get; set; }
 
         [Required]
@@ -33,6 +33,7 @@ namespace Mydata.Models
         [Required]
         public string Nationality { get; set; } = null!;
 
+        public string Note { get; set; }
 
         public DateTime? TimeCheckIn { get; set; }
 

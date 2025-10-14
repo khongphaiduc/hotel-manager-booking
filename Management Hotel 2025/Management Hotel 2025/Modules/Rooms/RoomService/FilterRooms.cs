@@ -41,43 +41,44 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
 
         }
 
+
+        // lọc phòng
         public async Task<List<ViewRoomModel>> FilterRoom(string Option, int? Floor, DateTime startdate, DateTime enddate)
         {
-
-            bool booked = true;
-
-            // lấy danh sách những thằng đã booking
             var list = await _Dbcontext.Rooms
-                         .Include(s => s.RoomType)
-                         .Where(s => (!Floor.HasValue || s.Floor == Floor) &&
+                .Include(s => s.RoomType)
+                .Include(s => s.BookingDetails)
+                    .ThenInclude(s => s.Booking)
+                .Where(s =>
+                    (!Floor.HasValue || s.Floor == Floor) &&
+                    (
+                        Option == "all" ||
+                        (Option == "Booked" && s.BookingDetails.Any(bd => bd.Booking.Status != "Cancelled" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate)) ||
+                        (Option == "Available" && !s.BookingDetails.Any(bd => bd.Booking.Status != "Cancelled" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate)) ||
+                        (Option == "Maintenance" && s.Status.Equals("Maintenance")) ||
+                        (Option == "Cleaning" && s.Status.Equals("Cleaning"))
+                    )
+                )
+                .Select(room => new ViewRoomModel()
+                {
+                    IdRoom = room.RoomId,
+                    Name = room.RoomType.Name,
+                    Floor = (int)room.Floor,
+                    Description = room.Description,
+                    Image = room.PathImage,
+                    Price = room.RoomType.Price,
+                    NumberOfRooms = room.RoomNumber,
 
-                               (Option == "all" || (Option == "Booked" && s.BookingDetails.Any(bd => bd.Booking.Status != "Cancelled" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate))
+                    // 👇 Lấy tên người booking (nếu có)
+                    NamePasssger = room.BookingDetails
+                        .Where(bd => bd.Booking.Status != "Cancelled" &&
+                                     startdate < bd.CheckOutDate &&
+                                     enddate > bd.CheckInDate)
+                        .Select(bd => bd.Booking.CustomerName)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
 
-
-
-                                                                                                     ||
-
-                                (Option == "Available" && !s.BookingDetails.Any(bd => bd.Booking.Status != "Cancelled" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate))
-                                                                                                    ||
-                                                                                                    (Option == "Maintenance" && s.Status.Equals("Maintenance"))
-                                                                                                    ||
-                                                                                                    (Option == "Cleaning" && s.Status.Equals("Cleaning"))
-
-
-                                                                                      )
-
-                                                                                      )
-                         .Select(room => new ViewRoomModel()
-                         {
-                             IdRoom = room.RoomId,
-                             Name = room.RoomType.Name,
-                             Floor = (int)room.Floor,
-                             Description = room.Description,
-                             Image = room.PathImage,
-                             Price = room.RoomType.Price,
-                             NumberOfRooms = room.RoomNumber
-                         })
-                         .ToListAsync();
             return list;
         }
 
@@ -92,6 +93,27 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         }
 
 
+        // lấy lịch của 1 phòng
+        public List<BookingInfo> GetListDateBookingOfRoom(int IdRoom)
+        {
 
+            var list = _Dbcontext.BookingDetails
+                 .Include(s => s.Booking)
+                 .Where(s => s.RoomId == IdRoom && s.Booking.Status != "Cancelled")
+                 .Select(s => new BookingInfo()
+                 {
+                     StartDate = s.CheckInDate.Value,
+                     EndDate = s.CheckOutDate.Value,
+                     CustomerName = s.Booking.CustomerName,
+                     Status = s.Booking.Status,
+                    
+                 }).ToList();
+            return list;
+        }
+
+        public void ViewDetailRoom(int idRoom)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -366,63 +366,70 @@
             <div class="row">
 
 
-                @if(Model.Count()==0 ){
-                <img src="https://i.pinimg.com/originals/34/eb/f9/34ebf9ac490a19519396ea3c4b2a6009.jpg" alt="Alternate Text" />
-                }else{
-
-
-                @foreach (var room in Model)
+                @if (Model.Count() == 0)
                 {
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 fade-in">
-                        <div class="room-card h-100 d-flex flex-column">
-                            <div class="room-image">
-                                @if (!string.IsNullOrEmpty(room.Name))
-                                {
-                                    <img src="@room.Image" alt="Phòng @room.Floor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
-                                }
-                                else
-                                {
-                                    <i class="fas fa-bed"></i>
-                                }
-                            </div>
-                            <div class="room-info flex-grow-1">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <div class="room-number">Phòng @room.NumberOfRooms</div>
-                                        <div class="room-type">@room.Name</div>
+                    <img src="https://i.pinimg.com/originals/34/eb/f9/34ebf9ac490a19519396ea3c4b2a6009.jpg" alt="Alternate Text" />
+                }
+                else
+                {
+
+
+                    @foreach (var room in Model)
+                    {
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 fade-in">
+                            <div class="room-card h-100 d-flex flex-column">
+                                <div class="room-image">
+                                    @if (!string.IsNullOrEmpty(room.Name))
+                                    {
+                                        <img src="@room.Image" alt="Phòng @room.Floor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-bed"></i>
+                                    }
+                                </div>
+                                <div class="room-info flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <div class="room-number">Phòng @room.NumberOfRooms</div>
+                                            <div class="room-type">@room.Name</div>
+                                        </div>
                                     </div>
+                                    <div class="mt-2 mb-1">
+                                        <strong class="text-primary">
+                                            @room.Price.ToString("C0", CultureInfo.GetCultureInfo("vi-VN")) / đêm
+                                        </strong>
+                                    </div>
+                                    <div class="room-features">
+                                        @* @foreach (var feature in room.features) *@
+                                        @* { *@
+                                        @*     <span class="me-2 mb-1 d-inline-block"><i class="fas fa-check feature-icon"></i>@feature</span> *@
+                                        @* } *@
+                                    </div>
+                                    <div class="mt-1"><small class="text-muted"><i class="fas fa-user me-1"></i>Khách:@room.NamePasssger</small></div>
+                                    <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: bắt đầu</small></div>
+                                    <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: ngày kết thúc</small></div>
                                 </div>
-                                <div class="mt-2 mb-1">
-                                    <strong class="text-primary">
-                                        @room.Price.ToString("C0", CultureInfo.GetCultureInfo("vi-VN")) / đêm
-                                    </strong>
+                                <div class="room-actions">
+                                    <a class="btn btn-success btn-sm btn-action" style="opacity:1;" target="_blank" asp-controller="StaffManagementRoom" asp-action="CheckInPassenger">
+                                        <i class="fas fa-plus me-1">   </i>Check-in
+                                    </a>
+                                    <a class="btn btn-warning btn-sm btn-action" style="opacity:1;" target="_blank"
+                                       asp-controller="StaffManagementRoom"
+                                       asp-action="ViewCalenderBookingOfRoom"
+                                       asp-route-NumberRoom="@room.NumberOfRooms"
+                                       asp-route-IdRoom="@room.IdRoom">
+                                        Lịch
+                                    </a>
+                                    <a class="btn btn-warning btn-sm btn-action" asp-action="ViewDetailRoomVer2"
+                                       asp-controller="ManagementRoom"
+                                       asp-route-idRoom="@room.IdRoom" class="lux-book-btn" target="_blank" style="text-decoration:none">
+                                        Xem chi tiết phòng
+                                    </a>
                                 </div>
-                                <div class="room-features">
-                                    @* @foreach (var feature in room.features) *@
-                                    @* { *@
-                                    @*     <span class="me-2 mb-1 d-inline-block"><i class="fas fa-check feature-icon"></i>@feature</span> *@
-                                    @* } *@
-                                </div>
-                                <div class="mt-1"><small class="text-muted"><i class="fas fa-user me-1"></i>Khách:</small></div>
-                                <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: bắt đầu</small></div>
-                                <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: ngày kết thúc</small></div>
-                            </div>
-                            <div class="room-actions">
-                                <a class="btn btn-success btn-sm btn-action" style="opacity:1;" target="_blank" asp-controller="StaffManagementRoom" asp-action="CheckInPassenger">
-                                    <i class="fas fa-plus me-1">   </i>Check-in
-                                </a>
-                                <button class="btn btn-warning btn-sm btn-action" style="pointer-events:none;opacity:1;">
-                                    <i class="fas fa-tools me-1"></i>Bảo trì
-                                </button>
-                                <a class="btn btn-warning btn-sm btn-action" asp-action="ViewDetailRoomVer2"
-                                   asp-controller="ManagementRoom"
-                                   asp-route-idRoom="@room.IdRoom" class="lux-book-btn" target="_blank" style="text-decoration:none">
-                                    Xem chi tiết phòng
-                                </a>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
                 }
             </div>
         </div>

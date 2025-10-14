@@ -1,4 +1,5 @@
 ﻿using Management_Hotel_2025.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomService
@@ -10,11 +11,14 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         public void UpdateRoom();
         public void DeleteRoom();
       
-        public void ViewDetailRoom();
+        public void ViewDetailRoom(int idRoom);
 
         public Task<List<ViewRoomModel>> FilterRoom(string Option, int? Floor, DateTime startdate, DateTime enddate);
 
         public Task<ViewRoomModel> FilterByIdRoom(string IdRoom);
 
+
+        public List<BookingInfo> GetListDateBookingOfRoom(int IdRoom);
+        
     }
 }

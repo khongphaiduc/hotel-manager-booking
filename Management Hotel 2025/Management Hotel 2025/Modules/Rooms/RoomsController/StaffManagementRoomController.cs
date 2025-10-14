@@ -57,6 +57,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         }
 
 
+        public IActionResult StaffViewDetailRoom(string IdRoom)
+        {
+            var Room = _IManagementRoom.FilterByIdRoom(IdRoom).Result;
+            return View(Room);
+        }
+
 
 
 
@@ -68,7 +74,14 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
 
+        // xem lịch đặt phòng của phòng
+        public IActionResult ViewCalenderBookingOfRoom(int IdRoom,string NumberRoom)
+        {
+            ViewBag.NumberRoom = NumberRoom;
+            var calender = _IManagementRoom.GetListDateBookingOfRoom(IdRoom);
 
+            return View(calender);
+        }
 
 
         // check in 

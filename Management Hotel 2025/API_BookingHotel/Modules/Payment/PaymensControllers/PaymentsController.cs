@@ -52,7 +52,7 @@ namespace API_BookingHotel.Modules.Payment.PaymensControllers
 
             if (response.Success)
             {
-                //var newbooking = new Booking()
+                //var newbooking = new Bookings()
                 //{
                 //    UserId = idUser,   // Name  = Email
                 //    BookingDate = DateTime.Now,

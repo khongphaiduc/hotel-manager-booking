@@ -1,0 +1,448 @@
+﻿@using System
+@using System.Collections.Generic
+@model IEnumerable<Management_Hotel_2025.ViewModel.BookingItem>
+
+@{
+    Layout = "~/Views/Shared/StaffHeader.cshtml";
+
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Danh sách Booking - Fullscreen</title>
+
+    <!-- Bootstrap CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+
+
+        /* --- CSS nội tuyến: giao diện full-screen và responsive --- */
+        html, body {
+            height: 100%;
+        }
+
+        /* Hiệu ứng fade-in mượt mà */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Nhịp nháy nhẹ cho icon kính lúp */
+        .animate-pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @@keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .app-fullscreen {
+            height: 100vh; /* full viewport height */
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+
+        .app-header {
+            height: 64px;
+            flex: 0 0 auto;
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            color: #212529;
+        }
+
+        .filters-panel {
+            flex: 0 0 auto;
+            border-top: 1px solid rgba(0,0,0,0.03);
+            background: #fff;
+        }
+
+        .app-content {
+            flex: 1 1 auto;
+            overflow: auto;
+        }
+
+        /* Make table headers more prominent */
+        .table thead th {
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #2c3e50;
+            background: linear-gradient(180deg, #f1f3f5, #e9ecef);
+            border-bottom: 2px solid rgba(0,0,0,0.06);
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+        }
+
+        .text-truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Make labels a bit stronger */
+        .filters-panel .form-label {
+            font-weight: 700;
+            color: #495057;
+            font-size: .86rem;
+        }
+
+        /* Shorter search box styling */
+        .search-short {
+            max-width: 360px;
+            min-width: 180px;
+        }
+
+        /* Responsive: chuyển table thành "cards" trên màn nhỏ */
+        @@media (max-width: 768px) {
+            .table thead {
+                display: none;
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+            }
+
+                .table tr {
+                    margin-bottom: 0.75rem;
+                    border: 1px solid #e9ecef;
+                    border-radius: 8px;
+                    padding: .6rem;
+                    background: #fff;
+                }
+
+                .table td {
+                    padding: .35rem .6rem;
+                }
+
+                    .table td::before {
+                        content: attr(data-label);
+                        font-weight: 700;
+                        display: inline-block;
+                        width: 42%;
+                        color: #6c757d;
+                    }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-fullscreen d-flex flex-column">
+
+        <!-- Filters -->
+        <div id="filtersPanel" class="filters-panel bg-white border-bottom">
+            <div class="container-fluid py-3">
+                <div class="row g-2 align-items-end">
+                    <!-- SEARCH: now in its own form. It preserves current dateFrom/dateTo via hidden inputs -->
+                    <!-- SEARCH -->
+                    <form method="get" asp-action="BookingsView" asp-controller="StaffManagementRoom" class="col-12 col-md-4" id="searchForm">
+                        <label class="form-label small mb-1">Tìm kiếm</label>
+                        <div class="input-group input-group-sm search-short">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="search" name="search" id="filterName"
+                                   class="form-control" placeholder="Mã booking, Tên khách, SDT, Email..." />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+
+                        <!-- Giữ lại ngày khi tìm -->
+                        <input type="hidden" name="DateStart" value="@ViewBag.DateStart" />
+                        <input type="hidden" name="EndDate" value="@ViewBag.EndDate" />
+                    </form>
+
+                    <!-- DATE RANGE: dateFrom + dateTo in single form -->
+                    <form method="get" asp-action="BookingsView" asp-controller="StaffManagementRoom" class="col-12 col-md-8" id="dateForm">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-12 col-md-3">
+                                <label class="form-label small mb-1">Ngày booking từ</label>
+                                <input type="date" name="DateStart" id="filterDateFrom" value="@ViewBag.DateStart" class="form-control form-control-sm" />
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <label class="form-label small mb-1">Ngày booking đến</label>
+                                <input type="date" name="EndDate" id="filterDateTo" value="@ViewBag.EndDate" class="form-control form-control-sm" />
+                            </div>
+
+                            <!-- Nút Đặt lại bên phải -->
+                            <div class="col-12 col-md-2 d-flex">
+                                <button type="button" id="btnResetDates" class="btn btn-outline-secondary btn-sm w-100">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i> Đặt lại
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content (scrollable) -->
+        <main class="app-content flex-fill overflow-auto">
+            <div class="container-fluid py-3">
+                <div class="table-responsive shadow-sm rounded bg-white">
+                    <table class="table table-hover table-bordered align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width:48px;">STT</th>
+                                <th>Mã booking</th>
+                                <th>Khách hàng</th>
+                                <th>SĐT</th>
+                                <th>Email</th>
+                                <th>Check-in / Check-out</th>
+                                <th style="width:120px;">Số lượng phòng</th>
+                                <th style="width:140px;">Trạng thái</th>
+                                <th>Ngày booking</th>
+                                <th style="width:180px;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingTableBody">
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="10" class="text-center py-5">
+                                        <div class="d-flex flex-column align-items-center justify-content-center fade-in">
+                                            <i class="bi bi-search display-4 text-primary mb-3 animate-pulse"></i>
+
+                                            <h5 class="fw-bold text-muted mb-2">Không tìm thấy kết quả phù hợp</h5>
+                                            <p class="text-secondary mb-3">Hãy thử thay đổi từ khóa hoặc chọn khoảng ngày khác.</p>
+                                            <button class="btn btn-outline-primary btn-sm shadow-sm" onclick="window.location.href='@Url.Action("BookingsView", "StaffManagementRoom")'">
+                                                <i class="bi bi-arrow-repeat me-1"></i> Quay lại danh sách
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var index = 1;
+                                foreach (var b in Model)
+                                {
+                                    <tr class="booking-row"
+                                        data-customer="@((b.CustomerName ?? "").ToLowerInvariant())"
+                                        data-bookingdate="@b.BookingDate.ToString("yyyy-MM-dd")">
+                                        <td data-label="STT">@index</td>
+                                        <td data-label="Mã booking" class="fw-bold">@b.Code</td>
+                                        <td data-label="Khách hàng">
+                                            <div class="text-truncate" style="max-width:200px;">@b.CustomerName</div>
+                                        </td>
+                                        <td data-label="SĐT">@b.Phone</td>
+                                        <td data-label="Email">@b.Email</td>
+                                        <td data-label="Check-in / Check-out">
+                                            <div class="small text-muted">
+                                                @b.CheckIn.ToString("dd/MM/yyyy") <span class="mx-1">→</span> @b.CheckOut.ToString("dd/MM/yyyy")
+                                            </div>
+                                        </td>
+                                        <td data-label="Số lượng phòng" class="text-center">@b.RoomCount</td>
+                                        <td data-label="Trạng thái">
+                                            @switch ((b.Status ?? "").ToLowerInvariant())
+                                            {
+                                                case "pending":
+                                                    <span class="badge bg-secondary">Chờ xử lý</span>
+                                                    ;
+                                                    break;
+                                                case "confirmed":
+                                                    <span class="badge bg-primary">Đã xác nhận</span>
+                                                    ;
+                                                    break;
+                                                case "checkedin":
+                                                case "checked_in":
+                                                    <span class="badge bg-success">Đã nhận phòng</span>
+                                                    ;
+                                                    break;
+                                                case "completed":
+                                                    <span class="badge bg-info text-dark">Hoàn tất</span>
+                                                    ;
+                                                    break;
+                                                case "cancelled":
+                                                case "canceled":
+                                                    <span class="badge bg-danger">Đã hủy</span>
+                                                    ;
+                                                    break;
+                                                default:
+                                                    <span class="badge bg-light text-dark">@b.Status</span>
+                                                    ;
+                                                    break;
+                                            }
+                                        </td>
+                                        <td data-label="Ngày booking">@b.BookingDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td data-label="Hành động">
+                                            <div class="btn-group" role="group" aria-label="Actions">
+                                                <a href="@Url.Action("Details", "Bookings", new { id = b.Code })" class="btn btn-sm btn-outline-primary" title="Xem">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    index++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS (popper + bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        (function () {
+            const filterName = document.getElementById('filterName');
+            const btnClearName = document.getElementById('btnClearName');
+            const btnSubmitSearch = document.getElementById('btnSubmitSearch');
+
+            const filterDateFrom = document.getElementById('filterDateFrom');
+            const filterDateTo = document.getElementById('filterDateTo');
+            const btnClearDates = document.getElementById('btnClearDates');
+            const dateForm = document.getElementById('dateForm');
+
+            // Show or hide clear button for search
+            function updateSearchClearVisibility() {
+                if (filterName && btnClearName) {
+                    if (filterName.value && filterName.value.trim().length > 0) {
+                        btnClearName.classList.remove('d-none');
+                    } else {
+                        btnClearName.classList.add('d-none');
+                    }
+                }
+            }
+
+            if (filterName) {
+                filterName.addEventListener('input', updateSearchClearVisibility);
+                // Pressing Enter in search should submit search form.
+                filterName.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        // submit the containing form
+                        const form = filterName.closest('form');
+                        if (form) form.submit();
+                    }
+                });
+            }
+
+            if (btnClearName) {
+                btnClearName.addEventListener('click', function () {
+                    filterName.value = '';
+                    // submit search form with cleared q but keep dateFrom/dateTo because hidden inputs exist
+                    const form = document.getElementById('searchForm');
+                    if (form) form.submit();
+                });
+            }
+
+            // DATE validation: ensure dateFrom <= dateTo
+            if (dateForm) {
+                dateForm.addEventListener('submit', function (e) {
+                    const vFrom = filterDateFrom.value;
+                    const vTo = filterDateTo.value;
+                    if (vFrom && vTo) {
+                        const dFrom = new Date(vFrom);
+                        const dTo = new Date(vTo);
+                        if (dFrom > dTo) {
+                            e.preventDefault();
+                            // Nếu muốn thay vì báo lỗi có thể hoán đổi tự động; ở đây hiển thị alert
+                            alert('Ngày bắt đầu không được lớn hơn ngày kết thúc. Vui lòng sửa lại.');
+                            return false;
+                        }
+                    }
+                });
+            }
+
+            if (btnClearDates) {
+                btnClearDates.addEventListener('click', function () {
+                    // Clear only date fields and submit form (preserving q via hidden input)
+                    if (filterDateFrom) filterDateFrom.value = '';
+                    if (filterDateTo) filterDateTo.value = '';
+                    const f = document.getElementById('dateForm');
+                    if (f) f.submit();
+                });
+            }
+
+            // Khởi tạo hiển thị nút clear nếu có giá trị ban đầu
+            updateSearchClearVisibility();
+        })();
+
+
+                document.addEventListener("DOMContentLoaded", function () {
+            const dateForm = document.getElementById("dateForm");
+            const filterDateFrom = document.getElementById("filterDateFrom");
+            const filterDateTo = document.getElementById("filterDateTo");
+
+            function autoSubmitDateForm() {
+                if (dateForm) {
+                    // Kiểm tra hợp lệ trước khi gửi (ngày từ <= ngày đến)
+                    const vFrom = filterDateFrom.value;
+                    const vTo = filterDateTo.value;
+
+                    if (vFrom && vTo && new Date(vFrom) > new Date(vTo)) {
+                        alert("Ngày bắt đầu không được lớn hơn ngày kết thúc.");
+                        return;
+                    }
+
+                    dateForm.submit();
+                }
+            }
+
+            // Khi chọn ngày trong 1 trong 2 ô thì tự động submit
+            if (filterDateFrom) filterDateFrom.addEventListener("change", autoSubmitDateForm);
+            if (filterDateTo) filterDateTo.addEventListener("change", autoSubmitDateForm);
+        });
+
+             document.addEventListener("DOMContentLoaded", function () {
+            const btnResetDates = document.getElementById("btnResetDates");
+            const filterDateFrom = document.getElementById("filterDateFrom");
+            const filterDateTo = document.getElementById("filterDateTo");
+            const dateForm = document.getElementById("dateForm");
+
+            if (btnResetDates) {
+                btnResetDates.addEventListener("click", function () {
+                    // Xóa giá trị ngày
+                    filterDateFrom.value = "";
+                    filterDateTo.value = "";
+
+                    // Gửi lại form để hiển thị toàn bộ danh sách booking
+                    dateForm.submit();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

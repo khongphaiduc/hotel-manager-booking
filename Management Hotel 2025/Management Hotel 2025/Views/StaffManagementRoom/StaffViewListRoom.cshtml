@@ -274,6 +274,25 @@
                 background: rgba(0,0,0,0.2);
                 border-radius: 3px;
             }
+
+
+        .no-results {
+            text-align: center;
+            padding: 3.5rem 1rem;
+            color: #6c757d;
+            background: linear-gradient(45deg, #f8f9fa 70%, #eaf6ff 100%);
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(52, 152, 219, 0.08);
+            margin: 2rem 0;
+            animation: fadeIn 0.5s;
+        }
+
+        .no-results-icon {
+            font-size: 3.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -313,7 +332,7 @@
                             <label class="form-label">Ngày kết thúc</label>
                             <input type="date" class="form-control" value="@ViewBag.EndDate" name="EndDate" onchange="resetPageAndSubmit()">
                         </div>
-                        <button type="button" class="btn btn-reset text-white flex-fill">
+                        <button type="button" class="btn btn-reset text-white flex-fill" onclick="resetOption()">
                             <i class="fas fa-undo me-1"></i>Reset
                         </button>
 
@@ -366,14 +385,23 @@
             <div class="row">
 
 
-                @if (Model.Count() == 0)
+
+
+
+                @if (Model.Count() == 0 || Model.Any(s => s.NumberOfRooms == null))
                 {
-                    <img src="https://i.pinimg.com/originals/34/eb/f9/34ebf9ac490a19519396ea3c4b2a6009.jpg" alt="Alternate Text" />
+                    <div class="col-12">
+                        <div class="no-results fade-in">
+                            <span class="no-results-icon">
+                                <i class="fas fa-search-minus"></i>
+                            </span>
+                            <h4>Không tìm thấy kết quả phù hợp</h4>
+                            <p>Vui lòng kiểm tra lại bộ lọc hoặc thử tìm kiếm với thông tin khác.</p>
+                        </div>
+                    </div>
                 }
                 else
                 {
-
-
                     @foreach (var room in Model)
                     {
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 fade-in">
@@ -411,7 +439,7 @@
                                     <div class="mt-1"><small class="text-muted"><i class="fas fa-calendar me-1"></i>Ngày: ngày kết thúc</small></div>
                                 </div>
                                 <div class="room-actions">
-                                    <a class="btn btn-success btn-sm btn-action" style="opacity:1;" target="_blank" asp-controller="StaffManagementRoom" asp-action="CheckInPassenger">
+                                    <a class="btn btn-success btn-sm btn-action" style="opacity:1;" target="_blank" asp-controller="StaffManagementRoom" asp-action="CheckInPassengers">
                                         <i class="fas fa-plus me-1">   </i>Check-in
                                     </a>
                                     <a class="btn btn-warning btn-sm btn-action" style="opacity:1;" target="_blank"
@@ -439,6 +467,7 @@
             document.getElementById("lux-filter-form").submit();
         }
         function resetOption() {
+             document.querySelector('[name="option"]').value = "";
             document.querySelector('[name="Floor"]').value = "";
             document.querySelector('[name="StartDate"]').value = "";
             document.querySelector('[name="EndDate"]').value = "";

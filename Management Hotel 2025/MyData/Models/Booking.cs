@@ -10,6 +10,8 @@ public partial class Booking
 
     public int? UserId { get; set; }   // có thể null nếu là khách walk-in
 
+    public string? BookingCode { get; set; } // mã code booking để khách checkin   
+
     public string BookingSource { get; set; } = "Website";   // Website, App, Phone, WalkIn, TravelAgency    
 
     public string Status { get; set; } = "Pending";   // Pending, Confirmed, Cancelled, CheckedIn, CheckedOut

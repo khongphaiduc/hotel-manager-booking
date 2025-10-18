@@ -2,6 +2,7 @@
 
 using Management_Hotel_2025.Modules.AuthenSerive;
 using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
+using Management_Hotel_2025.Modules.Rooms.ManagementRoom;
 using Management_Hotel_2025.Modules.Rooms.RoomService;
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
+
 
 namespace Management_Hotel_2025
 {
@@ -73,7 +75,7 @@ namespace Management_Hotel_2025
 
             builder.Services.AddTransient<IRoomService, RoomSerices>();
             builder.Services.AddTransient<IManagementRoom, FilterRooms>();
-
+            builder.Services.AddTransient<IManagementBooking, ManagementBooking>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

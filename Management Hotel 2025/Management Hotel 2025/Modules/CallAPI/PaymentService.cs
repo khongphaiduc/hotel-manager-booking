@@ -30,7 +30,7 @@ namespace Management_Hotel_2025.Modules.CallAPI
 
             Tham số 2: Encoding.UTF8 → mã hóa chuỗi JSON theo chuẩn UTF-8 (tránh lỗi tiếng Việt, ký tự đặc biệt).
 
-            Tham số 3: "application/json" → đây là Content-Type header của HTTP request, báo cho server biết body này là JSON*//*
+            Tham số 3: "application/json" → đây là Content-type header của HTTP request, báo cho server biết body này là JSON*//*
 
             var response = await _httpClient.PostAsync(_configuration["ApiHotel:VnPayPayment"],content);
           

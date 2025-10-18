@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mydata.Models;
+
 namespace API_BookingHotel.Modules.Rooms.RoomsController
 {
     [Route("api/getbooking")]

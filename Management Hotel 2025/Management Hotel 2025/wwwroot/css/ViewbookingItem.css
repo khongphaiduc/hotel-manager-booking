@@ -1,0 +1,48 @@
+﻿/* bookings.css - một vài tuỳ chỉnh nhỏ để giao diện đẹp hơn */
+
+.table thead th {
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 0.85rem;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive: trên màn hình nhỏ giảm chữ để vừa */
+@media (max-width: 576px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tbody td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table tbody tr {
+        margin-bottom: 0.75rem;
+        display: block;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 0.5rem;
+        background: #fff;
+    }
+
+    .table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        display: inline-block;
+        width: 40%;
+        color: #6c757d;
+    }
+}

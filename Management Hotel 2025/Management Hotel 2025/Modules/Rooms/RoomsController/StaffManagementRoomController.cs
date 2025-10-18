@@ -1,19 +1,25 @@
-﻿using Management_Hotel_2025.Modules.Rooms.RoomService;
+﻿
+using Management_Hotel_2025.Modules.Rooms.ManagementRoom;
+using Management_Hotel_2025.Modules.Rooms.RoomService;
 using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Net.WebSockets;
+
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 {
     public class StaffManagementRoomController : Controller
     {
         private readonly IManagementRoom _IManagementRoom;
-
+        private readonly IManagementBooking _IManagementBooking;
 
         public List<Passengers> PassengersList { get; set; } = new List<Passengers>();
-        public StaffManagementRoomController(IManagementRoom managementRoom)
+        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking)
         {
             _IManagementRoom = managementRoom;
+            _IManagementBooking = managementBooking;
         }
 
 
@@ -28,6 +34,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
                 EndDate = Today.AddDays(7);
             }
 
+            if (option == null)
+            {
+                option = "all";
+            }
+
+
             // 👇 Gán sau khi đã xử lý mặc định
             ViewBag.option = option;
             ViewBag.Floor = Floor;
@@ -38,7 +50,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
             return View(ListRoom);
         }
-
+        // search room
         [Authorize(Roles = "Staff,Admin")]
         [HttpGet]
         public async Task<IActionResult> StaffSearchByIdRoom(string IdRoom)
@@ -75,7 +87,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
         // xem lịch đặt phòng của phòng
-        public IActionResult ViewCalenderBookingOfRoom(int IdRoom,string NumberRoom)
+        public IActionResult ViewCalenderBookingOfRoom(int IdRoom, string NumberRoom)
         {
             ViewBag.NumberRoom = NumberRoom;
             var calender = _IManagementRoom.GetListDateBookingOfRoom(IdRoom);
@@ -84,13 +96,26 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         }
 
 
+        // xem sơ đồ phòng 
+
+
+        public IActionResult ViewMapOfRoom()
+        {
+            return View(_IManagementRoom.getListMapRoomToDay());
+        }
+
+
+
+
+
+
+
         // check in 
-        public IActionResult CheckInPassenger(Passengers passengers)
+        public IActionResult CheckInPassengers()
         {
 
-            PassengersList.Add(passengers);
 
-            return View(PassengersList);
+            return View();
         }
 
 
@@ -101,8 +126,30 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         }
 
 
+        // xem danh sách booking theo ngày hoặc tìm kiếm theo mã booking
 
+        public IActionResult BookingsView(string search, DateTime? DateStart, DateTime? EndDate)
+        {
+            // Nếu không có ngày được chọn => mặc định 1 tháng trước đến 1 tháng sau
+            DateTime start = DateStart ?? DateTime.Now.AddMonths(-1);
+            DateTime end = EndDate ?? DateTime.Now.AddMonths(1);
 
+            ViewBag.DateStart = start.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = end.ToString("yyyy-MM-dd");
+
+            List<BookingItem> list;
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = _IManagementBooking.GetListBooking(search);
+            }
+            else
+            {
+                list = _IManagementBooking.GetListBooking(start, end);
+            }
+
+            return View(list);
+        }
 
     }
 }

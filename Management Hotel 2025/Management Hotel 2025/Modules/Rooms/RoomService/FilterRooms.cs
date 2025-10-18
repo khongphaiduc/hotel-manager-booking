@@ -1,4 +1,5 @@
-﻿using Management_Hotel_2025.ViewModel;
+﻿
+using Management_Hotel_2025.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
 using System.Threading.Tasks;
@@ -106,7 +107,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                      EndDate = s.CheckOutDate.Value,
                      CustomerName = s.Booking.CustomerName,
                      Status = s.Booking.Status,
-                    
+
                  }).ToList();
             return list;
         }
@@ -115,5 +116,28 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         {
             throw new NotImplementedException();
         }
+
+        public List<MapRoom> getListMapRoomToDay()
+        {
+            // sử dụng toán tử 3 ngôi  lồng nhau
+            DateTime today = DateTime.Now.Date;
+
+            var list = _Dbcontext.Rooms
+                  .Include(s => s.BookingDetails).Include(s => s.RoomType)
+                  .Select(s => new MapRoom()
+                  {
+
+                      IdRoom = s.RoomId,
+                      number = s.RoomNumber,
+                      type = s.RoomType.Name,
+                      status = s.Status.Equals("occupied") ? "occupied"  : s.Status.Equals("blocked")  ? "blocked" : s.Status.Equals("overdue") ? "overdue" : s.BookingDetails.Any(b => b.CheckInDate <= today && b.CheckOutDate >= today) ? "reserved"   : "available"
+   
+
+                  }).ToList();
+
+            return list;
+        }
+
+
     }
 }

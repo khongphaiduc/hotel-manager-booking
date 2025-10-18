@@ -45,37 +45,38 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "Home")">
-                            <i class="fas fa-file-invoice-dollar me-1"></i> Trang Chủ
+                            <i class="fas fa-file-invoice-dollar me-1"></i> Danh sách phòng
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("StaffViewListRoom", "StaffManagementRoom")">
-                            <i class="fas fa-bed me-1"></i> Danh sách phòng
+                        <a class="nav-link" href="@Url.Action("ViewMapOfRoom", "StaffManagementRoom")">
+                            <i class="fas fa-bed me-1"></i> Sơ đồ phòng
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Create", "Booking")">
-                            <i class="fas fa-calendar-plus me-1"></i> Đặt phòng
+                        <a class="nav-link" target="_blank" href="@Url.Action("CheckInPassengers", "StaffManagementRoom")">
+                            <i class="fas fa-calendar-plus me-1"></i> Nhận phòng
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Cancel", "Booking")">
-                            <i class="fas fa-ban me-1"></i> Hủy phòng
+                        <a class="nav-link" href="@Url.Action("Cancel", "Bookings")">
+                            <i class="fas fa-ban me-1"></i> Quản lý phòng
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("CheckIn", "Booking")">
-                            <i class="fas fa-sign-in-alt me-1"></i> Dịch Vụ
+                        <a class="nav-link" href="@Url.Action("CheckIn", "Bookings")">
+                            <i class="fas fa-sign-in-alt me-1"></i> Quản lý dịch vụ
                         </a>
                     </li>
 
+                  
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("CheckOut", "Booking")">
-                            <i class="fas fa-sign-out-alt me-1"></i> Check-out
+                        <a class="nav-link" href="@Url.Action("BookingsView", "StaffManagementRoom")">
+                            <i class="fas fa-sign-in-alt me-1"></i> Quản lý booking
                         </a>
                     </li>
 

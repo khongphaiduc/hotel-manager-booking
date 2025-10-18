@@ -28,16 +28,7 @@
 
         <div class="lux-room-filter">
             <form id="lux-filter-form" asp-action="ViewListRoomVer2" asp-controller="ManagementRoom" method="get" style="display: flex; gap: 32px; align-items: center;">
-                <label>
-                    Trạng Thái:
-                    <select name="option" id="filter-floor" onchange="resetPageAndSubmit()">
-                        <option value="">Tất cả</option>
-                        <option value="1" selected="@(ViewBag.option == 1 ? "selected" : null)">Chống</option>
-                        <option value="2" selected="@(ViewBag.Floor == 2 ? "selected" : null)">Bảo Trì</option>
-                    </select>
-
-
-                </label>
+             
                 <label>
                     Tầng:
                     <select name="Floor" id="filter-floor" onchange="resetPageAndSubmit()">
@@ -50,6 +41,8 @@
                         <option value="6" selected="@(ViewBag.Floor == 6 ? "selected" : null)">Tầng 6</option>
                         <option value="7" selected="@(ViewBag.Floor == 7 ? "selected" : null)">Tầng 7</option>
                         <option value="8" selected="@(ViewBag.Floor == 8 ? "selected" : null)">Tầng 8</option>
+                          <option value="9" selected="@(ViewBag.Floor == 9 ? "selected" : null)">Tầng 9</option>
+                        <option value="10" selected="@(ViewBag.Floor == 10? "selected" : null)">Tầng 10</option>
                     </select>
                 </label>
                 <label>

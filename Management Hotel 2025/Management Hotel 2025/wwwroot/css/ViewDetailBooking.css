@@ -1,0 +1,168 @@
+﻿body {
+    font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f8f9fa;
+    color: #343a40;
+}
+
+/* Card */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+    }
+
+    /* Card title */
+    .card .card-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+/* Avatar */
+.avatar img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.08);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* Status pill & Badge */
+.status-pill, .badge {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 50px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .status-pill.confirmed {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+    .status-pill.pending {
+        background: #ffc107;
+        color: #212529;
+    }
+
+    .status-pill.cancelled {
+        background: #dc3545;
+    }
+
+    .status-pill.checked-in {
+        background: #198754;
+    }
+
+    .status-pill.on-hold {
+        background: #6c757d;
+    }
+
+    .badge.available {
+        background: #198754;
+    }
+
+    .badge.occupied {
+        background: #dc3545;
+    }
+
+    .badge.cleaning {
+        background: #ffc107;
+        color: #212529;
+    }
+
+/* Buttons */
+.btn-success {
+    background-image: linear-gradient(180deg,#1fbf67,#0f9a4a);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-outline-primary, .btn-outline-secondary, .btn-outline-danger {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/* Progress bar */
+.progress {
+    height: 10px;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.05);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+/* Stay Info */
+.stay-info-card .stay-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+}
+
+.stay-item .icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+}
+
+.stay-item:hover {
+    transform: translateY(-3px);
+    background: rgba(13,110,253,0.05);
+}
+
+.stay-item .icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stay-item .fw-bold {
+    font-size: 1.1rem;
+    color: #212529;
+}
+
+.stay-item .text-muted {
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+}
+
+/* Accordion */
+.accordion-button:not(.collapsed) {
+    background: rgba(13,110,253,0.05);
+}
+/* Button xem chi tiết */
+.accordion-body .btn-outline-primary {
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .accordion-body .btn-outline-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+/* Card chi tiết phòng */
+.accordion-body .collapse .card {
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    padding: 10px 12px;
+}

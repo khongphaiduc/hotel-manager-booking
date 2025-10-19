@@ -165,6 +165,16 @@ namespace Management_Hotel_2025.Modules.Rooms.ManagementRoom
 
         }
 
+        public List<ViewBookingDetail> ViewDetailBooking(string BookingCode)
+        {
 
+
+
+
+
+
+
+            throw new NotImplementedException();
+        }
     }
 }

@@ -47,10 +47,12 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
 
 
 
-        
+
         [HttpGet]
         public IActionResult PaymentCallbackVnpay()
         {
+            string codeHotel = "TDH";
+
             PaymentResponseModel response = _vnPayService.PaymentExecute(Request.Query);
 
             var IdUser = User.FindFirst("IdUser")?.Value;
@@ -73,6 +75,25 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
             if (response.Success)
             {
 
+
+                string? OldCodeBooking = _dbcontext.Bookings
+                    .OrderByDescending(s => s.BookingCode)
+                    .Select(s => s.BookingCode)
+                    .FirstOrDefault();
+
+
+                if (string.IsNullOrEmpty(OldCodeBooking))
+                {
+                    OldCodeBooking = "TDH000001";
+                }
+
+                // lấy số  nguyên cộng  thêm 1 , bỏ 3 ký tự đầu
+                int Code = int.Parse(OldCodeBooking.Substring(3)) + 1;
+
+                // chuyuern 
+                string CodeBookingCode = codeHotel + Code.ToString("D6");
+
+
                 var NewBooking = new Booking
                 {
                     BookingDate = DateTime.Now,
@@ -84,6 +105,7 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
                     CustomerPhone = CustomerPhone,
                     Nationality = Nationality,
                     Email = Email,
+                    BookingCode = CodeBookingCode
                 };
                 // check xem có id thằng user không thì mới gán
                 if (Id != 0)

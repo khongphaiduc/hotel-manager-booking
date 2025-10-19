@@ -28,7 +28,7 @@
 
         <div class="lux-room-filter">
             <form id="lux-filter-form" asp-action="ViewListRoomVer2" asp-controller="ManagementRoom" method="get" style="display: flex; gap: 32px; align-items: center;">
-             
+
                 <label>
                     Tầng:
                     <select name="Floor" id="filter-floor" onchange="resetPageAndSubmit()">
@@ -41,7 +41,7 @@
                         <option value="6" selected="@(ViewBag.Floor == 6 ? "selected" : null)">Tầng 6</option>
                         <option value="7" selected="@(ViewBag.Floor == 7 ? "selected" : null)">Tầng 7</option>
                         <option value="8" selected="@(ViewBag.Floor == 8 ? "selected" : null)">Tầng 8</option>
-                          <option value="9" selected="@(ViewBag.Floor == 9 ? "selected" : null)">Tầng 9</option>
+                        <option value="9" selected="@(ViewBag.Floor == 9 ? "selected" : null)">Tầng 9</option>
                         <option value="10" selected="@(ViewBag.Floor == 10? "selected" : null)">Tầng 10</option>
                     </select>
                 </label>
@@ -210,8 +210,24 @@
 
     <script src="~/js/ViewListRoom.js"></script>
     <script>
-        function resetPageAndSubmit() {
-            document.getElementById("page-current").value = 1; // reset về trang 1
+
+      
+          function resetPageAndSubmit() {
+            // Lấy giá trị ngày
+            var startDate = document.querySelector('[name="StartDate"]').value;
+            var endDate = document.querySelector('[name="EndDate"]').value;
+
+            // Nếu cả hai ngày đều có giá trị thì kiểm tra
+            if (startDate && endDate) {
+                if (new Date(endDate) < new Date(startDate)) {
+                    alert("Ngày trả phòng không được nhỏ hơn ngày nhận phòng!");
+                    document.querySelector('[name="EndDate"]').focus();
+                    return; // không submit form
+                }
+            }
+
+            // reset về trang 1 và submit
+            document.getElementById("page-current").value = 1;
             document.getElementById("lux-filter-form").submit();
         }
 
@@ -223,7 +239,10 @@
             document.querySelector('[name="StartDate"]').value = "";
             document.querySelector('[name="EndDate"]').value = "";
             document.getElementById("lux-filter-form").submit();
+             document.getElementById("page-current").value = 1; 
+            document.getElementById("lux-filter-form").submit();
         }
+
 
     </script>
 </body>

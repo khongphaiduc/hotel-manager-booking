@@ -54,8 +54,8 @@ namespace Management_Hotel_2025.ViewModel
         public decimal Discount { get; set; }
 
         public string PaymentMethod { get; set; } // Cash, Card, Transfer
-        public string PaymentStatus { get; set; } // Chưa thanh toán, Đã thanh toán
-        public decimal AmountDue { get; set; }
+      
+ 
 
         // 7️⃣ Lịch sử thay đổi & ghi chú
         public List<string> ModifiedBy { get; set; } = new List<string>();

@@ -95,7 +95,7 @@ namespace Management_Hotel_2025
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Intro}/{id?}");
             /*            Nếu người dùng truy cập vào địa chỉ gốc của website(ví dụ: /),
                                  thì sẽ chuyển tới controller là Home và action là Index. 
 

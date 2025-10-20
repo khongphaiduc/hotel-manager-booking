@@ -1,6 +1,7 @@
 ﻿using Management_Hotel_2025.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Management_Hotel_2025.Modules.Rooms.ManagementRoom
 {
@@ -165,16 +166,41 @@ namespace Management_Hotel_2025.Modules.Rooms.ManagementRoom
 
         }
 
-        public List<ViewBookingDetail> ViewDetailBooking(string BookingCode)
+        public ViewBookingDetail ViewDetailBooking(string BookingCode)
         {
 
+            var ViewBookingDetail = _Dbcontext.Bookings.Include(s => s.BookingDetails)
+                 .ThenInclude(s => s.Room)
+                 .ThenInclude(s => s.RoomType)
+                 .Where(s => s.BookingCode.Equals(BookingCode))
+                 .Select(s => new ViewBookingDetail()
+                 {
+                     BookingCode = s.BookingCode,
+                     CreatedDate = s.BookingDate,
+                     BookingStatus = s.Status,
+                     CustomerFullName = s.CustomerName,
+                     CustomerPhone = s.CustomerPhone,
+                     CustomerEmail = s.Email,
+                     NumberOfRoom = s.BookingDetails.Count,
+                     Rooms = s.BookingDetails.Select(bd => bd.Room).ToList(),
+                     RoomsType = s.BookingDetails.Select(bd => bd.Room.RoomType).ToList(),
+                     CheckInDate = (DateTime)s.BookingDetails.Select(bd => bd.CheckInDate).FirstOrDefault(),
+                     CheckOutDate = (DateTime)s.BookingDetails.Select(bd => bd.CheckOutDate).FirstOrDefault(),
+                     TotalAmountRoom = s.TotalAmountBooking,
+                     DepositAmount = s.DepositAmount,
+                     Discount = 0,
+                     PaymentMethod = "Credit Card",
+                     
 
 
 
+                 }).FirstOrDefault();
 
 
-
-            throw new NotImplementedException();
+            return ViewBookingDetail ?? new ViewBookingDetail()
+            {
+                BookingCode = "Booking không tồn tại.",
+            };
         }
     }
 }

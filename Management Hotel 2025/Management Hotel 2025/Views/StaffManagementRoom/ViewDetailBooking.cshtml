@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/StaffHeader.cshtml";
     string currencyFormat = "{0:N0} ₫";
     var Model = new
     {
@@ -56,13 +56,10 @@
                 <small class="text-muted">Mã: <strong>@Model.BookingCode</strong></small>
             </div>
             <div class="text-end">
-                <div class="mb-2">
-                    <span class="badge bg-primary me-2">@Model.BookingStatus</span>
-                    <small class="text-muted">Nguồn: @Model.BookingSource</small>
-                </div>
+
                 <div class="d-flex gap-2 flex-wrap">
-                    <button class="btn btn-success btn-sm"><i class="bi bi-door-open-fill"></i> Check-In</button>
-                    <button class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right"></i> Check-Out</button>
+                    <button class="btn btn-success btn-sm"><i class="bi bi-door-open-fill"></i> Nhận phòng</button>
+                    <button class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right"></i> Trả phòng</button>
                     <div class="btn-group">
                         <button class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope-paper"></i> Gửi email</button>
                         <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-printer"></i> In hóa đơn</button>
@@ -81,11 +78,11 @@
                         <dl class="row">
                             <dt class="col-5 text-muted">Mã Booking</dt>
                             <dd class="col-7"><strong>@Model.BookingCode</strong></dd>
-                            <dt class="col-5 text-muted">Ngày tạo</dt>
+                            <dt class="col-5 text-muted">Ngày tạo </dt>
                             <dd class="col-7">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</dd>
                             <dt class="col-5 text-muted">Trạng thái</dt>
                             <dd class="col-7">@Model.BookingStatus</dd>
-                            <dt class="col-5 text-muted">Nguồn</dt>
+                            <dt class="col-5 text-muted">Nguồn Booking</dt>
                             <dd class="col-7">@Model.BookingSource</dd>
                         </dl>
                     </div>
@@ -146,7 +143,7 @@
                             <div class="col-md-4">
                                 <div class="stay-item">
                                     <div class="icon bg-primary text-white"><i class="bi bi-door-open-fill"></i></div>
-                                    <div class="text-muted">Check-in</div>
+                                    <div class="text-muted">Nhận phòng dự kiến</div>
                                     <div class="fw-bold">@Model.CheckInDate.ToString("dd MMM yyyy")</div>
                                     <small class="text-muted">@Model.CheckInDate.ToString("HH:mm")</small>
                                 </div>
@@ -154,7 +151,7 @@
                             <div class="col-md-4">
                                 <div class="stay-item">
                                     <div class="icon bg-danger text-white"><i class="bi bi-box-arrow-right"></i></div>
-                                    <div class="text-muted">Check-out</div>
+                                    <div class="text-muted">Trả phòng dự kiến</div>
                                     <div class="fw-bold">@Model.CheckOutDate.ToString("dd MMM yyyy")</div>
                                     <small class="text-muted">@Model.CheckOutDate.ToString("HH:mm")</small>
                                 </div>
@@ -162,7 +159,7 @@
                             <div class="col-md-4">
                                 <div class="stay-item">
                                     <div class="icon bg-success text-white"><i class="bi bi-calendar3"></i></div>
-                                    <div class="text-muted">Số đêm</div>
+                                    <div class="text-muted">Tổng Số đêm</div>
                                     <div class="fw-bold">@Model.NumberOfNights</div>
                                 </div>
                             </div>

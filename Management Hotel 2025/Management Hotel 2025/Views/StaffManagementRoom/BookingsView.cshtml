@@ -264,8 +264,21 @@
                                         <td data-label="Khách hàng">
                                             <div class="text-truncate" style="max-width:200px;">@b.CustomerName</div>
                                         </td>
+
+
+
                                         <td data-label="SĐT">@b.Phone</td>
-                                        <td data-label="Email">@b.Email</td>
+
+
+                                        @if (string.IsNullOrEmpty(b.Email))
+                                        {
+                                            <td data-label="Email" style="color:chocolate"> Email Trống </td>
+                                        }
+                                        else
+                                        {
+                                            <td data-label="Email">@b.Email </td>
+                                        }
+
                                         <td data-label="Check-in / Check-out">
                                             <div class="small text-muted">
                                                 @b.CheckIn.ToString("dd/MM/yyyy") <span class="mx-1">→</span> @b.CheckOut.ToString("dd/MM/yyyy")

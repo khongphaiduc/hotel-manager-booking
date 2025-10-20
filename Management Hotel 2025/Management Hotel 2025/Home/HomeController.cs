@@ -29,6 +29,13 @@ namespace Management_Hotel_2025.Controllers
             }
         }
 
+
+        public IActionResult Intro()
+        {
+            return View();
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

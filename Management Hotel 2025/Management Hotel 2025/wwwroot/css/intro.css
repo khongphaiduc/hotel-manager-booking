@@ -147,11 +147,28 @@ html, body {
     transition: opacity 0.95s ease 0.08s, transform 0.95s cubic-bezier(.2,.9,.2,1) 0.08s;
 }
 
+    /* Make sure children (text, buttons) sit above the star canvas */
+    .intro-content > * {
+        position: relative;
+        z-index: 2;
+    }
+
     .intro-content.revealed {
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: auto;
     }
+
+/* Starfield canvas inside intro-content */
+#starfield {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: screen; /* lighten the background where stars are */
+    filter: blur(0.6px) saturate(1.2);
+    opacity: 0.98;
+}
 
 /* Typography (larger) */
 .main-title {
@@ -347,4 +364,13 @@ html, body {
         width: 62%;
         background-position: center;
     }
+}
+#starfield {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: screen; /* lighten the background where stars are */
+    filter: blur(0.6px) saturate(1.2);
+    opacity: 0.98;
 }

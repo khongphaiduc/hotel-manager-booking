@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 using Mydata.Models;
 
@@ -15,6 +15,7 @@ namespace Management_Hotel_2025.Controllers
             _logger = logger;
             _dbcontext = context;
         }
+
 
         public IActionResult Index()
         {

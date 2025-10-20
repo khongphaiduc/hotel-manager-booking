@@ -151,10 +151,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             return View(list);
         }
 
-        public IActionResult ViewDetailBooking()
+        // xem detail booking
+        public IActionResult ViewDetailBooking(string Code)
         {
-          
-            return View();
+            var detailbooking = _IManagementBooking.ViewDetailBooking(Code);
+
+            return View(detailbooking);
         }
 
     }

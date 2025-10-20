@@ -166,6 +166,8 @@ namespace Management_Hotel_2025.Modules.Rooms.ManagementRoom
 
         }
 
+
+        // xem chi tiết booking 
         public ViewBookingDetail ViewDetailBooking(string BookingCode)
         {
 
@@ -182,17 +184,24 @@ namespace Management_Hotel_2025.Modules.Rooms.ManagementRoom
                      CustomerPhone = s.CustomerPhone,
                      CustomerEmail = s.Email,
                      NumberOfRoom = s.BookingDetails.Count,
-                     Rooms = s.BookingDetails.Select(bd => bd.Room).ToList(),
-                     RoomsType = s.BookingDetails.Select(bd => bd.Room.RoomType).ToList(),
+                     BookingSource = s.BookingSource,
+                     ListDetailRoom = s.BookingDetails.Select(bd => new ViewDetailRoom()
+                     {
+                         RoomNumber = bd.Room.RoomNumber,
+                         NameType = bd.Room.RoomType.Name,
+                         Price = bd.Room.RoomType.Price,
+                         Status = bd.Room.Status,
+                         MaxGuests = bd.Room.RoomType.MaxGuests.ToString(),
+                         Description = bd.Room.Description,
+
+                     }).ToList(),
+
                      CheckInDate = (DateTime)s.BookingDetails.Select(bd => bd.CheckInDate).FirstOrDefault(),
                      CheckOutDate = (DateTime)s.BookingDetails.Select(bd => bd.CheckOutDate).FirstOrDefault(),
                      TotalAmountRoom = s.TotalAmountBooking,
                      DepositAmount = s.DepositAmount,
                      Discount = 0,
                      PaymentMethod = "Credit Card",
-                     
-
-
 
                  }).FirstOrDefault();
 

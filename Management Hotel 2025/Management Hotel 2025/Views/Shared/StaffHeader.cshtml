@@ -51,7 +51,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("ViewMapOfRoom", "StaffManagementRoom")">
-                            <i class="fas fa-bed me-1"></i> Sơ đồ phòng
+                            <i class="fas fa-map me-1"></i> Sơ đồ phòng
                         </a>
                     </li>
 
@@ -63,26 +63,20 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Cancel", "Bookings")">
-                            <i class="fas fa-ban me-1"></i> Quản lý phòng
+                            <i class="fas fa-clipboard-list me-1"></i> Quản lý phòng
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("CheckIn", "Bookings")">
-                            <i class="fas fa-sign-in-alt me-1"></i> Quản lý dịch vụ
+                            <i class="fas fa-hand-holding-heart me-1"></i> Quản lý dịch vụ
                         </a>
                     </li>
 
-                  
+
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("BookingsView", "StaffManagementRoom")">
-                            <i class="fas fa-sign-in-alt me-1"></i> Quản lý booking
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ViewDetailBooking", "StaffManagementRoom")">
-                            <i class="fas fa-file-invoice-dollar me-1"></i> xem chi tiết booking 
+                            <i class="fas fa-list-alt me-1"></i> Quản lý booking
                         </a>
                     </li>
 
@@ -91,8 +85,11 @@
                 <!-- USER MENU -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("SignOut", "Authen")">
-                            <i class="fas fa-user-circle me-1"></i> Tài khoản
+                        <a class="nav-link" href="#">
+
+                            <i class="fas fa-user-circle me-1"></i>
+                            @(User.IsInRole("Staff") ? "Nhân viên lễ tân : " + @User.FindFirst("FullName")?.Value : "Admin")
+
                         </a>
                     </li>
                     <li class="nav-item">

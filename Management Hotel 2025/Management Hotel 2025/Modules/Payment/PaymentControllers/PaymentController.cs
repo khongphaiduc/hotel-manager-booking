@@ -1,10 +1,12 @@
 ﻿
 
+using Management_Hotel_2025.Modules.ManagementQRCode;
 using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Mydata.Models;
+using QRCoder;
 using System.Numerics;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,14 +19,16 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
         private readonly ManagermentHotelContext _dbcontext;
         private readonly INotifications _notifications;
         private readonly ILogger<PaymentController> _logger;
+        private readonly IGanarateQRCode _QRcode;
 
-        public PaymentController(IVnPayService vnPayService, ManagermentHotelContext managermentHotelContext, INotifications notifications, ILogger<PaymentController> logger)
+        public PaymentController(IVnPayService vnPayService, ManagermentHotelContext managermentHotelContext, INotifications notifications, ILogger<PaymentController> logger, IGanarateQRCode qRCode)
         {
 
             _vnPayService = vnPayService;
             _dbcontext = managermentHotelContext;
             _notifications = notifications;
             _logger = logger;
+            _QRcode = qRCode;
         }
 
         [HttpPost]
@@ -112,6 +116,8 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
                 {
                     NewBooking.UserId = Id;
                 }
+                // lưu vào để chuyển qua  bên email
+                HttpContext.Session.SetString("CodeBooking", CodeBookingCode);
 
                 _dbcontext.Bookings.Add(NewBooking);
 
@@ -193,14 +199,22 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
             HttpContext.Session.GetString("TotalRoom");
             HttpContext.Session.GetString("TotalDays");
 
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            var name = User.FindFirst("FullName")?.Value;
-            var phone = User.FindFirst("PhoneNumber")?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value ?? HttpContext.Session.GetString("Email");
+            var name = User.FindFirst("FullName")?.Value ?? HttpContext.Session.GetString("CustomerName");
+            var phone = User.FindFirst("PhoneNumber")?.Value ?? HttpContext.Session.GetString("CustomerPhone");
             var roomType = HttpContext.Session.GetString("NameRoom");
             var checkIn = HttpContext.Session.GetString("StartDate");
             var checkOut = HttpContext.Session.GetString("EndDate");
             var guestCount = HttpContext.Session.GetString("GuestCount");
             var totalPrice = HttpContext.Session.GetString("TotalRoom");
+
+            //  booking code 
+            var BookingCode = HttpContext.Session.GetString("CodeBooking");
+
+
+            // tạo qr code từ booking code
+            var QRBookingCode = _QRcode.GenerateQRCodeForBookingDetail(BookingCode);
+            //var QRBookingCode = "Test";
             string Content = $@"
 <p>Kính gửi Quý khách,</p>
 
@@ -217,24 +231,17 @@ namespace Management_Hotel_2025.Modules.Payment.PaymentControllers
   <li><b>Ngày nhận phòng:</b> {checkIn}</li>
   <li><b>Ngày trả phòng:</b> {checkOut}</li>
   <li><b>Số lượng khách:</b> {guestCount}</li>
-  <li><b>Số tiền đã đạt cọc là :</b> {formatted}</li>
+  <li><b>Số tiền đã đặt cọc:</b> {formatted}</li>
 </ul>
 
 <p>Quý khách vui lòng có mặt tại khách sạn vào ngày nhận phòng và mang theo giấy tờ tùy thân để hoàn tất thủ tục check-in.</p>
-<p>Trong trường hợp nếu quý khách không check in phòng trong ngày nhận thì phòng sẽ được hủy theo quy định của khách sạn .</p>
-<p>Nếu Quý khách có bất kỳ yêu cầu đặc biệt hoặc cần hỗ trợ thêm, xin vui lòng liên hệ với chúng tôi qua:<br>
-📞 Hotline: 033333333<br>
-📧 Email: [hotelluxurytrungduc@gmail.com]</p>
+<p>Để check-in nhanh chóng, Quý khách vui lòng đưa mã QR bên dưới cho bộ phận Tiếp tân.</p>
 
-<p>Một lần nữa, xin cảm ơn Quý khách đã lựa chọn <b>Khách sạn Luxury Trung Đức</b>.<br>
-Chúng tôi hân hạnh được đón tiếp Quý khách!</p>
-
-<p>Trân trọng,<br>
-<b>Khách sạn Luxury Trung Đức</b></p>
 ";
 
 
-            var reuslt = await _notifications.SendBookingSuccessNotification(email, "Xác nhận đặt phòng thành công - Khách sạn Luxury Trung Đức", Content);
+
+            var reuslt = await _notifications.SendBookingSuccessNotification(email, "Xác nhận đặt phòng thành công - Khách sạn Luxury Trung Đức", Content, QRBookingCode);
 
             var s = reuslt == true ? "Success" : "Fail";
             _logger.LogInformation($"Enail : {email} :{s}");

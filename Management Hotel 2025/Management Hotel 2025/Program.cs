@@ -1,6 +1,7 @@
 ﻿
 
 using Management_Hotel_2025.Modules.AuthenSerive;
+using Management_Hotel_2025.Modules.ManagementQRCode;
 using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
 using Management_Hotel_2025.Modules.Rooms.ManagementRoom;
 using Management_Hotel_2025.Modules.Rooms.RoomService;
@@ -76,6 +77,10 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<IRoomService, RoomSerices>();
             builder.Services.AddTransient<IManagementRoom, FilterRooms>();
             builder.Services.AddTransient<IManagementBooking, ManagementBooking>();
+
+            builder.Services.AddTransient<IGanarateQRCode, QRCodeBookingDetail>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,36 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/StaffHeader.cshtml";
     string currencyFormat = "{0:N0} ₫";
-    var Model = new
-    {
-        BookingCode = "BK20251019001",
-        BookingStatus = "Đã xác nhận",
-        BookingSource = "Website",
-        CreatedDate = DateTime.Now.AddDays(-2),
-        CustomerFullName = "Nguyễn Văn A",
-        CustomerNationality = "Việt Nam",
-        CustomerPhone = "0909123456",
-        CustomerEmail = "nguyenvana@gmail.com",
-        CustomerSpecialRequest = "Gối cao",
-        TotalAmountRoom = 2500000,
-        DepositAmount = 500000,
-        CheckInDate = DateTime.Now.AddDays(1).AddHours(14),
-        CheckOutDate = DateTime.Now.AddDays(3).AddHours(12),
-        NumberOfNights = 2,
-        NumberOfRoom = 2,
-        Rooms = new[] {
-            new {
-                RoomType = new { Name = "Superior", Price = 1200000, MaxGuests = 2 },
-                Status = "Đã đặt"
-            },
-            new {
-                RoomType = new { Name = "Deluxe", Price = 1300000, MaxGuests = 3 },
-                Status = "Đang chờ"
-            }
-        }
-    };
-}
 
+
+}
+@model Management_Hotel_2025.ViewModel.ViewBookingDetail
 <!doctype html>
 <html lang="vi">
 <head>
@@ -103,7 +77,7 @@
                         </div>
                         <ul class="list-unstyled mb-0">
                             <li><i class="bi bi-telephone me-2 text-muted"></i> <a href="tel:@Model.CustomerPhone">@Model.CustomerPhone</a></li>
-                            <li><i class="bi bi-envelope me-2 text-muted"></i> <a href="mailto:@Model.CustomerEmail">@Model.CustomerEmail</a></li>
+                            <li><i class="bi bi-envelope me-2 text-muted"></i> <a href="mailto:@Model.CustomerEmail">@Model.CustomerEmail</a></li>                     
                         </ul>
                         @if (!string.IsNullOrWhiteSpace(Model.CustomerSpecialRequest))
                         {
@@ -172,20 +146,20 @@
                     <div class="card-body">
                         <h5 class="card-title">Thông tin phòng (@Model.NumberOfRoom phòng)</h5>
                         <div class="accordion" id="roomsAccordion">
-                            @for (int i = 0; i < Model.Rooms.Length; i++)
+                            @for (int i = 0; i < Model.ListDetailRoom.Count; i++)
                             {
-                                var room = Model.Rooms[i];
+                                var room = Model.ListDetailRoom[i];
                                 var idx = "room" + i;
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="heading-@idx">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@idx">
-                                            @room.RoomType.Name - @String.Format(currencyFormat, room.RoomType.Price)
+                                            @room.NameType - @String.Format(currencyFormat, room.Price)
                                         </button>
                                     </h2>
                                     <div id="collapse-@idx" class="accordion-collapse collapse" data-bs-parent="#roomsAccordion">
                                         <div class="accordion-body">
                                             <p>Trạng thái: <span class="badge available">@room.Status</span></p>
-                                            <p>Sức chứa: @room.RoomType.MaxGuests khách</p>
+                                            <p>Sức chứa: @room.MaxGuests khách</p>
                                             <p>Ghi chú: Đây là ghi chú phòng.</p>
 
                                             <!-- Button xem chi tiết -->
@@ -197,9 +171,10 @@
                                                 <div class="card card-body shadow-sm">
                                                     <ul class="list-unstyled mb-0">
                                                         <li><strong>Loại giường:</strong> Giường đôi</li>
-                                                        <li><strong>View:</strong> Hướng biển</li>
+                                                        <li><strong>View:</strong> @room.Description</li>
                                                         <li><strong>Tiện nghi:</strong> Wifi, TV, Mini-bar</li>
-                                                        <li><strong>Giá phòng:</strong> @String.Format(currencyFormat, room.RoomType.Price)</li>
+                                                        <li><strong>Mô tả:</strong> Sang trọng đăng cấp</li>
+                                                        <li><strong>Giá phòng:</strong> @String.Format(currencyFormat, room.Price)</li>
                                                     </ul>
                                                 </div>
                                             </div>

@@ -25,13 +25,7 @@ namespace Management_Hotel_2025.ViewModel
         // 3️⃣ Thông tin phòng
         public int NumberOfRoom { get; set; }
 
-        public List<Room> Rooms { get; set; } = new List<Room>();
-
-        public List<RoomType> RoomsType { get; set; } = new List<RoomType>();
-
-
-        public List<decimal> RoomPricesPerNight { get; set; } = new List<decimal>();
-        public List<string> RoomStatuses { get; set; } = new List<string>(); // Trống, Đang ở
+        public List<ViewDetailRoom> ListDetailRoom { get; set; } = new List<ViewDetailRoom>();
 
         // 4️⃣ Thời gian lưu trú
         public DateTime CheckInDate { get; set; }
@@ -54,8 +48,8 @@ namespace Management_Hotel_2025.ViewModel
         public decimal Discount { get; set; }
 
         public string PaymentMethod { get; set; } // Cash, Card, Transfer
-      
- 
+
+
 
         // 7️⃣ Lịch sử thay đổi & ghi chú
         public List<string> ModifiedBy { get; set; } = new List<string>();

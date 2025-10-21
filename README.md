@@ -56,7 +56,7 @@ Link Demo : chưa có hihi
 
   + Xem & quản lý danh sách booking (theo ngày, theo phòng, theo khách)
 
-  + Check-in / Check-out khách tại quầy
+  + Check-in / Check-out khách tại quầy (kết hợp check-in by QR Code)
 
   + Cập nhật tình trạng phòng (trống, đang dọn, đã đặt, đang ở, bảo trì)
 

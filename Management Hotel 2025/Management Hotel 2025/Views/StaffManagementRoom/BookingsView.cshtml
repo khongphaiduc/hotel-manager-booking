@@ -132,8 +132,7 @@
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
-                        <input type="hidden" name="DateStart" value="@ViewBag.DateStart" />
-                        <input type="hidden" name="EndDate" value="@ViewBag.EndDate" />
+                        
                     </div>
 
                     <!-- DATE RANGE -->
@@ -278,6 +277,31 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
     <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("#filtersPanel form"); // form bao search + date
+            const dateFrom = document.getElementById("filterDateFrom");
+            const dateTo = document.getElementById("filterDateTo");
+            const btnReset = document.getElementById("btnResetDates");
+
+            // Khi user thay đổi ngày → tự submit form
+            [dateFrom, dateTo].forEach(input => {
+                input.addEventListener("change", () => {
+                    form.submit();
+                });
+            });
+
+            // Nút reset ngày
+            btnReset.addEventListener("click", function () {
+                dateFrom.value = "";
+                dateTo.value = "";
+                form.submit();
+            });
+        });
+
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
             const btnScanQR = document.getElementById("btnScanQR");
             const qrModal = new bootstrap.Modal(document.getElementById("qrModal"));

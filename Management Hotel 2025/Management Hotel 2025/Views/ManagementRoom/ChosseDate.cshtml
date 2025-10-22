@@ -1,0 +1,114 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chọn Ngày</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/DateRoom.css" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main class="hero">
+        <div class="overlay"></div>
+        <div class="card" role="region" aria-labelledby="hero-title">
+            <h1 id="hero-title">Tìm Phòng hoàn hảo cho kỳ nghỉ</h1>
+            <p class="subtitle">Chọn ngày đến và ngày đi — chúng tôi sẽ chuẩn bị những lựa chọn tốt nhất dành cho bạn.</p>
+
+            <form id="search-form" class="search-form" novalidate>
+                <div class="date-row">
+                    <!-- Ngày đến -->
+                    <div class="field">
+                        <label for="checkin" class="date-label">Ngày đến</label>
+                        <div class="input-wrapper">
+                            <input type="date"
+                                   id="checkin"
+                                   name="checkin"
+                                   min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                   value="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                   required />
+                            <span class="calendar-icon">📅</span>
+                        </div>
+                    </div>
+
+                    <!-- Ngày đi -->
+                    <div class="field">
+                        <label for="checkout" class="date-label">Ngày đi</label>
+                        <div class="input-wrapper">
+                            <input type="date" id="checkout" name="checkout" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+                            <span class="calendar-icon">📅</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="search-btn" class="btn">Tìm phòng</button>
+
+                <p id="form-error" class="error" aria-live="polite"></p>
+            </form>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay">
+            <div class="loader">
+                <div class="spinner"></div>
+                <p class="loading-text">Đang tìm phòng cho bạn<span class="dots"></span></p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ✅ Tự động cập nhật ngày đi >= ngày đến + 1
+        const checkin = document.getElementById('checkin');
+        const checkout = document.getElementById('checkout');
+        const errorMsg = document.getElementById('form-error');
+
+        checkin.addEventListener('change', () => {
+            if (!checkin.value) return;
+
+            const start = new Date(checkin.value);
+            const minCheckout = new Date(start);
+            minCheckout.setDate(start.getDate() + 1);
+
+            const minDateStr = minCheckout.toISOString().split('T')[0];
+            checkout.min = minDateStr;
+
+            if (checkout.value && checkout.value < minDateStr) {
+                checkout.value = minDateStr;
+            }
+        });
+
+        document.getElementById('search-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const startDate = checkin.value;
+            const endDate = checkout.value;
+
+            if (!startDate || !endDate) {
+                errorMsg.textContent = "Vui lòng chọn ngày đến và ngày đi.";
+                return;
+            }
+
+            if (endDate <= startDate) {
+                errorMsg.textContent = "Ngày đi phải sau ngày đến ít nhất 1 ngày.";
+                return;
+            }
+
+            errorMsg.textContent = "";
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.display = 'flex';
+
+            const url = `/ManagementRoom/ViewListRoomVer2?PageCurrent=1&NumerItemOfPage=8&StartDate=${encodeURIComponent(startDate)}&EndDate=${encodeURIComponent(endDate)}`;
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>

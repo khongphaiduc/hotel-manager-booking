@@ -1,0 +1,302 @@
+﻿/* =====================
+   Variables
+===================== */
+:root {
+    --bg-color-top: rgba(10, 25, 41, 0.45);
+    --bg-color-bottom: rgba(0, 0, 0, 0.25);
+    --accent: #ff7a59;
+    --accent-light: #ffb199;
+    --card-bg: rgba(255,255,255,0.06);
+    --glass-blur: 8px;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.85);
+    --error: #ff6b6b;
+}
+
+/* =====================
+   Base styles
+===================== */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', 'Montserrat', sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================
+   Hero background
+===================== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    background-image: linear-gradient(180deg, var(--bg-color-top), var(--bg-color-bottom)), url(../image/date.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+/* Overlay mờ */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.20);
+    backdrop-filter: blur(2px);
+    mix-blend-mode: soft-light;
+}
+
+/* =====================
+   Card
+===================== */
+.card {
+    position: relative;
+    z-index: 2;
+    width: min(920px, 96%);
+    max-width: 920px;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    box-shadow: 0 10px 30px rgba(2,6,23,0.5);
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(var(--glass-blur));
+}
+
+/* =====================
+   Heading + subtitle
+===================== */
+h1 {
+    margin: 0 0 .5rem 0;
+    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+    line-height: 1.2;
+}
+
+.subtitle {
+    margin: 0 0 2rem 0;
+    font-weight: 300;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.5px;
+}
+
+/* =====================
+   Form layout
+===================== */
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+/* Row date inputs */
+.date-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 640px;
+}
+
+.field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* Label */
+.date-label {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--accent-light);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+/* Input wrapper + icon */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+    .input-wrapper input[type="date"] {
+        width: 100%;
+        padding: 0.55rem 2.2rem 0.55rem 0.75rem;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 16px;
+        color: var(--text);
+        font-family: 'Poppins', 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        letter-spacing: 0.3px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+        .input-wrapper input[type="date"]::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .input-wrapper input[type="date"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(255,122,89,0.4);
+            background: rgba(255,255,255,0.12);
+        }
+
+.calendar-icon {
+    position: absolute;
+    right: 0.65rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+    pointer-events: none;
+    user-select: none;
+}
+
+.field:hover input[type="date"] {
+    background: rgba(255,255,255,0.10);
+}
+
+/* =====================
+   Button
+===================== */
+.btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.85rem 1.5rem;
+    font-family: 'Poppins', 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(90deg,var(--accent),#ff966f);
+    border: 0;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 25px rgba(255,122,89,0.25);
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(255,122,89,0.35);
+    }
+
+    .btn:active {
+        transform: translateY(1px) scale(.998);
+    }
+
+    .btn:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* =====================
+   Error text
+===================== */
+.error {
+    margin: 0;
+    color: var(--error);
+    font-size: .95rem;
+    min-height: 1.1em;
+}
+
+/* =====================
+   Responsive
+===================== */
+@media (max-width:560px) {
+    .date-row {
+        flex-direction: column;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+}
+
+
+
+
+/* =====================
+   Fancy Loading Overlay
+===================== */
+#loadingOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 25, 41, 0.9), rgba(0, 0, 0, 0.85));
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.4s ease forwards;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Loader container */
+.loader {
+    text-align: center;
+}
+
+/* Spinner hiệu ứng xoay tròn */
+.spinner {
+    width: 70px;
+    height: 70px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid var(--accent);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    animation: spin 1.4s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Dòng chữ Đang tìm phòng */
+.loading-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 1px;
+    animation: fadeText 1s ease-in-out infinite alternate;
+}
+
+@keyframes fadeText {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+/* Hiệu ứng dấu chấm ... nhấp nháy */
+.dots::after {
+    content: '';
+    animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+    0% { content: ''; }
+    33% { content: '.'; }
+    66% { content: '..'; }
+    100% { content: '...'; }
+}

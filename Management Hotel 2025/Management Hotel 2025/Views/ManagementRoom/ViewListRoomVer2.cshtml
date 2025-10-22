@@ -66,10 +66,11 @@
                 <label>
                     Ngày nhận
                     <input type="date" name="StartDate" id="filter-start-date"
-                           value="@ViewBag.StartDate" />
+                           value="@ViewBag.StartDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="resetPageAndSubmit()" />
                     Trả phòng
                     <input type="date" name="EndDate" id="filter-end-date"
                            value="@ViewBag.EndDate"
+                           min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
                            onchange="resetPageAndSubmit()" />
                 </label>
                 <label>
@@ -211,7 +212,7 @@
     <script src="~/js/ViewListRoom.js"></script>
     <script>
 
-      
+
           function resetPageAndSubmit() {
             // Lấy giá trị ngày
             var startDate = document.querySelector('[name="StartDate"]').value;
@@ -239,10 +240,9 @@
             document.querySelector('[name="StartDate"]').value = "";
             document.querySelector('[name="EndDate"]').value = "";
             document.getElementById("lux-filter-form").submit();
-             document.getElementById("page-current").value = 1; 
+             document.getElementById("page-current").value = 1;
             document.getElementById("lux-filter-form").submit();
         }
-
 
     </script>
 </body>

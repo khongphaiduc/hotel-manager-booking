@@ -14,10 +14,10 @@ namespace Management_Hotel_2025.Modules.Rooms.ManagementRoom
             _Dbcontext = Dbcontext;
         }
 
-        public List<BookingItem> GetListBooking(DateTime DateStart, DateTime EndDate)
+        public List<BookingItem> GetListBooking(DateTime? DateStart, DateTime? EndDate)
         {
 
-            if (DateStart == null || EndDate == null)
+            if (!DateStart.HasValue || !EndDate.HasValue)
             {
                 DateStart = DateTime.Now.AddMonths(-1);
                 EndDate = DateTime.Now.AddMonths(1);

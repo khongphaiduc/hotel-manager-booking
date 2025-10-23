@@ -48,8 +48,10 @@ public partial class ManagermentHotelContext : DbContext
 
     public virtual DbSet<RoomAmenity> RoomAmenities { get; set; }
 
+    // ngày thêm 24/10/2025
 
 
+    public virtual DbSet<Guests> Guests { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

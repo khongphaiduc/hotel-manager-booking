@@ -4,6 +4,9 @@ using Management_Hotel_2025.Modules.Rooms.RoomService;
 using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Mydata.Models;
 using System.Collections.Generic;
 using System.Net.WebSockets;
 
@@ -15,13 +18,17 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         private readonly IManagementRoom _IManagementRoom;
         private readonly IManagementBooking _IManagementBooking;
         private readonly IReceptionService _IreceptionService;
+        private readonly ManagermentHotelContext _dbcontext;
+        private readonly ILogger<StaffManagementRoomController> _logger;
 
         public List<Passengers> PassengersList { get; set; } = new List<Passengers>();
-        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking, IReceptionService receptionService)
+        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking, IReceptionService receptionService, ManagermentHotelContext dbcontext,ILogger<StaffManagementRoomController> logger)
         {
             _IManagementRoom = managementRoom;
             _IManagementBooking = managementBooking;
             _IreceptionService = receptionService;
+            _dbcontext = dbcontext;
+            _logger = logger;
         }
 
 
@@ -117,6 +124,101 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         {
             var booking = _IreceptionService.CheckIn(bookingcode);
             return View(booking);
+        }
+
+
+        // check-in của thằng  booking
+        [HttpPost]
+        public IActionResult CheckInPassengers([FromBody] Booking booking)
+        {
+            var item = _IreceptionService.CheckIn(booking);
+
+            if (item)
+            {
+                return Json(new { success = true, message = "Check-in successful!" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Check-in failed. Please try again." });
+            }
+
+        }
+
+
+        // đăng ký thông tin khách vào nhận phòng  (chủ yếu là lấy bookingcode) 
+        [HttpGet]
+        public IActionResult RegisterGuestInfo(string bookingcode)
+        {
+            return View();
+        }
+
+
+
+        // đăng ký thông tin khách vào nhận phòng 
+        [HttpPost]
+        public IActionResult RegisterGuestInfo([FromBody] List<PassengerDto> passengers)
+        {
+
+            // booking  code 
+            string bookingCode = passengers.First().BookingCode;
+
+
+
+            if (passengers == null || passengers.Count == 0)
+            {
+                return Json(new { success = false, message = "Danh sách trống hoặc dữ liệu không hợp lệ!" });
+            }
+
+            _logger.LogInformation($"Số lượng item của khách là :{passengers.Count}");
+
+            foreach (var p in passengers)
+            {
+
+                //lấy số phòng 
+                var room = p.RoomNumber;
+
+                // lấy id của số phòng đấy
+                var idRoom = _dbcontext.Rooms.Where(r => r.RoomNumber == room).Select(r => r.RoomId).FirstOrDefault();
+
+                var idBookingdetail = _dbcontext.BookingDetails
+                    .Where(bd => bd.Booking.BookingCode == bookingCode && bd.RoomId == idRoom)
+                    .Select(bd => bd.BookingDetailId)
+                    .FirstOrDefault();
+
+
+                // Tạo đối tượng Guests mới
+
+                _dbcontext.Guests.Add(new Guests()
+                {
+                    CodePersonal = p.IdNumber,
+                    FullName = p.FullName,
+                    Gender = p.Sex,
+                    PhoneNumber = p.Phone,
+                    Nationality = p.Nationality,
+                    Note = p.Note,
+                    BookingDetailId = idBookingdetail,
+                    Address = "Vietnam"
+                });
+
+
+            }
+           return _dbcontext.SaveChanges() >0 ?Json(new { success = true, message = $"{passengers.Count}" }) : Json(new { success = false, message = "✅ Lưu danh sách thất baik!" });
+        }
+
+
+
+        // lấy dánh sách các phòng của 1 booking
+        [HttpGet]
+        public IActionResult GetAvailableRooms(string bookingcode)
+        {
+
+            var room = _dbcontext.Bookings.Include(s => s.BookingDetails).ThenInclude(s => s.Room).Where(s => s.BookingCode == bookingcode).Select(s => new
+            {
+                id = s.BookingDetails.FirstOrDefault().RoomId,
+                name = s.BookingDetails.Select(bd => bd.Room.RoomNumber)
+
+            });
+            return Json(room);
         }
 
 

@@ -12,11 +12,11 @@ namespace Mydata.Models
 
         public int GuestId { get; set; }
 
-        [Required]
-        public string CodePersonal { get; set; } = null!;
+    
+        public string? CodePersonal { get; set; } = null!;
 
-        [Required]
-        public string FullName { get; set; } = null!;
+    
+        public string? FullName { get; set; } = null!;
 
 
         public string? Gender { get; set; }
@@ -24,16 +24,16 @@ namespace Mydata.Models
 
         public string? PhoneNumber { get; set; }
 
-        [Required]
-        public DateTime BirthDay { get; set; }
+     
+        public DateTime? BirthDay { get; set; }
 
-        [Required]
-        public string Address { get; set; } = null!;
+        
+        public string? Address { get; set; } = null!;
 
-        [Required]
-        public string Nationality { get; set; } = null!;
+        
+        public string? Nationality { get; set; } = null!;
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         public DateTime? TimeCheckIn { get; set; }
 

@@ -1,0 +1,373 @@
+﻿@{
+    Layout = null;
+    ViewBag.Step = 2;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý Hành Khách</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            background: #f2f6fc;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .main-content {
+            display: flex;
+            height: 100vh;
+            padding-top: 80px;
+        }
+
+        .form-section {
+            width: 40%;
+            background: white;
+            padding: 30px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+
+        .table-section {
+            width: 60%;
+            padding: 30px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        h3 {
+            font-weight: 600;
+            color: #0d6efd;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 10px;
+        }
+
+        .btn-primary {
+            background: #0d6efd;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+            .btn-primary:hover {
+                background: #0b5ed7;
+            }
+
+        .btn-danger {
+            border-radius: 10px;
+        }
+
+        table {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background: white;
+        }
+
+        th {
+            background-color: #0d6efd;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-save {
+            background: #198754;
+            border: none;
+            color: white;
+            border-radius: 12px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+            .btn-save:hover {
+                background: #157347;
+            }
+
+        /* 🟢 Nút hoàn tất nhận phòng */
+        .btn-finish {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #0dcaf0;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 28px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+            .btn-finish:hover {
+                background-color: #0bb3d3;
+                transform: scale(1.05);
+            }
+    </style>
+</head>
+
+<body>
+    <!-- 🟦 Thanh theo dõi bước -->
+    <div class="progress-container">
+        @Html.Partial("_ProgressCheckInBar", (int)ViewBag.Step)
+    </div>
+
+    <!-- 🟩 Nội dung chính -->
+    <div class="main-content">
+        <!-- LEFT: Form nhập -->
+        <div class="form-section">
+            <h3>Thông Tin Hành Khách</h3>
+            <form id="passengerForm">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label for="fullName" class="form-label">Họ và Tên</label>
+                        <input type="text" class="form-control" id="fullName" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="sex" class="form-label">Giới tính</label>
+                        <select class="form-select" id="sex" required>
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="dob" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="dob" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="nationality" class="form-label">Quốc tịch</label>
+                        <input type="text" class="form-control" id="nationality" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="guestType" class="form-label">Loại khách</label>
+                        <select class="form-select" id="guestType">
+                            <option value="Người lớn">Người lớn</option>
+                            <option value="Trẻ em">Trẻ em</option>
+                        </select>
+                    </div>
+
+                    <!-- 🆕 Thẻ select chọn phòng -->
+                    <div class="col-md-6">
+                        <label for="roomSelect" class="form-label">Phòng</label>
+                        <select class="form-select" id="roomSelect" required>
+                            <option value="">-- Chọn phòng --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="idNumber" class="form-label">CMND / Passport</label>
+                        <input type="text" class="form-control" id="idNumber" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" />
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" />
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="note" class="form-label">Ghi chú</label>
+                        <textarea class="form-control" id="note" rows="2"></textarea>
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-primary w-50 me-2" id="addPassengerBtn">+ Thêm</button>
+                        <button type="button" class="btn btn-save w-50" id="saveListBtn">💾 Lưu danh sách</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- RIGHT: Danh sách -->
+        <div class="table-section">
+            <h3>Danh Sách Hành Khách</h3>
+            <table class="table table-bordered table-hover" id="passengerTable">
+                <thead>
+                    <tr>
+                        <th>Họ Tên</th>
+                        <th>Giới Tính</th>
+                        <th>Ngày Sinh</th>
+                        <th>Quốc Tịch</th>
+                        <th>Loại Khách</th>
+                        <th>Phòng</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 🟢 Nút Hoàn tất nhận phòng -->
+    <button id="finishCheckinBtn" class="btn-finish">✅ Hoàn tất nhận phòng</button>
+
+    <script>
+        const passengerList = [];
+        let bookingCode = ""; // 🔹 Biến toàn cục
+
+        $(document).ready(function () {
+            // 🔹 Lấy giá trị bookingcode từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            bookingCode = urlParams.get('bookingcode'); // ✅ Gán ra biến toàn cục
+
+            if (!bookingCode) {
+                alert("Không tìm thấy mã đặt phòng trên URL!");
+                return;
+            }
+
+            // 🔹 Gọi API lấy danh sách phòng theo bookingcode
+            $.ajax({
+                url: `/StaffManagementRoom/GetAvailableRooms?bookingcode=${bookingCode}`,
+                type: 'GET',
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        data.forEach(room => {
+                            $('#roomSelect').append(`<option value="${room.name}">${room.name}</option>`);
+                        });
+                    } else {
+                        $('#roomSelect').append(`<option value="">Không có phòng nào</option>`);
+                    }
+                },
+                error: function () {
+                    console.error('Không thể tải danh sách phòng!');
+                }
+            });
+        });
+
+        // 🔹 Thêm hành khách
+        $("#addPassengerBtn").click(function () {
+            const fullName = $("#fullName").val().trim();
+            const sex = $("#sex").val();
+            const dob = $("#dob").val();
+            const nationality = $("#nationality").val().trim();
+            const guestType = $("#guestType").val();
+            const roomNumber = $("#roomSelect").val();
+            const idNumber = $("#idNumber").val().trim();
+            const phone = $("#phone").val().trim();
+            const address = $("#address").val().trim();
+            const note = $("#note").val().trim();
+
+            if (!fullName || !sex || !dob || !roomNumber) {
+                alert("⚠️ Vui lòng nhập đầy đủ thông tin bắt buộc!");
+                return;
+            }
+
+            passengerList.push({
+                fullName, sex, dob, nationality, guestType,
+                roomNumber, idNumber, phone, address, note, bookingCode
+            });
+
+            renderTable();
+            $("#passengerForm")[0].reset();
+        });
+
+        // 🔹 Hiển thị danh sách
+        function renderTable() {
+            const tbody = $("#passengerTable tbody");
+            tbody.empty();
+            passengerList.forEach((p, i) => {
+                tbody.append(`
+                    <tr>
+                        <td>${p.fullName}</td>
+                        <td>${p.sex}</td>
+                        <td>${p.dob}</td>
+                        <td>${p.nationality}</td>
+                        <td>${p.guestType}</td>
+                        <td>${p.roomNumber}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-danger btn-sm" onclick="deletePassenger(${i})">Xóa</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        }
+
+        // 🔹 Xóa hành khách
+        function deletePassenger(index) {
+            passengerList.splice(index, 1);
+            renderTable();
+        }
+
+        // 🔹 Gửi danh sách lên server
+        $("#saveListBtn").off("click").on("click", function () {
+            if (passengerList.length === 0) {
+                alert("Danh sách trống, vui lòng thêm hành khách trước khi lưu!");
+                return;
+            }
+
+            $.ajax({
+                url: '/StaffManagementRoom/RegisterGuestInfo',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(passengerList),
+                success: function (res) {
+                    alert(res.message);
+                },
+                error: function () {
+                    alert("❌ Có lỗi xảy ra khi gửi dữ liệu!");
+                }
+            });
+        });
+
+        // 🟢 Nút hoàn tất nhận phòng
+        $("#finishCheckinBtn").click(function () {
+            if (!bookingCode) {
+                alert("Không tìm thấy mã đặt phòng!");
+                return;
+            }
+
+           
+            window.location.href = `/StaffManagementRoom/StaffViewListRoom`;
+        });
+    </script>
+</body>
+</html>

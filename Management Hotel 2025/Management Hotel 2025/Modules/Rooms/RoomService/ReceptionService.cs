@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
+using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
+using System.Net;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomService
 {
@@ -23,6 +25,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                     Nationality = s.Nationality,
                     BirthDay = s.BirthDay,
                     CustomerPhone = s.CustomerPhone,
+                    CustomerName = s.CustomerName,
                     Email = s.Email,
                     Address = s.Address,
                     TypePassenger = s.TypePassenger,
@@ -33,9 +36,52 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
             return booking ?? new Booking() { BookingCode = "0" };  // bằng 0 thì lỗi cmnr
         }
 
+
+        // chèn thong tin , check in 
+        public bool CheckIn(Booking s)
+        {
+          
+            if (s == null || string.IsNullOrEmpty(s.BookingCode))
+            {
+                return false;
+            }
+
+          
+            var item = _dbcontext.Bookings.FirstOrDefault(t => t.BookingCode == s.BookingCode);
+
+      
+            if (item == null)
+            {
+                // Không tìm thấy booking này trong cơ sở dữ liệu.
+                return false;
+            }
+
+
+            item.BookingCode = s.BookingCode;
+            item.PersonalCode = s.PersonalCode;
+            item.Nationality = s.Nationality;
+            item.BirthDay = s.BirthDay;
+            item.CustomerPhone = s.CustomerPhone;
+            item.CustomerName = s.CustomerName;
+            item.Email = s.Email;
+            item.Address = s.Address;
+            item.TypePassenger = s.TypePassenger;
+            item.Status = "CheckIn"; 
+
+           
+            return _dbcontext.SaveChanges() > 0;
+        }
+
         public Booking Checkout(Booking booking)
         {
             throw new NotImplementedException();
+        }
+
+        public bool RegisterGuestInfo(Guests guests)
+        {
+            _dbcontext.Add(guests);
+            return _dbcontext.SaveChanges() > 0;
+
         }
     }
 }

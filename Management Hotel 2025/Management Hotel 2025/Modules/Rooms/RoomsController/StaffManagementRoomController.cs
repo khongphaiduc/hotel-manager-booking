@@ -14,12 +14,14 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
     {
         private readonly IManagementRoom _IManagementRoom;
         private readonly IManagementBooking _IManagementBooking;
+        private readonly IReceptionService _IreceptionService;
 
         public List<Passengers> PassengersList { get; set; } = new List<Passengers>();
-        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking)
+        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking, IReceptionService receptionService)
         {
             _IManagementRoom = managementRoom;
             _IManagementBooking = managementBooking;
+            _IreceptionService = receptionService;
         }
 
 
@@ -111,11 +113,10 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
         // check in 
-        public IActionResult CheckInPassengers()
+        public IActionResult CheckInPassengers(string bookingcode)
         {
-
-
-            return View();
+            var booking = _IreceptionService.CheckIn(bookingcode);
+            return View(booking);
         }
 
 

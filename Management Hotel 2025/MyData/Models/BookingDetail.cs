@@ -15,10 +15,6 @@ namespace Mydata.Models
 
         public int NumberOfGuests { get; set; }
 
-        public string? NamePassenger { get; set; }
-        public string? PhonePassenger { get; set; }
-        public string? Sex { get; set; }
-        public int? PersonalCodePassenger { get; set; }  // mã số cá nhân của khách chính trong booking
 
         [Column("ExpectedCheckInDate")]
         public DateTime? CheckInDate { get; set; }

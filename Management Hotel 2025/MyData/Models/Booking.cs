@@ -27,9 +27,22 @@ public partial class Booking
 
     public string CustomerPhone { get; set; } = null!; // số điện thoại khách chính trong booking
 
+    public string? Sex { get; set; }
+
+    public DateTime? BirthDay { get; set; }
+
+    public string? PersonalCode { get; set; }
+
+    public int? AmountPersonal { get; set; }
+
     public string Nationality { get; set; } = "VietNam";
 
     public string Email { get; set; } = null!;
+
+
+    public string? Address { get; set; }
+
+    public string TypePassenger { get; set; } = "Personal";
 
     public virtual User? User { get; set; }
 

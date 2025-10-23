@@ -23,8 +23,8 @@ namespace Management_Hotel_2025
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();  
-            
+            builder.Services.AddControllersWithViews();
+
             builder.Services.AddDbContext<ManagermentHotelContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
@@ -69,7 +69,7 @@ namespace Management_Hotel_2025
             builder.Services.AddScoped<ValidationAuthen>();
             builder.Services.AddScoped<Login>();
             builder.Services.AddTransient<GenarateTokenHotel>();
-            builder.Services.AddTransient<IApiServices,ApiCall>();
+            builder.Services.AddTransient<IApiServices, ApiCall>();
             builder.Services.AddTransient<ApiCall>();
             builder.Services.AddHttpClient(); // Thêm HttpClient để gọi API bên ngoài
             builder.Services.AddHttpContextAccessor();  // Thêm HttpContextAccessor để truy cập HttpContext trong các dịch vụ
@@ -80,7 +80,7 @@ namespace Management_Hotel_2025
 
             builder.Services.AddTransient<IGanarateQRCode, QRCodeBookingDetail>();
 
-
+            builder.Services.AddTransient<IReceptionService, ReceptionService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

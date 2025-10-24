@@ -155,7 +155,7 @@
     <div class="main-content">
         <!-- LEFT: Form nhập -->
         <div class="form-section">
-            <h3>Thông Tin Hành Khách</h3>
+            <h3>Xác định hành khách</h3>
             <form id="passengerForm">
                 <div class="row g-3">
                     <div class="col-md-12">
@@ -331,13 +331,13 @@
             });
         }
 
-        // 🔹 Xóa hành khách
+        //  Xóa hành khách
         function deletePassenger(index) {
             passengerList.splice(index, 1);
             renderTable();
         }
 
-        // 🔹 Gửi danh sách lên server
+        // Gửi danh sách lên server
         $("#saveListBtn").off("click").on("click", function () {
             if (passengerList.length === 0) {
                 alert("Danh sách trống, vui lòng thêm hành khách trước khi lưu!");

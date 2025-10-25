@@ -5,6 +5,7 @@ using Management_Hotel_2025.Modules.ManagementQRCode;
 using Management_Hotel_2025.Modules.Notifications.NotificationsSevices;
 using Management_Hotel_2025.Modules.Rooms.ManagementRoom;
 using Management_Hotel_2025.Modules.Rooms.RoomService;
+using Management_Hotel_2025.Modules.Secheduler;
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.Serives.GenarateToken;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
+using Quartz;
 
 
 namespace Management_Hotel_2025
@@ -27,6 +29,27 @@ namespace Management_Hotel_2025
 
             builder.Services.AddDbContext<ManagermentHotelContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
+
+            //--------------------------------------------------------------------------------
+            // 2. Đăng ký Quartz
+            builder.Services.AddQuartz(q =>
+            {
+                // Tạo job tự động
+                var jobKey = new JobKey("RefreshStatusRoomJob", "group1");           //JobKey là mã định danh (ID) của job bạn muốn chạy
+
+                q.AddJob<RefreshStatusRoom>(opts => opts.WithIdentity(jobKey));      //Dòng này đăng ký job (công việc cần thực hiện).
+
+                // Lên lịch: chạy mỗi ngày lúc 00:00
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKey)
+                    .WithIdentity("RefreshStatusRoomTrigger", "group1")
+                 .WithCronSchedule("0 0 22 * * ?")); // hẹn 22h chạy mỗi ngày
+            });
+
+            // 3. Thêm QuartzHostedService để Quartz tự chạy  (tự động run khi app mở) 
+            builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+            //--------------------------------------------------------------------------------
 
 
             // AddAuthentication là Bật hệ thống xác thực cho ứng dụng
@@ -49,6 +72,9 @@ namespace Management_Hotel_2025
                 options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:GoogleSecret").Value;
                 options.ClaimActions.MapJsonKey("avatar", "picture", "url");         // Lấy giá trị picture trong JSON của Google và lưu nó vào Claims với tên ‘avatar’. 
             });
+
+
+
 
 
             builder.Services.AddSession();  //  đăng ký dịch vụ Session trong ứng dụng ASP.NET Core.

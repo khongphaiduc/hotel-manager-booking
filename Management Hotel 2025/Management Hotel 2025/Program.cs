@@ -44,6 +44,31 @@ namespace Management_Hotel_2025
                     .ForJob(jobKey)
                     .WithIdentity("RefreshStatusRoomTrigger", "group1")
                  .WithCronSchedule("0 0 22 * * ?")); // hẹn 22h chạy mỗi ngày
+
+
+
+
+
+                // thống báo check-in
+                var jobKeyInformCheckIn = new JobKey("InformPassngerDateCheckInJob", "group1");
+                q.AddJob<InformPassngerDateCheckIn>(opts => opts.WithIdentity(jobKeyInformCheckIn));
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKeyInformCheckIn)
+                    .WithIdentity("InformPassngerDateCheckInTrigger", "group1")
+                 .WithCronSchedule("0 0 7 * * ?")); // hẹn 7h chạy mỗi ngày
+
+
+
+
+                // thông báo trả phòng 
+                var jobKeyInformCheckOut = new JobKey("InformPassengerDateCheckOutJob", "group1");
+                q.AddJob<InformPassengerDateCheckOut>(opts => opts.WithIdentity(jobKeyInformCheckOut));
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKeyInformCheckOut)
+                    .WithIdentity("InformPassengerDateCheckOutTrigger", "group1")
+                 .WithCronSchedule("0 0 9 * * ?")); // hẹn 9h chạy mỗi ngày
+
+
             });
 
             // 3. Thêm QuartzHostedService để Quartz tự chạy  (tự động run khi app mở) 

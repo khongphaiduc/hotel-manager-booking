@@ -48,7 +48,7 @@ Link Demo : chưa có hihi
 
   + Đánh giá & phản hồi dịch vụ
 
-  + Nhận email / SMS xác nhận (khi đặt phòng, thanh toán, hủy phòng)
+  + Nhận email thông báo các dụ vụ liên quan
 
 ### 2. Staff (Nhân viên khách sạn)
 
@@ -108,4 +108,5 @@ Link Demo : chưa có hihi
 ### 4. System Hotel Core 
  + Tự động cập nhật trạng thái booking code mỗi ngày sau 22h và gửi thông báo tự động hủy phòng(case khách không đến check-in)
  + Tự động gửi thông báo nhắc khách hàng thời gian check-in trước 1 ngày 
+ + Tự động gửi thông báo nhẵn khách hàng thời gian trả phòng
 ### 5. Cung cấp API cho các đối tác như các tính năng Xem danh sách phòng,Xem danh sách phòng còn chống , Xem thông tin chi tiết của từng phòng , Search Advance , Đặt Phòng ,  Hủy Phòng , Thanh Toán ...

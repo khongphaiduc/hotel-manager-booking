@@ -6,7 +6,7 @@ Software Engineer : Phạm Trung Đức
 
 - Backend : Phạm Trung Đức
 
-- Frontend : GPT  , Copilot , Phạm Trung Đức
+- Frontend : ChatGPT  , Copilot , Phạm Trung Đức
 
 Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
 

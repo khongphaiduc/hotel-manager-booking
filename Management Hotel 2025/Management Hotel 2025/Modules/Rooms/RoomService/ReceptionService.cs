@@ -66,9 +66,10 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
             item.Email = s.Email;
             item.Address = s.Address;
             item.TypePassenger = s.TypePassenger;
-            item.Status = "CheckIn"; 
+            item.Status = "CheckIn";
+            item.RealTimeCheckIn = DateTime.Now;    
 
-           
+
             return _dbcontext.SaveChanges() > 0;
         }
 

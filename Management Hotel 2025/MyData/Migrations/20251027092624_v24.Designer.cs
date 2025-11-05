@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mydata.Models;
 
@@ -11,9 +12,11 @@ using Mydata.Models;
 namespace Mydata.Migrations
 {
     [DbContext(typeof(ManagermentHotelContext))]
-    partial class ManagermentHotelContextModelSnapshot : ModelSnapshot
+    [Migration("20251027092624_v24")]
+    partial class v24
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,38 +49,6 @@ namespace Mydata.Migrations
                     b.ToTable("Amenities");
                 });
 
-            modelBuilder.Entity("MyData.Models.DepositHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("DepositDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("DepositHistory");
-                });
-
             modelBuilder.Entity("MyData.Models.Images", b =>
                 {
                     b.Property<int>("IdImage")
@@ -100,53 +71,6 @@ namespace Mydata.Migrations
                     b.HasIndex("IdRoom");
 
                     b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("MyData.Models.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CustomerAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Deposit")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdStaff")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OrderStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("OrderId");
-
-                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("MyData.Models.RoomAmenity", b =>
@@ -309,14 +233,14 @@ namespace Mydata.Migrations
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
@@ -324,8 +248,6 @@ namespace Mydata.Migrations
                     b.HasKey("BookingServiceId");
 
                     b.HasIndex("BookingDetailId");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("ServiceId");
 
@@ -678,9 +600,6 @@ namespace Mydata.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<decimal>("Coin")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -742,17 +661,6 @@ namespace Mydata.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("MyData.Models.DepositHistory", b =>
-                {
-                    b.HasOne("Mydata.Models.User", "User")
-                        .WithMany("DepositHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MyData.Models.Images", b =>
                 {
                     b.HasOne("Mydata.Models.Room", "Room")
@@ -762,17 +670,6 @@ namespace Mydata.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("MyData.Models.Order", b =>
-                {
-                    b.HasOne("Mydata.Models.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("MyData.Models.RoomAmenity", b =>
@@ -831,10 +728,6 @@ namespace Mydata.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyData.Models.Order", "Order")
-                        .WithMany("BookingServices")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("Mydata.Models.Services", "Service")
                         .WithMany("BookingServices")
                         .HasForeignKey("ServiceId")
@@ -842,8 +735,6 @@ namespace Mydata.Migrations
                         .IsRequired();
 
                     b.Navigation("BookingDetail");
-
-                    b.Navigation("Order");
 
                     b.Navigation("Service");
                 });
@@ -930,11 +821,6 @@ namespace Mydata.Migrations
                     b.Navigation("RoomAmenities");
                 });
 
-            modelBuilder.Entity("MyData.Models.Order", b =>
-                {
-                    b.Navigation("BookingServices");
-                });
-
             modelBuilder.Entity("Mydata.Models.Booking", b =>
                 {
                     b.Navigation("BookingDetails");
@@ -971,8 +857,6 @@ namespace Mydata.Migrations
             modelBuilder.Entity("Mydata.Models.User", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("DepositHistories");
 
                     b.Navigation("Notifications");
 

@@ -9,8 +9,6 @@ using System.Data;
 using Microsoft.AspNetCore.Authentication.Google;
 using Mydata.Models;
 
-
-
 namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 {
     public class AuthenController : Controller

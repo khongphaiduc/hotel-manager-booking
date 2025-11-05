@@ -33,18 +33,30 @@
 
                 <div class="d-flex gap-2 flex-wrap">
 
+                    @if (Model.BookingStatus == "CheckIn" || Model.BookingStatus == "Overdue")
+                    {
+                        <a href="/StaffManagementRoom/CheckOutPassenger?bookingcode=@Model.BookingCode"
+                           class="btn btn-outline-danger btn-sm"  >
+                            <i class="bi bi-box-arrow-right"></i> Trả phòng
+                        </a>
+                    }
+                    else if (Model.BookingStatus == "CheckOut")
+                    {
+                        <!-- Nếu đã CheckOut thì không hiển thị nút gì -->
+                    }
+                    else
+                    {
+                        <a href="/StaffManagementRoom/CheckInPassengers?bookingcode=@Model.BookingCode"
+                           class="btn btn-primary btn-sm">
+                            <i class="bi bi-door-open-fill"></i> Nhận phòng
+                        </a>
+                    }
 
-                    <a href="/StaffManagementRoom/CheckInPassengers?bookingcode=@Model.BookingCode"
-                       target="_blank"
-                       class="btn btn-success btn-sm">
-                        <i class="bi bi-door-open-fill"></i> Nhận phòng
-                    </a>
-
-                    <button class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right"></i> Trả phòng</button>
                     <div class="btn-group">
                         <button class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope-paper"></i> Gửi email</button>
                         <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-printer"></i> In hóa đơn</button>
                     </div>
+
                 </div>
 
             </div>
@@ -62,8 +74,19 @@
                             <dd class="col-7"><strong>@Model.BookingCode</strong></dd>
                             <dt class="col-5 text-muted">Ngày tạo </dt>
                             <dd class="col-7">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</dd>
-                            <dt class="col-5 text-muted">Trạng thái</dt>
-                            <dd class="col-7">@Model.BookingStatus</dd>
+                            <dt class="col-5 text-muted">Trạng thái Booking</dt>
+                            <dd class="col-7">
+                                <span class="badge
+        @(Model.BookingStatus == "Success" ? "bg-success" :
+          Model.BookingStatus == "Overdue" ? "bg-warning text-dark" :
+          Model.BookingStatus == "Canceled" ? "bg-danger" :
+          Model.BookingStatus == "CheckIn" ? "bg-info text-dark" :
+          Model.BookingStatus == "CheckOut" ? "bg-secondary" :
+          "bg-dark text-light")">
+                                    @Model.BookingStatus
+                                </span>
+                            </dd>
+
                             <dt class="col-5 text-muted">Nguồn Booking</dt>
                             <dd class="col-7">@Model.BookingSource</dd>
                         </dl>

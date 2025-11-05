@@ -9,5 +9,6 @@
         public string type { get; set; }
         public string status { get; set; }
 
+        public int? idBookingDetail { get; set; }
     }
 }

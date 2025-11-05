@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Mydata.Models;
 using System.Collections.Generic;
 using System.Net.WebSockets;
+using System.Threading.Tasks;
 
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomsController
@@ -20,15 +21,17 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         private readonly IReceptionService _IreceptionService;
         private readonly ManagermentHotelContext _dbcontext;
         private readonly ILogger<StaffManagementRoomController> _logger;
+        private readonly IOrder _order;
 
         public List<Passengers> PassengersList { get; set; } = new List<Passengers>();
-        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking, IReceptionService receptionService, ManagermentHotelContext dbcontext,ILogger<StaffManagementRoomController> logger)
+        public StaffManagementRoomController(IManagementRoom managementRoom, IManagementBooking managementBooking, IReceptionService receptionService, ManagermentHotelContext dbcontext, ILogger<StaffManagementRoomController> logger, IOrder order)
         {
             _IManagementRoom = managementRoom;
             _IManagementBooking = managementBooking;
             _IreceptionService = receptionService;
             _dbcontext = dbcontext;
             _logger = logger;
+            _order = order;
         }
 
 
@@ -78,9 +81,9 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         }
 
 
-        public IActionResult StaffViewDetailRoom(string IdRoom)
+        public async Task<IActionResult> StaffViewDetailRoom(string IdRoom)
         {
-            var Room = _IManagementRoom.FilterByIdRoom(IdRoom).Result;
+            var Room = await _IManagementRoom.FilterByIdRoom(IdRoom);
             return View(Room);
         }
 
@@ -110,6 +113,9 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
         public IActionResult ViewMapOfRoom()
         {
+
+
+
             return View(_IManagementRoom.getListMapRoomToDay());
         }
 
@@ -202,7 +208,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
             }
-           return _dbcontext.SaveChanges() >0 ?Json(new { success = true, message = $"{passengers.Count}" }) : Json(new { success = false, message = "✅ Lưu danh sách thất baik!" });
+            return _dbcontext.SaveChanges() > 0 ? Json(new { success = true, message = $"{passengers.Count}" }) : Json(new { success = false, message = "✅ Lưu danh sách thất baik!" });
         }
 
 
@@ -223,9 +229,11 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
         // check out
-        public IActionResult CheckOutPassenger()
+        [HttpGet]
+        public async Task<IActionResult> CheckOutPassenger(string bookingcode)
         {
-            return View();
+            var order = await _order.ViewOrder(bookingcode);
+            return View(order);
         }
 
 
@@ -262,5 +270,13 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             return View(detailbooking);
         }
 
+
+
+        // xem danh sách của phòng 
+        [HttpGet]
+        public IActionResult RoomViewPassengers(int idbookingdetail)
+        {
+            return View(_IManagementRoom.ViewDetailRoomPassengers(idbookingdetail));
+        }
     }
 }

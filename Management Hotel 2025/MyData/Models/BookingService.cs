@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MyData.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mydata.Models
 {
@@ -13,7 +14,7 @@ namespace Mydata.Models
         public decimal UnitPrice { get; set; }  // giá dịch vụ tại thời điểm dartwd sau khi mà trừ discount
 
         public int Quantity { get; set; }  // số lượng dịch vụ sử dụng
-        public decimal TotalPrice { get; set; }  // giá dịch vụ
+        
 
         public DateTime LastUpdate { get; set; } = DateTime.Now;
         [ForeignKey("BookingDetailId")]
@@ -23,6 +24,13 @@ namespace Mydata.Models
 
         public virtual Services Service { get; set; } = null!;
 
+
+
+        public int? OrderId { get; set; }
+
+        [ForeignKey("OrderId")]
+
+        public virtual Order? Order { get; set; }
 
     }
 }

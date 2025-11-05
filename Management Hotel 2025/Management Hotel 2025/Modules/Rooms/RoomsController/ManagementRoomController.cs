@@ -18,7 +18,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         private readonly HttpClient _httpClient;
         private readonly ILogger<ManagementRoomController> _logger;
 
-        public ManagementRoomController(ManagermentHotelContext dbcontext, IApiServices api, HttpClient httpClient,ILogger<ManagementRoomController> logger)
+        public ManagementRoomController(ManagermentHotelContext dbcontext, IApiServices api, HttpClient httpClient, ILogger<ManagementRoomController> logger)
         {
             _dbContext = dbcontext;
             _ApiService = api;
@@ -51,8 +51,8 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             // lưu ngày checkin và out vào session
 
 
-            HttpContext.Session.SetString("StartDate", StartDate );
-            HttpContext.Session.SetString("EndDate", EndDate );
+            HttpContext.Session.SetString("StartDate", StartDate);
+            HttpContext.Session.SetString("EndDate", EndDate);
 
             var model = await _ApiService.ViewListRoomAPIAsync(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
             if (model != null)
@@ -82,16 +82,16 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
         //}
 
-
+        // xem chi tiết 1 phòng
         [AllowAnonymous]
         public async Task<IActionResult> ViewDetailRoomVer2([FromQuery] int IdRoom)
         {
             var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);
 
 
-            foreach(string s in Room.ListPathImage)
+            foreach (string s in Room.ListPathImage)
             {
-                _logger.LogInformation("ảnh 1 :" +s);
+                _logger.LogInformation("ảnh 1 :" + s);
             }
 
             if (Room != null)
@@ -101,7 +101,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             else
             {
                 return NotFound("Room not found.");
-            }   
+            }
         }
 
 

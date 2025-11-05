@@ -132,7 +132,7 @@
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
-                        
+
                     </div>
 
                     <!-- DATE RANGE -->
@@ -217,22 +217,23 @@
                                         <td>
                                             @switch ((b.Status ?? "").ToLowerInvariant())
                                             {
-                                                case "pending":
-                                                    <span class="badge bg-secondary">Chờ xử lý</span>
+
+                                                case "success":
+                                                    <span class="badge bg-primary">Đã xác nhận </span>
                                                     ; break;
-                                                case "confirmed":
-                                                    <span class="badge bg-primary">Đã xác nhận</span>
-                                                    ; break;
-                                                case "checkedin":
-                                                case "checked_in":
+
+                                                case "checkIn":
                                                     <span class="badge bg-success">Đã nhận phòng</span>
                                                     ; break;
-                                                case "completed":
-                                                    <span class="badge bg-info text-dark">Hoàn tất</span>
+                                                case "checkout":
+                                                    <span class="badge bg-info text-dark">Hoàn tất trả phòng</span>
                                                     ; break;
-                                                case "cancelled":
+
                                                 case "canceled":
                                                     <span class="badge bg-danger">Đã hủy</span>
+                                                    ; break;
+                                                case "overdue":
+                                                    <span class="badge bg-danger">Quá hạn trả phòng</span>
                                                     ; break;
                                                 default:
                                                     <span class="badge bg-light text-dark">@b.Status</span>

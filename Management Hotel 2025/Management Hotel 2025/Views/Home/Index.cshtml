@@ -43,13 +43,20 @@
                         </a>
                     </li>
 
-                    @if (User.IsInRole("staff") || User.IsInRole("User") || User.IsInRole("admin"))
+                    @if (User.IsInRole("User") || User.IsInRole("admin"))
                     {
                         <li class="nav-item">
-                            <a target="_blank" class="nav-link" asp-controller="RoomsOfUser" asp-action="ViewListRooms">
-                                <i class="bi bi-door-closed"></i> Phòng của tôi
+                            <a class="nav-link" asp-controller="Game" asp-action="UserPayDeposit">
+                                Nạp tiền
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-coins me-1"></i>
+                                Coin : @(User.FindFirst("Coin")?.Value ?? "0")
+                            </a>
+                        </li>
+                       
                         <li class="nav-item">
                             <a class="nav-link">
                                 <img src="@User.FindFirst("MyAvatar")?.Value"
@@ -59,7 +66,7 @@
                             </a>
                         </li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Authen" asp-action="SignOut"> |<i class="bi bi-box-arrow-right"></i> Đăng Xuất</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="ProviderTokenHotel" asp-action="ViewGetInfo"> |  API Đối Tác </a></li>
+                        @* <li class="nav-item"><a class="nav-link" asp-controller="ProviderTokenHotel" asp-action="ViewGetInfo"> |  API Đối Tác </a></li> *@
                     }
                     else
                     {

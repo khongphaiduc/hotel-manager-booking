@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mydata.Models;
 
@@ -11,9 +12,11 @@ using Mydata.Models;
 namespace Mydata.Migrations
 {
     [DbContext(typeof(ManagermentHotelContext))]
-    partial class ManagermentHotelContextModelSnapshot : ModelSnapshot
+    [Migration("20251031145647_v27")]
+    partial class v27
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,38 +47,6 @@ namespace Mydata.Migrations
                     b.HasKey("AmenityId");
 
                     b.ToTable("Amenities");
-                });
-
-            modelBuilder.Entity("MyData.Models.DepositHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("DepositDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("DepositHistory");
                 });
 
             modelBuilder.Entity("MyData.Models.Images", b =>
@@ -678,9 +649,6 @@ namespace Mydata.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<decimal>("Coin")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -740,17 +708,6 @@ namespace Mydata.Migrations
                         .IsUnique();
 
                     b.ToTable("users", (string)null);
-                });
-
-            modelBuilder.Entity("MyData.Models.DepositHistory", b =>
-                {
-                    b.HasOne("Mydata.Models.User", "User")
-                        .WithMany("DepositHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyData.Models.Images", b =>
@@ -971,8 +928,6 @@ namespace Mydata.Migrations
             modelBuilder.Entity("Mydata.Models.User", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("DepositHistories");
 
                     b.Navigation("Notifications");
 

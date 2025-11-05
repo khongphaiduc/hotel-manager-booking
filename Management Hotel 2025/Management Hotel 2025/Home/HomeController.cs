@@ -20,9 +20,12 @@ namespace Management_Hotel_2025.Controllers
         public IActionResult Index()
         {
             // nếu là nhân viên hay là thằng admin thì chuyển giao diện
-            if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+            if (User.IsInRole("Staff"))
             {
                 return RedirectToAction("StaffViewListRoom", "StaffManagementRoom");
+            }else if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("AdminHomePage", "Admin");
             }
             else
             {

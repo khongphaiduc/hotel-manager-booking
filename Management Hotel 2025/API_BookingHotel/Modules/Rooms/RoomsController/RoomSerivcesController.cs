@@ -23,7 +23,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
             _dbcontext = dbcontext;
         }
 
-
+        // api cung cấp  danh sách room cho khách hàng 
         [AllowAnonymous]
         [HttpGet("room")]
         public async Task<IActionResult> SearchRoomAdvance(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
@@ -60,7 +60,6 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
             var ListResult = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
 
             return Ok(new PaginationResult<ViewRoom>(ListResult, TotalItems, PageCurrent, NumerItemOfPage, newCheckIn, newCheckOut));  //  lưu vào construcor của PaginationResult để trả về
-
         }
 
 
@@ -94,7 +93,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
 
                          .CountAsync();
 
-            var ListResult = await _IRoomService.SearchRoomByAdvanceForManagement(option,PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
+            var ListResult = await _IRoomService.SearchRoomByAdvanceForManagement(option, PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
 
             return Ok(new PaginationResult<ViewRoom>(ListResult, TotalItems, PageCurrent, NumerItemOfPage, newCheckIn, newCheckOut));  //  lưu vào construcor của PaginationResult để trả về
         }

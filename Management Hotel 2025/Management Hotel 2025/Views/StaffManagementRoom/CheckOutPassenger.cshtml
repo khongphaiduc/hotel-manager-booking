@@ -1,0 +1,141 @@
+﻿@model Management_Hotel_2025.ViewModel.Order
+@{
+    Layout = "~/Views/Shared/StaffHeader.cshtml";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Check-out Phòng</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #eef2f7;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        .card-custom {
+            border-radius: 12px;
+            background: #ffffff;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .price-box {
+            background: #f1f6ff;
+            border-left: 4px solid #0d6efd;
+            padding: 12px 15px;
+            border-radius: 6px;
+        }
+
+            .price-box .amount {
+                font-size: 20px;
+                font-weight: 700;
+                color: #0d6efd;
+            }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container my-4">
+        <!-- Thông tin khách hàng -->
+        <div class="card-custom p-4 mb-4">
+            <div class="section-title">Thông tin khách hàng</div>
+            <div class="row g-3">
+                <div class="col-md-6"><label>Họ tên</label><input class="form-control" readonly value="@Model.CustomerName" /></div>
+                <div class="col-md-6"><label>CMND / CCCD / Passport</label><input class="form-control" readonly value="@Model.PersonalId" /></div>
+                <div class="col-md-6"><label>Số điện thoại</label><input class="form-control" readonly value="@Model.CustomerPhone" /></div>
+                <div class="col-md-6"><label>Email</label><input class="form-control" readonly value="@Model.Email" /></div>
+            </div>
+        </div>
+
+        <!-- Danh sách phòng & dịch vụ -->
+        @foreach (var room in Model.roomsOrders)
+        {
+            <div class="card-custom p-4 mb-4">
+                <div class="section-title">Phòng @room.RoomNumber - @room.RoomType</div>
+
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Dịch vụ</th>
+                            <th width="120">Số lượng</th>
+                            <th width="160">Đơn giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sv in room.UsedToServices)
+                        {
+                            <tr>
+                                <td>@sv.Service.ServiceName</td>
+                                <td>@sv.Quantity</td>
+                                <td>@sv.UnitPrice.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-bold">
+                            <td colspan="2" class="text-end">Tổng dịch vụ phòng</td>
+                            <td>@room.TotalService.ToString("C")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+
+        <!-- Thanh toán -->
+        <div class="card-custom p-4 mb-4">
+            <div class="section-title">Thanh toán</div>
+
+            <div class="row g-3">
+                <div class="col-md-4"><label>Tổng tiền phòng</label><input class="form-control" readonly value="@Model.TotalRoomPrice.ToString("C")" /></div>
+                <div class="col-md-4"><label>Tổng tiền dịch vụ</label><input class="form-control" readonly value="@Model.TotalServicePrice.ToString("C")" /></div>
+                <div class="col-md-4"><label>Số tiền đặt cọc</label><input class="form-control" readonly value="@Model.Deposit.ToString("C")" /></div>
+
+                <div class="col-md-4"><label>Thời gian đặt cọc</label><input class="form-control" readonly value="@Model.TimeDeposit" /></div>
+                <div class="col-md-4"><label>Trạng thái</label><input class="form-control" readonly value="@Model.OrderStatus" /></div>
+
+                <div class="col-md-4">
+                    <label>Phương thức thanh toán</label>
+                    <select class="form-select">
+                        <option>Tiền mặt</option>
+                        <option>Chuyển khoản</option>
+                        <option>Thẻ</option>
+                        <option>Ví điện tử</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="price-box mt-4">
+                <div>Tổng số tiền cần thanh toán</div>
+                <div class="amount">@Model.TotalAmountOrder.ToString("C")</div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end gap-3">
+            <a class="btn btn-outline-secondary px-4" href="/StaffManagementRoom/BookingsView">Quay lại</a>
+            <button class="btn btn-primary px-4">Xác nhận Check-out</button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

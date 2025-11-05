@@ -1,0 +1,105 @@
+﻿/* Reset cơ bản */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Flex container */
+.d-flex {
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background: #1E1F29;
+    color: white;
+    transition: width 0.3s;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    border-bottom: 1px solid #333;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    color: #ddd;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+    .sidebar ul li a i {
+        margin-right: 12px;
+        font-size: 18px;
+    }
+
+    .sidebar ul li a:hover {
+        background: #343549;
+        color: #fff;
+    }
+
+.sidebar .logout a {
+    color: #ff6969;
+    border-top: 1px solid #333;
+    margin-top: 10px;
+}
+
+/* Nội dung chính */
+.content {
+    margin-left: 250px;
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Khi sidebar thu gọn */
+.sidebar.collapsed {
+    width: 70px;
+}
+
+    .sidebar.collapsed a span,
+    .sidebar.collapsed h4 {
+        display: none;
+    }
+
+.content.collapsed {
+    margin-left: 70px;
+}
+
+.sidebar.collapsed ul li a i {
+    margin-right: 0;
+}
+
+/* Nút Toggle Hamburger - góc trái dưới */
+.toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1100;
+    transition: all 0.3s;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    /* Optional: thay đổi màu khi hover */
+    .toggle-btn:hover {
+        background-color: #343549;
+        color: #fff;
+    }

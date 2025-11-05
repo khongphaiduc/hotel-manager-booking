@@ -239,12 +239,12 @@
 
     <script>
         (function () {
-            // Dữ liệu mẫu (không còn trạng thái "không đến")
-           const sampleRooms = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+            // Lấy dữ liệu từ model
+            const sampleRooms = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
             const floorsContainer = document.getElementById('floorsContainer');
             let currentStatusFilter = 'all';
 
-            // Helper: floor number from room number (e.g., 101 -> 1)
+            // Helper: lấy tầng từ số phòng (vd: 101 -> 1)
             function floorOf(numberStr) {
                 const n = parseInt(numberStr, 10) || 0;
                 return Math.floor(n / 100);
@@ -254,19 +254,19 @@
                 switch (status) {
                     case 'occupied': return '<i class="fa-solid fa-bed"></i>';           // đang ở
                     case 'reserved': return '<i class="fa-regular fa-calendar-check"></i>';     // đã đặt trước
-                    case 'overdue': return '<i class="fa-solid fa-triangle-exclamation"></i>';   //quá hạn
+                    case 'overdue': return '<i class="fa-solid fa-triangle-exclamation"></i>';   // quá hạn
                     case 'available': return '<i class="fa-solid fa-check"></i>';              // trống
                     case 'maintenance': return '<i class="fa-solid fa-screwdriver-wrench"></i>';  // bảo trì
                     default: return '<i class="fa-solid fa-door-closed"></i>';
                 }
             }
 
-            // Render grouped floors: create a section per floor with header + grid
+            // Render từng tầng và phòng
             function renderGrouped(list) {
                 floorsContainer.innerHTML = '';
                 const floors = Array.from(new Set(list.map(r => floorOf(r.number))))
                     .filter(f => f >= 0)
-                    .sort((a, b) => a - b); // sort ascending: floor 1, 2, 3, ...
+                    .sort((a, b) => a - b);
 
                 floors.forEach(floorNum => {
                     const roomsOnFloor = list.filter(r => floorOf(r.number) === floorNum);
@@ -285,12 +285,14 @@
 
                     const grid = document.createElement('div');
                     grid.className = 'rooms-grid-floor';
-                    // create tiles
+
+                    // Render từng ô phòng
                     roomsOnFloor.forEach(r => {
                         const tile = document.createElement('div');
                         tile.className = 'room-tile ' + r.status;
                         tile.setAttribute('data-status', r.status);
                         tile.setAttribute('data-number', r.number);
+                        tile.setAttribute('data-idbookingdetail', r.idBookingDetail || ''); // 👈 Thêm dòng này
                         tile.innerHTML = `
                             <div class="tile-top">${r.type}</div>
                             <div class="tile-number">${r.number}</div>
@@ -311,7 +313,7 @@
                 updateCounts();
             }
 
-            // Apply filters: status across all floor sections; hide floors with 0 visible tiles
+            // Lọc theo trạng thái
             function applyFilters() {
                 const sections = Array.from(document.querySelectorAll('.floor-section'));
                 sections.forEach(sec => {
@@ -336,7 +338,7 @@
                 updateCounts();
             }
 
-            // Update global counts (buttons) based on currently visible tiles
+            // Cập nhật số lượng
             function updateCounts() {
                 const allTiles = Array.from(document.querySelectorAll('.room-tile'));
                 const visibleTiles = allTiles.filter(t => t.style.display !== 'none');
@@ -355,7 +357,7 @@
                 });
             }
 
-            // Event delegation: filter buttons and tile clicks
+            // Xử lý click
             document.addEventListener('click', function (e) {
                 const btn = e.target.closest('.filter-btn');
                 if (btn) {
@@ -367,38 +369,44 @@
                     return;
                 }
 
+                // Khi click vào phòng
                 const tile = e.target.closest('.room-tile');
-              if (tile) {
-                          const number = tile.getAttribute('data-number');
-                          const status = tile.getAttribute('data-status');
-                         // điều hướng đến trang chi tiết phòng
-                         window.location.href = `/StaffManagementRoom/Detail?roomNumber=${number}`;
+                if (tile) {
+                    const idBookingDetail = tile.getAttribute('data-idbookingdetail');
+                    const number = tile.getAttribute('data-number');
+
+                    if (idBookingDetail && idBookingDetail !== '') {
+                        // ✅ Có booking trong hôm nay
+                        window.location.href = `/StaffManagementRoom/RoomViewPassengers?idbookingdetail=${idBookingDetail}`;
+                    } else {
+                        // ⚠️ Phòng chưa có booking hôm nay
+                        alert(`Phòng ${number} hiện chưa có đơn đặt phòng trong hôm nay.`);
+                    }
                 }
             });
 
-            // Toggle legend
+            // Hiển thị/ẩn chú thích
             document.getElementById('showLegend').addEventListener('change', function () {
                 document.getElementById('legend').style.display = this.checked ? 'flex' : 'none';
             });
 
-            // Reset filters
+            // Reset filter
             document.getElementById('resetFilters').addEventListener('click', function () {
                 currentStatusFilter = 'all';
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
                 if (allBtn) allBtn.classList.add('active');
-                // show all sections & tiles
                 document.querySelectorAll('.floor-section').forEach(sec => sec.style.display = '');
                 document.querySelectorAll('.room-tile').forEach(t => t.style.display = '');
                 updateCounts();
             });
 
-            // Initialize grouped view and set default active filter
+            // Khởi tạo
             renderGrouped(sampleRooms);
             const defBtn = document.querySelector('.filter-btn[data-filter="all"]');
             if (defBtn) defBtn.classList.add('active');
-
         })();
     </script>
+
 </body>
 </html>

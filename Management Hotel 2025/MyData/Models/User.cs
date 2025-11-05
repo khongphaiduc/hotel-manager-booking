@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyData.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Mydata.Models;
@@ -25,6 +26,8 @@ public partial class User
 
     public string Salt { get; set; } = null!;
 
+    public decimal Coin { get; set; } = 0m;
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
@@ -34,4 +37,6 @@ public partial class User
     public virtual ICollection<StaffAction> StaffActions { get; set; } = new List<StaffAction>();
 
     public virtual ICollection<Token> Tokens { get; set; } = new List<Token>();
+
+    public virtual ICollection<DepositHistory> DepositHistories { get; set; } = new List<DepositHistory>();
 }

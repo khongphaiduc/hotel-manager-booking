@@ -55,12 +55,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="@Url.Action("CheckInPassengers", "StaffManagementRoom")">
-                            <i class="fas fa-calendar-plus me-1"></i> Nhận phòng
-                        </a>
-                    </li>
-
+                  
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("RegisterGuestInfo", "StaffManagementRoom")">
                             <i class="fas fa-clipboard-list me-1"></i> Quản lý phòng
@@ -81,15 +76,22 @@
                     </li>
 
                 </ul>
-
+                <!-- USER MENU --
+ >
                 <!-- USER MENU -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-
                             <i class="fas fa-user-circle me-1"></i>
-                            @(User.IsInRole("Staff") ? "Nhân viên lễ tân : " + @User.FindFirst("FullName")?.Value : "Admin")
-
+                            @(User.IsInRole("Staff")
+                                ? "Nhân viên lễ tân : " + User.FindFirst("FullName")?.Value
+                                : "Admin")
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-coins me-1"></i>
+                            Coin : @(User.FindFirst("Coin")?.Value ?? "0")
                         </a>
                     </li>
                     <li class="nav-item">
@@ -98,12 +100,13 @@
                         </a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
-    <div class="container-fluid mt-4">
+    <div class="container-fluid p-0 m-0">
         @RenderBody()
     </div>
     <!-- Bootstrap JS -->

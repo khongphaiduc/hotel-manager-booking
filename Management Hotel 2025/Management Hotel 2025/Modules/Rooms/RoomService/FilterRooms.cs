@@ -25,7 +25,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         {
             throw new NotImplementedException();
         }
-
+              
         //tìm kiếm  phòng theo số ph
         public async Task<ViewRoomModel> FilterByIdRoom(string IdRoom)
         {
@@ -53,11 +53,11 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                 .Where(s =>
                     (!Floor.HasValue || s.Floor == Floor) &&
                     (
-                        Option == "all" ||
-                        (Option == "Booked" && s.BookingDetails.Any(bd => bd.Booking.Status != "Cancelled" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate)) ||
+                         Option == "all" ||
+                        (Option == "Success" && s.BookingDetails.Any(bd => bd.Booking.Status == "Success" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate)) ||
                         (Option == "Available" && !s.BookingDetails.Any(bd => bd.Booking.Status != "Cancelled" && startdate < bd.CheckOutDate && enddate > bd.CheckInDate)) ||
                         (Option == "Maintenance" && s.Status.Equals("Maintenance")) ||
-                        (Option == "Cleaning" && s.Status.Equals("Cleaning"))
+                        (Option == "CheckIn" && s.BookingDetails.Any(s => s.Booking.Status == "Checkin"))
                     )
                 )
                 .Select(room => new ViewRoomModel()
@@ -70,13 +70,6 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                     Price = room.RoomType.Price,
                     NumberOfRooms = room.RoomNumber,
 
-                    // 👇 Lấy tên người booking (nếu có)
-                    NamePasssger = room.BookingDetails
-                        .Where(bd => bd.Booking.Status != "Cancelled" &&
-                                     startdate < bd.CheckOutDate &&
-                                     enddate > bd.CheckInDate)
-                        .Select(bd => bd.Booking.CustomerName)
-                        .FirstOrDefault()
                 })
                 .ToListAsync();
 
@@ -119,25 +112,112 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
 
         public List<MapRoom> getListMapRoomToDay()
         {
-            // sử dụng toán tử 3 ngôi  lồng nhau
             DateTime today = DateTime.Now.Date;
 
             var list = _Dbcontext.Rooms
-                  .Include(s => s.BookingDetails).Include(s => s.RoomType)
-                  .Select(s => new MapRoom()
-                  {
+                .Include(r => r.BookingDetails)
+                    .ThenInclude(bd => bd.Booking)
+                .Include(r => r.RoomType)
+                .AsEnumerable()
+                .Select(r =>
+                {
+                    // Tìm booking có hiệu lực trong ngày hôm nay
+                    var todayBooking = r.BookingDetails
+                        .FirstOrDefault(bd => bd.CheckInDate <= today && bd.CheckOutDate >= today);
 
-                      IdRoom = s.RoomId,
-                      number = s.RoomNumber,
-                      type = s.RoomType.Name,
-                      status = s.Status.Equals("occupied") ? "occupied"  : s.Status.Equals("blocked")  ? "blocked" : s.Status.Equals("overdue") ? "overdue" : s.BookingDetails.Any(b => b.CheckInDate <= today && b.CheckOutDate >= today) ? "reserved"   : "available"
-   
+                    string status;
 
-                  }).ToList();
+                    if (r.BookingDetails == null || !r.BookingDetails.Any())
+                    {
+                        // Phòng chưa từng được đặt
+                        status = "available";
+                    }
+                    else if (todayBooking != null)
+                    {
+                        // Có đặt phòng trong hôm nay
+                        string bookingStatus = todayBooking.Booking.Status;
+
+                        if (bookingStatus.Equals("CheckIn", StringComparison.OrdinalIgnoreCase))
+                        {
+                            status = "occupied"; // đang ở
+                        }
+                        else if (bookingStatus.Equals("Success", StringComparison.OrdinalIgnoreCase))
+                        {
+                            status = "reserved"; // đã đặt trước
+                        }
+                        else if (bookingStatus.Equals("overdue", StringComparison.OrdinalIgnoreCase))
+                        {
+                            status = "overdue"; // quá hạn
+                        }
+                        else if (bookingStatus.Equals("blocked", StringComparison.OrdinalIgnoreCase))
+                        {
+                            status = "blocked"; // khóa / không sử dụng
+                        }
+                        else
+                        {
+                            status = "available";
+                        }
+                    }
+                    else
+                    {
+                        // Không có đặt phòng nào trùng ngày
+                        status = "available";
+                    }
+
+                    return new MapRoom
+                    {
+                        IdRoom = r.RoomId,
+                        number = r.RoomNumber,
+                        type = r.RoomType?.Name ?? "Không rõ",
+                        status = status,
+                        idBookingDetail = todayBooking?.BookingDetailId
+                    };
+                })
+                .ToList();
 
             return list;
         }
 
+
+        // lấy thông tin khách hàng của phòng 
+        public RoomPassengers ViewDetailRoomPassengers(int idbookingdetail)
+        {
+            var item = _Dbcontext.BookingDetails
+                .Include(s => s.Room)
+                .Include(s => s.Booking)
+                .Include(s => s.Guests)
+                .Include(s => s.BookingServices)
+                    .ThenInclude(bs => bs.Service)
+                .Where(s => s.BookingDetailId == idbookingdetail)
+                .Select(s => new RoomPassengers()
+                {
+                    RoomName = s.Room.RoomNumber,
+                    Status = s.Booking.Status,
+                    NumberofRoom = s.Room.RoomNumber,
+
+                    // Danh sách khách
+                    Passengers = s.Guests.Select(g => new Guests()
+                    {
+                        FullName = g.FullName,
+                        Gender = g.Gender,
+                        CodePersonal = g.CodePersonal,
+                        PhoneNumber = g.PhoneNumber,
+                        BirthDay = g.BirthDay,
+                    }).ToList(),
+
+                    // Danh sách dịch vụ
+                    Services = s.BookingServices.Select(bs => new Services()
+                    {
+                        ServiceName = bs.Service.ServiceName,
+                        Price = bs.Service.Price,
+                        Description = bs.Service.Description,
+                        Discount = bs.Service.Discount
+                    }).ToList()
+                }).FirstOrDefault();
+
+
+            return item;
+        }
 
     }
 }

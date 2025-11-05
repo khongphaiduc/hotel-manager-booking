@@ -26,5 +26,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         // lấy trạng thái phòng trong ngày
         public List<MapRoom> getListMapRoomToDay();
 
+
+        public RoomPassengers ViewDetailRoomPassengers(int idbookingdetail);
     }
 }

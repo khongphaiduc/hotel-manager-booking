@@ -9,11 +9,14 @@ using Management_Hotel_2025.Modules.Secheduler;
 using Management_Hotel_2025.Serives.AuthenSerive;
 using Management_Hotel_2025.Serives.CallAPI;
 using Management_Hotel_2025.Serives.GenarateToken;
+using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
 using Quartz;
+using PayOS;
+using Management_Hotel_2025.Modules.Rooms.RoleAdmin.AdminServices;
 
 
 namespace Management_Hotel_2025
@@ -69,13 +72,28 @@ namespace Management_Hotel_2025
                  .WithCronSchedule("0 0 9 * * ?")); // hẹn 9h chạy mỗi ngày
 
 
+
+                // tính toán trả phòng muộn chạy đúng 12 giờ trưa mỗi ngày 
+                var jobKeyLateCheckOutCalculator = new JobKey("UpdateRoomStatusJob", "group1");
+                q.AddJob<LateCheckOutCalculator>(opts => opts.WithIdentity(jobKeyLateCheckOutCalculator));
+
+                q.AddTrigger(opts => opts
+                    .ForJob(jobKeyLateCheckOutCalculator)
+                    .WithIdentity("UpdateRoomStatusTrigger", "group1")
+                 .WithCronSchedule("0 0 12 * * ?"));
+
+                q.AddTrigger(s => s.ForJob(jobKeyLateCheckOutCalculator)
+                .WithIdentity("UpdateRoomStatusTrigger_Startup", "group1")
+                .StartNow());
+
+
+
             });
 
             // 3. Thêm QuartzHostedService để Quartz tự chạy  (tự động run khi app mở) 
             builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
             //--------------------------------------------------------------------------------
-
 
             // AddAuthentication là Bật hệ thống xác thực cho ứng dụng
             builder.Services
@@ -132,6 +150,34 @@ namespace Management_Hotel_2025
             builder.Services.AddTransient<IGanarateQRCode, QRCodeBookingDetail>();
 
             builder.Services.AddTransient<IReceptionService, ReceptionService>();
+
+            builder.Services.AddTransient<IOrder, ViewOrder>();
+
+            builder.Services.AddTransient<IAdminManagement,AdminManagement>();
+
+            ////-----
+            //builder.Services.AddControllers();
+            //builder.Services.AddEndpointsApiExplorer();
+            ////-----
+
+
+
+            // Đăng ký PayOSClient
+            builder.Services.AddSingleton<PayOSClient>(sp =>
+            {
+                return new PayOSClient(new PayOSOptions
+                {
+                    ClientId = "2725f904-035d-4c7d-8f6e-07da3461bbe2",
+                    ApiKey = "25c80e53-1d0d-4faa-b7a6-8525e477ac65",
+                    ChecksumKey = "cb2a2f2e9e1743fd63dc16c997b9f5c7b3d924d0690fe88b5c932417c856ccc2",
+                  
+                })
+                {
+
+                };
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -141,6 +187,7 @@ namespace Management_Hotel_2025
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseSession();             // Kích hoạt Session trong ứng dụng
             app.UseHttpsRedirection();
             app.UseStaticFiles();

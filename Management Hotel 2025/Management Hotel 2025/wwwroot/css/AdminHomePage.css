@@ -1,0 +1,46 @@
+﻿/* Tabs */
+.tab-border .nav-link {
+    color: #475569;
+    padding: 12px 16px;
+    border: none;
+}
+
+    .tab-border .nav-link.active {
+        color: #0f172a;
+        border-bottom: 3px solid #2563eb;
+        background: transparent;
+        font-weight: 600;
+    }
+
+/* Table */
+.booking-table thead th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #6b7280;
+    background: #fbfdff;
+    border-top: 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.booking-table tbody td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    vertical-align: middle;
+    color: #0f172a;
+}
+
+.booking-table tbody tr:hover {
+    background: #ffffff;
+    box-shadow: inset 6px 0 0 0 rgba(37,99,235,0.05);
+}
+
+.booking-table a {
+    font-weight: 600;
+}
+
+/* subtle shadow for container card */
+.card.shadow-sm {
+    border: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}

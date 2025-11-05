@@ -44,6 +44,15 @@ public partial class Booking
 
     public string TypePassenger { get; set; } = "Personal";
 
+
+
+     //thời điểm khách check-in thực tế 
+    public DateTime? RealTimeCheckIn { get; set; }
+
+
+    // thơì điểm khách check-out thực tế
+    public DateTime? RealTimeCheckOut { get; set; }
+
     public virtual User? User { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

@@ -1,8 +1,12 @@
 # Hệ Thống Đặt Phòng & Quản Lý Khách Sạn 2025
 
-Dự Án Đang Trong Quá Trình Phát Triển  ( 10/08/2025 )
+Dự Án Đang Trong Quá Trình Phát Triển  ( 10/08/2025 ) 
 
 Software Engineer : Phạm Trung Đức 
+
+- Backend : Phạm Trung Đức
+
+- Frontend : GPT  , Copilot , Phạm Trung Đức
 
 Mọi đóng góp hay góp ý xin liên hệ gmail : ptrungduc1011@gmail.com
 

@@ -167,9 +167,9 @@ namespace Management_Hotel_2025
             {
                 return new PayOSClient(new PayOSOptions
                 {
-                    ClientId = "2725f904-035d-4c7d-8f6e-07da3461bbe2",
-                    ApiKey = "25c80e53-1d0d-4faa-b7a6-8525e477ac65",
-                    ChecksumKey = "cb2a2f2e9e1743fd63dc16c997b9f5c7b3d924d0690fe88b5c932417c856ccc2",
+                    ClientId = "be2",
+                    ApiKey = "2525e477ac65",
+                    ChecksumKey = "cb2a2"
                   
                 })
                 {

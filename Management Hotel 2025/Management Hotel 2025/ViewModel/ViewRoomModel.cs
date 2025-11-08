@@ -13,5 +13,7 @@
         public string Image { get; set; }
         public decimal Price { get; set; }
 
+        public string  status { get; set; }
+
     }
 }

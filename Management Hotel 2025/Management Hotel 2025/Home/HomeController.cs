@@ -5,6 +5,7 @@ using Mydata.Models;
 
 namespace Management_Hotel_2025.Controllers
 {
+    [Route("home")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,6 +18,7 @@ namespace Management_Hotel_2025.Controllers
         }
 
 
+        [Route("trungducluxuryhotel")]
         public IActionResult Index()
         {
             // nếu là nhân viên hay là thằng admin thì chuyển giao diện
@@ -33,7 +35,7 @@ namespace Management_Hotel_2025.Controllers
             }
         }
 
-
+        [Route("/")]
         public IActionResult Intro()
         {
             return View();

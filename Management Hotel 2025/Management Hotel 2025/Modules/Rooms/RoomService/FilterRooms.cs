@@ -64,7 +64,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                 {
                     IdRoom = room.RoomId,
                     Name = room.RoomType.Name,
-                    Floor = (int)room.Floor,
+                    Floor =  room.Floor ?? 1 ,
                     Description = room.Description,
                     Image = room.PathImage,
                     Price = room.RoomType.Price,

@@ -4,7 +4,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin.AdminServices
 {
     public interface IAdminManagement
     {
-        public AdminListsViewRoom ViewListRoom();
+        public AdminListsViewRoom ViewListRoom(); // xem danh sách phòng  trong ngày  ( đang đến , đang chuanr bị chek-out , số khách đang lưu chú )      
 
+        public List<ViewRoomModel> ViewTypeRoom(); // xem loại phòng hiện có trong khách sạn
+
+        public AdJustRoom GetRoomDetails(int roomId); // lấy chi tiết phòng để sửa 
+
+        public bool AdjustRoom(AdJustRoom room);
     }
 }

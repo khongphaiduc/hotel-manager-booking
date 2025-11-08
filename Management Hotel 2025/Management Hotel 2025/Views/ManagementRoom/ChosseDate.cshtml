@@ -14,6 +14,109 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---------------------- LOADER NEW DESIGN ---------------------- */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(3px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .inline-block {
+            display: inline-block;
+        }
+
+        .loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+        }
+
+        .w-2 {
+            width: 0.5em;
+        }
+
+        .dash {
+            animation: dashArray 2s ease-in-out infinite, dashOffset 2s linear infinite;
+        }
+
+        .spin {
+            animation: spinDashArray 2s ease-in-out infinite, spin 8s ease-in-out infinite, dashOffset 2s linear infinite;
+            transform-origin: center;
+        }
+
+        @@keyframes dashArray {
+            0%
+
+        {
+            stroke-dasharray: 0 1 359 0;
+        }
+
+        50% {
+            stroke-dasharray: 0 359 1 0;
+        }
+
+        100% {
+            stroke-dasharray: 359 1 0 0;
+        }
+
+        }
+
+        @@keyframes spinDashArray {
+            0%
+
+        {
+            stroke-dasharray: 270 90;
+        }
+
+        50% {
+            stroke-dasharray: 0 360;
+        }
+
+        100% {
+            stroke-dasharray: 270 90;
+        }
+
+        }
+
+        @@keyframes dashOffset {
+            0%
+
+        {
+            stroke-dashoffset: 365;
+        }
+
+        100% {
+            stroke-dashoffset: 5;
+        }
+
+        }
+
+        @@keyframes spin {
+            0%
+
+        {
+            rotate: 0deg;
+        }
+
+        100% {
+            rotate: 1080deg;
+        }
+
+        }
+    </style>
+
 </head>
 
 <body>
@@ -43,7 +146,11 @@
                     <div class="field">
                         <label for="checkout" class="date-label">Ngày đi</label>
                         <div class="input-wrapper">
-                            <input type="date" id="checkout" name="checkout" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+                            <input type="date"
+                                   id="checkout"
+                                   name="checkout"
+                                   min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
+                                   required />
                             <span class="calendar-icon">📅</span>
                         </div>
                     </div>
@@ -55,25 +162,51 @@
             </form>
         </div>
 
-        <!-- Loading Overlay -->
+        <!-- ✅ NEW LOADING OVERLAY -->
         <div id="loadingOverlay">
             <div class="loader">
-                <div class="spinner"></div>
-                <p class="loading-text">Đang tìm phòng cho bạn<span class="dots"></span></p>
+                <svg height="0" width="0" viewBox="0 0 64 64" class="absolute">
+                    <defs>
+                        <linearGradient gradientUnits="userSpaceOnUse" y2="2" x2="0" y1="62" x1="0" id="b">
+                            <stop stop-color="#973BED"></stop>
+                            <stop stop-color="#007CFF" offset="1"></stop>
+                        </linearGradient>
+                        <linearGradient gradientUnits="userSpaceOnUse" y2="0" x2="0" y1="64" x1="0" id="c">
+                            <stop stop-color="#FFC800"></stop>
+                            <stop stop-color="#F0F" offset="1"></stop>
+                            <animateTransform repeatCount="indefinite" dur="8s" values="0 32 32;-270 32 32;-540 32 32;-810 32 32;-1080 32 32" type="rotate" attributeName="gradientTransform" />
+                        </linearGradient>
+                        <linearGradient gradientUnits="userSpaceOnUse" y2="2" x2="0" y1="62" x1="0" id="d">
+                            <stop stop-color="#00E0ED"></stop>
+                            <stop stop-color="#00DA72" offset="1"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <svg fill="none" viewBox="0 0 64 64" height="64" width="64" class="inline-block">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="8" stroke="url(#b)" d="M 54.7,4 h 5 c -1,13 -11,24 -24,26 a 2,2 0 0 0 -2,2 v 30 h -4 V 32 a 2,2 0 0 0 -2,-2 C 14,28 4,17 3,4 h 5 c 1,12 11,21 23,22 c 12,0 22,-9 24,-22 z" class="dash" />
+                </svg>
+
+                <svg fill="none" viewBox="0 0 64 64" height="64" width="64" class="inline-block">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="10" stroke="url(#c)" d="M 32 32 m 0 -27 a 27 27 0 1 1 0 54 a 27 27 0 1 1 0 -54" class="spin" />
+                </svg>
+
+                <div class="w-2"></div>
+
+                <svg fill="none" viewBox="0 0 64 64" height="64" width="64" class="inline-block">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="8" stroke="url(#d)" d="M 4,4 h 5 v 26 c 0,14 12,26 26,26 c 14,0 26,-12 26,-26 V 4 h 5 v 26 c 0,17 -14,31 -31,31 C 18,61 4,47 4,30 Z" class="dash" />
+                </svg>
             </div>
         </div>
 
     </main>
 
     <script>
-        // ✅ Tự động cập nhật ngày đi >= ngày đến + 1
         const checkin = document.getElementById('checkin');
         const checkout = document.getElementById('checkout');
         const errorMsg = document.getElementById('form-error');
 
         checkin.addEventListener('change', () => {
-            if (!checkin.value) return;
-
             const start = new Date(checkin.value);
             const minCheckout = new Date(start);
             minCheckout.setDate(start.getDate() + 1);
@@ -81,7 +214,7 @@
             const minDateStr = minCheckout.toISOString().split('T')[0];
             checkout.min = minDateStr;
 
-            if (checkout.value && checkout.value < minDateStr) {
+            if (checkout.value < minDateStr) {
                 checkout.value = minDateStr;
             }
         });
@@ -103,10 +236,10 @@
             }
 
             errorMsg.textContent = "";
-            const overlay = document.getElementById('loadingOverlay');
-            overlay.style.display = 'flex';
+            document.getElementById('loadingOverlay').style.display = 'flex';
 
-            const url = `/ManagementRoom/ViewListRoomVer2?PageCurrent=1&NumerItemOfPage=8&StartDate=${encodeURIComponent(startDate)}&EndDate=${encodeURIComponent(endDate)}`;
+          const url = `/room/list/1/8?Floor=${null}&PriceMin=${null}&PriceMax=${null}&Person=${null}&StartDate=${encodeURIComponent(startDate)}&EndDate=${encodeURIComponent(endDate)}`;
+
             window.location.href = url;
         });
     </script>

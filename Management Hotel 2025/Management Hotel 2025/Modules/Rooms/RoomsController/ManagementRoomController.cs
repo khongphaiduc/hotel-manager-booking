@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 {
+    [Route("room")]
     public class ManagementRoomController : Controller
     {
         private readonly ManagermentHotelContext _dbContext;
@@ -28,6 +29,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
         // hiện thi danh sách phòng(advance) và phân trang
         [AllowAnonymous]
+        [Route("list/{PageCurrent}/{NumerItemOfPage}")]
         public async Task<IActionResult> ViewListRoomVer2(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
         {
             ViewBag.Floor = Floor;
@@ -66,24 +68,8 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
         }
 
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ViewDetailRoom([FromQuery] int IdRoom)
-        //{
-        //    var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);
-
-        //    if (Room != null)
-        //    {
-        //        return View(Room);
-        //    }
-        //    else
-        //    {
-        //        return NotFound("Room not found.");
-        //    }
-
-        //}
-
-        // xem chi tiết 1 phòng
         [AllowAnonymous]
+        [Route("detail")]
         public async Task<IActionResult> ViewDetailRoomVer2([FromQuery] int IdRoom)
         {
             var Room = await _ApiService.ViewDetaiRoomAIPAsync(IdRoom);
@@ -105,9 +91,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         }
 
 
-
-
-
+        [Route("date")]
         public IActionResult ChosseDate()
         {
             return View();

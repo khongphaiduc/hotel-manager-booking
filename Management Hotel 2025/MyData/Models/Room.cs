@@ -20,6 +20,8 @@ public partial class Room
 
     public string PathImage { get; set; } = null!;
 
+    public decimal PricePrivate { get; set; }
+
     public virtual RoomType RoomType { get; set; } = null!;
 
     public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();

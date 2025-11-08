@@ -62,6 +62,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
             return View(ListRoom);
         }
+        
         // search room
         [Authorize(Roles = "Staff,Admin")]
         [HttpGet]

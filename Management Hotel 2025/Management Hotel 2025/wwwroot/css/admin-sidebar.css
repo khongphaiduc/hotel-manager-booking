@@ -1,13 +1,15 @@
 ﻿/* Reset cơ bản */
 body, html {
-    height: 100%;
+    /* Đảm bảo chiều cao tối thiểu 100% để nội dung có thể cuộn */
+    min-height: 100%;
     margin: 0;
     padding: 0;
 }
 
 /* Flex container */
+/* Thay height: 100vh bằng min-height: 100vh để nó có thể mở rộng */
 .d-flex {
-    height: 100vh;
+    min-height: 100vh;
 }
 
 /* Sidebar */
@@ -16,6 +18,7 @@ body, html {
     left: 0;
     top: 0;
     width: 250px;
+    /* Giữ nguyên 100vh vì sidebar cố định */
     height: 100vh;
     background: #1E1F29;
     color: white;
@@ -56,12 +59,15 @@ body, html {
 
 /* Nội dung chính */
 .content {
+    /* Khoảng cách bên trái cho sidebar */
     margin-left: 250px;
     flex: 1;
     padding: 20px;
     transition: margin-left 0.3s;
-    height: 100vh;
-    overflow-y: auto;
+    /* SỬA ĐỔI QUAN TRỌNG: BỎ height: 100vh và overflow-y: auto; */
+    /* Điều này cho phép nội dung trang con cuộn tự nhiên với trang */
+    /* height: 100vh; */
+    /* overflow-y: auto; */
 }
 
 /* Khi sidebar thu gọn */

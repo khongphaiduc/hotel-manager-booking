@@ -40,7 +40,14 @@
                         @for (int i = 0; i < Model.ListPathImage.Count; i++)
                         {
                             <div class="carousel-item @(i == 0 ? "active" : "")">
-                                <img src="@Model.ListPathImage[i]" class="d-block w-100 rounded" alt="Phòng ngủ">
+                                @if (@Model.ListPathImage[i].StartsWith("http"))
+                                {
+                                    <img src="@Model.ListPathImage[i]" class="d-block w-100 rounded" alt="Phòng ngủ">
+                                }
+                                else
+                                {
+                                    <img src="/images/@Model.ListPathImage[i]" class="d-block w-100 rounded" alt="Phòng ngủ">
+                                }
                             </div>
                         }
                     </div>

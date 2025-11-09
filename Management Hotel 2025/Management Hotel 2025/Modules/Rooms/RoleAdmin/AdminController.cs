@@ -2,16 +2,22 @@
 using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Mydata.Models;
+using Newtonsoft.Json;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
 {
     [Route("admin")]
     public class AdminController : Controller
     {
+        private readonly ILogger<AdminController> _logger;
         private readonly IAdminManagement _iadmin;
 
-        public AdminController(IAdminManagement iadmin)
+        public AdminController(IAdminManagement iadmin, ILogger<AdminController> logger)
         {
+            _logger = logger;
             _iadmin = iadmin;
         }
 
@@ -26,7 +32,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
         }
 
 
-
+        // xem quanlý phòng
         [Authorize(Roles = "Admin")]
         [Route("serveralroom")]
         public IActionResult AdminHomePage()
@@ -35,36 +41,113 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
             return View(totalList);
         }
 
-
+        //call api xem thông tin phòng
         [Authorize(Roles = "Admin")]
         [Route("room/{idRoom}")]
         [HttpGet]
-        public IActionResult AdjustRoom(int idRoom)
+        public async Task<IActionResult> AdjustRoom(int idRoom)
         {
-            var roomDetails = _iadmin.GetRoomDetails(idRoom);
+            string url = $"https://localhost:7236/api/roomedit/room/{idRoom}";
 
-            return View(roomDetails);
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var response = await client.GetAsync(url);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        var jsonString = await response.Content.ReadAsStringAsync();
+
+
+                        var room = JsonConvert.DeserializeObject<AdJustRoom>(jsonString);
+
+
+                        return View(room);
+                    }
+                    else
+                    {
+
+                        return View("Error", new { message = "Không lấy được dữ liệu từ API" });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new { message = ex.Message });
+            }
         }
 
 
+
+        // call api cập nhật phòng 
         [Authorize(Roles = "Admin")]
         [Route("room/{idRoom}")]
         [HttpPost]
-        public IActionResult AdjustRoom(AdJustRoom roomjust)
+        public async Task<IActionResult> AdjustRoom(AdJustRoom room)
         {
+            string url = "https://localhost:7236/api/roomedit/room";
 
-            //cập nhật lại thông tin cơ bản của room
-            bool result = _iadmin.AdjustRoom(roomjust);
-
-            if (result)
+            try
             {
-                return Ok(new { success = true, message = "Cập nhật phòng thành công!" });
+                using (var client = new HttpClient())
+                using (var content = new MultipartFormDataContent())
+                {
+                    // Thêm text fields
+                    content.Add(new StringContent(room.RoomId.ToString()), "RoomId");
+                    content.Add(new StringContent(room.RoomTypeId.ToString()), "RoomTypeId");
+                    content.Add(new StringContent(room.RoomNumber ?? ""), "RoomNumber");
+                    content.Add(new StringContent(room.Floor.ToString()), "Floor");
+                    content.Add(new StringContent(room.PricePerNight.ToString()), "PricePerNight");
+                    content.Add(new StringContent(room.Description ?? ""), "Description");
+
+                    // Thêm list dạng nhiều row để [FromForm] bind trực tiếp
+                    if (room.DeletedAmenity != null)
+                    {
+                        foreach (var item in room.DeletedAmenity)
+                            content.Add(new StringContent(item.ToString()), "DeletedAmenity");
+                    }
+
+                    if (room.NewAmenities != null)
+                    {
+                        foreach (var item in room.NewAmenities)
+                            content.Add(new StringContent(item.ToString()), "NewAmenities");
+                    }
+
+                    if (room.DeletedImageIds != null)
+                    {
+                        foreach (var item in room.DeletedImageIds)
+                            content.Add(new StringContent(item.ToString()), "DeletedImageIds");
+                    }
+
+                    // Thêm file ảnh
+                    if (room.NewImages != null)
+                    {
+                        foreach (var file in room.NewImages)
+                        {
+                            var fileContent = new StreamContent(file.OpenReadStream());
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                            content.Add(fileContent, "NewImages", file.FileName);
+                        }
+                    }
+
+                    // gửi api và nhận bằng  HttpResponseMessage
+                    HttpResponseMessage response = await client.PutAsync(url, content);
+
+                    return response.IsSuccessStatusCode
+                        ? Ok(new { success = true, message = "Cập nhật phòng thành công!" })
+                        : BadRequest(new { success = false, message = "Cập nhật phòng thất bại!", detail = await response.Content.ReadAsStringAsync() });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(new { success = false, message = "Cập nhật phòng thất bại!" });
+                return StatusCode(500, new { success = false, message = "Lỗi khi kết nối API!", detail = ex.Message });
             }
         }
+
+
 
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MyData.Models;
+using API_BookingHotel.Modules.WorkWithFIles;
 
 namespace API_BookingHotel
 {
@@ -56,10 +57,12 @@ namespace API_BookingHotel
 
             });
 
-         
+
             //builder.Services.AddTransient<IVnPayService, VnPayService>();
             builder.Services.AddTransient<RoomViewDetail>();
             builder.Services.AddTransient<IRoomService, RoomSearchWithPagination>();
+            builder.Services.AddTransient<IMyFiles, MyFiles>();
+            builder.Services.AddTransient<IEditableRoom, EditRoom>();
             builder.Services.AddControllers();
             var app = builder.Build();
 

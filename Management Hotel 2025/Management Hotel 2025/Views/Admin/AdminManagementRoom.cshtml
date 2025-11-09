@@ -1,14 +1,9 @@
-﻿
-@model IEnumerable<Management_Hotel_2025.ViewModel.ViewRoomModel>
+﻿@model IEnumerable<Management_Hotel_2025.ViewModel.ViewRoomModel>
 
 @{
     Layout = "~/Views/Shared/AdminSidebar.cshtml";
-
 }
 
-@* Phần CSS tùy chỉnh để tinh chỉnh khoảng cách 
-  Bạn có thể đặt phần này trong tệp .css riêng của mình 
-*@
 <style>
     .filter-card {
         margin-bottom: 20px;
@@ -19,33 +14,45 @@
     }
 
     .action-buttons .btn {
-        margin-right: 5px; /* Thêm khoảng cách nhỏ giữa các nút Sửa/Xóa */
+        margin-right: 5px;
+    }
+
+    /* Loader Overlay */
+    #page-loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+        z-index: 99999;
+        text-align: center;
+        padding-top: 18%;
     }
 </style>
 
+<div id="page-loader">
+    <div class="spinner-border text-light" style="width: 4rem; height: 4rem;"></div>
+    <p class="text-light mt-3">Đang tải, vui lòng chờ...</p>
+</div>
+
 <div class="container-fluid mt-4">
-
-
 
     <div class="card shadow-sm filter-card">
         <div class="card-body">
-
-
-            @* Form này sẽ gửi dữ liệu lọc về action Index bằng phương thức GET *@
             <form asp-action="Index" method="get">
                 <div class="row g-3 align-items-end">
-
                     <div class="col-md-3">
-                        <label for="floorFilter" class="form-label">Lọc theo tầng:</label>
-                        <select id="floorFilter" name="floor" class="form-select" asp-items="ViewBag.Floors">
+                        <label class="form-label">Lọc theo tầng:</label>
+                        <select name="floor" class="form-select" asp-items="ViewBag.Floors">
                             <option value="">Tất cả các tầng</option>
                         </select>
                     </div>
 
                     <div class="col-md-3">
-                        <label for="statusFilter" class="form-label">Lọc theo trạng thái:</label>
-
-                        <select id="statusFilter" name="status" class="form-select" asp-items="ViewBag.Statuses">
+                        <label class="form-label">Lọc theo trạng thái:</label>
+                        <select name="status" class="form-select" asp-items="ViewBag.Statuses">
                             <option value="">Tất cả trạng thái</option>
                         </select>
                     </div>
@@ -75,16 +82,15 @@
                 <table class="table table-striped table-hover table-bordered align-middle">
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col" style="width: 5%;">STT</th>
-                            <th scope="col">Số phòng</th>
-                            <th scope="col">Loại phòng</th>
-                            <th scope="col">Giá (VNĐ)</th>
-                            <th scope="col">Trạng thái</th>
-                            <th scope="col" style="width: 12%;">Thao tác</th>
+                            <th style="width: 5%;">STT</th>
+                            <th>Số phòng</th>
+                            <th>Loại phòng</th>
+                            <th>Giá (VNĐ)</th>
+                            <th>Trạng thái</th>
+                            <th style="width: 12%;">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @* Kiểm tra xem Model có dữ liệu không *@
                         @if (Model == null || !Model.Any())
                         {
                             <tr>
@@ -98,16 +104,11 @@
                             {
                                 <tr>
                                     <td>@(stt++)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NumberOfRooms)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-
-
+                                    <td>@item.NumberOfRooms</td>
+                                    <td>@item.Name</td>
                                     <td>@item.Price.ToString("N0")</td>
 
                                     <td>
-                                        @* Sử dụng badge (nhãn) của Bootstrap để làm nổi bật trạng thái
-                                          Bạn có thể tùy chỉnh logic này
-                                        *@
                                         @if (item.status == "Còn trống")
                                         {
                                             <span class="badge bg-success">Còn trống</span>
@@ -127,11 +128,11 @@
                                     </td>
 
                                     <td class="action-buttons">
-                                        @* Các nút Sửa/Xóa. asp-route-id truyền ID của phòng đến Controller *@
-                                        <a asp-controller="Admin" asp-action="AdjustRoom" asp-route-idRoom="@item.IdRoom" class="btn btn-sm btn-outline-primary" title="Sửa">
+                                        <a asp-controller="Admin" asp-action="AdjustRoom" asp-route-idRoom="@item.IdRoom"
+                                           class="btn btn-sm btn-outline-primary btn-edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <a asp-action="Delete" asp-route-id="@item.IdRoom" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                        <a asp-action="Delete" asp-route-id="@item.IdRoom" class="btn btn-sm btn-outline-danger">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </td>
@@ -145,17 +146,14 @@
     </div>
 </div>
 
-@* GHI CHÚ QUAN TRỌNG:
-  1. Để các icon (bi-filter, bi-plus-circle...) hiển thị, bạn cần thêm thư viện 
-     Bootstrap Icons vào tệp _Layout.cshtml của mình.
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll('.btn-edit');
 
-  2. Code này giả định bạn đang sử dụng Bootstrap 5.
-
-  3. Bạn cần thay thế 'YourProject.Models.RoomViewModel' bằng tên Model bạn dùng.
-     Model này nên có các thuộc tính như: Id, RoomNumber, RoomType, Price, Status.
-
-  4. Các thẻ 'asp-action' và 'asp-route-id' là các Tag Helper của ASP.NET Core, 
-     chúng sẽ tự động tạo link (href) đến các Action trong Controller của bạn.
-     Ví dụ: asp-action="Create" sẽ trỏ đến hàm Create() trong Controller.
-*@
+        editButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.getElementById('page-loader').style.display = 'block';
+            });
+        });
+    });
+</script>

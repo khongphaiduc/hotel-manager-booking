@@ -8,8 +8,6 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin.AdminServices
 
         public List<ViewRoomModel> ViewTypeRoom(); // xem loại phòng hiện có trong khách sạn
 
-        public AdJustRoom GetRoomDetails(int roomId); // lấy chi tiết phòng để sửa 
-
-        public bool AdjustRoom(AdJustRoom room);
+ 
     }
 }

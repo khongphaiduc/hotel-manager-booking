@@ -17,6 +17,7 @@ using Mydata.Models;
 using Quartz;
 using PayOS;
 using Management_Hotel_2025.Modules.Rooms.RoleAdmin.AdminServices;
+using Management_Hotel_2025.Modules.WorkFile;
 
 
 namespace Management_Hotel_2025
@@ -153,8 +154,8 @@ namespace Management_Hotel_2025
 
             builder.Services.AddTransient<IOrder, ViewOrder>();
 
-            builder.Services.AddTransient<IAdminManagement,AdminManagement>();
-
+            builder.Services.AddTransient<IAdminManagement, AdminManagement>();
+            builder.Services.AddTransient<IMyFiles, MyFiles>();
             ////-----
             //builder.Services.AddControllers();
             //builder.Services.AddEndpointsApiExplorer();
@@ -170,7 +171,7 @@ namespace Management_Hotel_2025
                     ClientId = "be2",
                     ApiKey = "2525e477ac65",
                     ChecksumKey = "cb2a2"
-                  
+
                 })
                 {
 

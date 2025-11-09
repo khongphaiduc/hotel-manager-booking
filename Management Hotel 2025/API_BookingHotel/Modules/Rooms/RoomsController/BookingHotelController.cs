@@ -31,9 +31,11 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
                 return BadRequest("Room ID is required");
             }
             else
-            {
+            {   // Lấy host + port của API đang chạy
+                var apiHost = $"{Request.Scheme}://{Request.Host}";
+
                 var IDRoomAfterCheck = int.Parse(idRoom);
-                var result = await _Mybooking.ViewDetailRoomAsync(IDRoomAfterCheck);
+                var result = await _Mybooking.ViewDetailRoomAsync(IDRoomAfterCheck,apiHost);
                 if (result != null)
                 {
                     return Ok(result); // Trong WEB API của ASP.NET thì các model chuyền qua OK(object) sẽ tự động chuyển thành JSON

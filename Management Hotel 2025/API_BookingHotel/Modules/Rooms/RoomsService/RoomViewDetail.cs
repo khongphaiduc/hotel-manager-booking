@@ -1,6 +1,8 @@
 ﻿
 using API_BookingHotel.ViewModels;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Mydata.Models;
 
 
@@ -16,9 +18,9 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
         }
 
         // Allow user to view detail the room   
-        public async Task<ViewRoomDetail> ViewDetailRoomAsync(int roomID)
+        public async Task<ViewRoomDetail> ViewDetailRoomAsync(int roomID, string apiHost)
         {
-
+           
             var s = await _dbcontext.Rooms
                 .Include(s => s.RoomType)
                 .Include(s => s.RoomAmenities)
@@ -37,7 +39,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                     PathImage = room.PathImage,
                     Price = room.RoomType.Price,
                     MaxGuests = room.RoomType.MaxGuests.ToString(),
-                    ListPathImage = room.Images.Select(s => s.LinkImage).ToList(),
+                    ListPathImage = room.Images.Select(s => s.LinkImage.StartsWith("http")? s.LinkImage : $"{apiHost}/images/{s.LinkImage}").ToList(),
                     ListAmenites = room.RoomAmenities.Select(s => new Amenity()
                     {
                         AmenityId = s.Amenity.AmenityId,

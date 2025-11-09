@@ -16,7 +16,7 @@ namespace Management_Hotel_2025.Modules.WorkFile
             // Tạo thư mục nếu chưa tồn tại (Directory.CreateDirectory tự động bỏ qua nếu đã tồn tại)
             DirectoryInfo result = Directory.CreateDirectory(folderPath);
 
-            Console.WriteLine($"Thư mục đã được tạo hoặc tồn tại: {result.FullName}");
+            Console.WriteLine($"Thư mục đã được tạo hoặc tồn tại vclllll: {result.FullName}");
             return result.FullName;
         }
 
@@ -59,34 +59,33 @@ namespace Management_Hotel_2025.Modules.WorkFile
         }
 
         // lưu file 
-        public async Task<string> SaveFiles(IFormFile file, string folderPath)
+        public async Task<string> SaveFiles(IFormFile file, string pathfolder)
         {
             if (file == null || file.Length == 0)
-                return "Không có file nào để lưu.";
+                throw new ArgumentException("Không có file nào để lưu.", nameof(file));
 
-            if (string.IsNullOrWhiteSpace(folderPath))
-                throw new ArgumentException("Đường dẫn thư mục không hợp lệ", nameof(folderPath));
+            if (string.IsNullOrWhiteSpace(pathfolder))
+                throw new ArgumentException("Đường dẫn thư mục không hợp lệ", nameof(pathfolder));
 
-            // Tạo thư mục nếu chưa tồn tại
-            if (!Directory.Exists(folderPath))
+            if (!Directory.Exists(pathfolder))
             {
-                folderPath = this.CreateFolder(folderPath);
+                // tạo folder  nếu chưa có 
+                Directory.CreateDirectory(pathfolder);
             }
 
-            // Lấy tên file gốc
-            string fileName = file.FileName;
+            string fileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}"; // thêm guid ở tên file để tránh trung tên file 
 
-            // Tạo đường dẫn đầy đủ   ,Nó tự động thêm dấu \ hoặc / tùy hệ điều hành và tránh việc bạn phải tự viết tay.
-            string filePath = Path.Combine(folderPath, fileName);
+            string filePath = Path.Combine(pathfolder, fileName);  //  nối tên file và đường dẫn của folder 
 
-            // Lưu file vào server
+            //  lưu file vào đường dẫn đã tạo   
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            return fileName;   // trả về file Name để lưu vào database 
+            return fileName;
         }
+
 
 
         // kiểm tra xem file đã  tồn tại trong thư mục chưa 
@@ -113,7 +112,7 @@ namespace Management_Hotel_2025.Modules.WorkFile
             return Path.Combine(folderPath, fileName);
         }
 
-        
+
 
 
     }

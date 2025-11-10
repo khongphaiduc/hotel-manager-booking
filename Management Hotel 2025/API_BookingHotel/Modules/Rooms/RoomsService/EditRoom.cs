@@ -16,7 +16,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
             _dbcontext = context;
             _file = file;
         }
-        
+
         // sửa thông tin phòng
         public async Task<bool> EditRoomStatus(AdJustRoom room)
         {
@@ -93,6 +93,24 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                 }
             }
 
+
+            // chỉnh sửa avatar 
+
+            if (room.AvatarRoom != null)
+            {
+                string pathAvatar = Path.Combine("wwwroot", "AvatarImages");
+
+                string NameImage = await _file.SaveFiles(room.AvatarRoom, pathAvatar);    // lưu ảnh vào folder và lấy tên ảnh
+
+                var myroom = _dbcontext.Rooms.FirstOrDefault(r => r.RoomId == room.RoomId);
+
+                if (myroom != null)
+                {
+                    myroom.PathImage = NameImage;
+                }
+            }
+
+
             return await _dbcontext.SaveChangesAsync() > 0;
 
         }
@@ -147,7 +165,11 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                         Id = s.IdImage,
                         Url = s.LinkImage.StartsWith("http") ? s.LinkImage : $"{apihost}/images/" + s.LinkImage
 
-                    }).ToList()
+                    }).ToList(),
+
+                    // avatar đang hiển thị
+                    AvatarRoomRecive = s.PathImage.StartsWith("http") ? s.PathImage : $"{apihost}/AvatarImages/{s.PathImage}"
+
 
                 }).FirstOrDefaultAsync();
 

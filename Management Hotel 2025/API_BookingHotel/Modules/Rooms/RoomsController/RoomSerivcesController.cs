@@ -29,6 +29,8 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
         public async Task<IActionResult> SearchRoomAdvance(int PageCurrent, int NumerItemOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
         {
 
+            string apihost = $"{Request.Scheme}://{Request.Host}";
+
             // nếu user không chọn ngày thì mặc định tính từ ngay hôm nay tói 7 ngày tiếp theo 
             if (StartDate == null)
             {
@@ -57,7 +59,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
 
                          .CountAsync();
 
-            var ListResult = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate);
+            var ListResult = await _IRoomService.SearchRoomByAdvance(PageCurrent, NumerItemOfPage, Floor, PriceMin, PriceMax, Person, StartDate, EndDate,apihost);
 
             return Ok(new PaginationResult<ViewRoom>(ListResult, TotalItems, PageCurrent, NumerItemOfPage, newCheckIn, newCheckOut));  //  lưu vào construcor của PaginationResult để trả về
         }

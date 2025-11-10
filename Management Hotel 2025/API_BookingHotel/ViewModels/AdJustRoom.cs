@@ -63,7 +63,12 @@ namespace API_BookingHotel.ViewModels
         public List<int> DeletedImageIds { get; set; } = new List<int>();                                   // thêm để nhận ảnh xóa
 
         public List<IFormFile> NewImages { get; set; } = new List<IFormFile>();                             // thêm ảnh mới 
-                                                                                                            //------------------------------------------------------------------------------------------------
+
+        public IFormFile? AvatarRoom { get; set; }   // avatar
+
+         public  string? AvatarRoomRecive { get; set; }
+
+        //------------------------------------------------------------------------------------------------
 
         // danh sách 
 

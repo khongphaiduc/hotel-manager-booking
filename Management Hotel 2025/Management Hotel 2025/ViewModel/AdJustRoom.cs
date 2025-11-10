@@ -61,7 +61,15 @@ namespace Management_Hotel_2025.ViewModel
         public List<int> DeletedImageIds { get; set; } = new List<int>();                                   // thêm để nhận ảnh xóa
 
         public List<IFormFile> NewImages { get; set; } = new List<IFormFile>();                             // thêm ảnh mới 
-                                                                                                            //------------------------------------------------------------------------------------------------
+
+
+        public IFormFile? AvatarRoom { get; set; }                                      // ảnh đại diện gửi đi 
+
+         public string? AvatarRoomRecive { get; set; }                                      // ảnh đại diện nhận về
+
+
+
+        //------------------------------------------------------------------------------------------------
 
         // danh sách 
 

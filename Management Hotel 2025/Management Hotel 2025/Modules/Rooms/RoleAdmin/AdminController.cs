@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mydata.Models;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -133,6 +134,16 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
                         }
                     }
 
+                    if (room.AvatarRoom != null)
+                    {
+                        // Lấy MIME type của file (nếu muốn tự động, có thể dùng room.AvatarRoom.ContentType)
+                        var fileContent = new StreamContent(room.AvatarRoom.OpenReadStream());
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(room.AvatarRoom.ContentType);
+
+                        // Gửi file kèm tên file gốc
+                        content.Add(fileContent, "AvatarRoom", room.AvatarRoom.FileName);
+                    }
+
                     // gửi api và nhận bằng  HttpResponseMessage
                     HttpResponseMessage response = await client.PutAsync(url, content);
 
@@ -147,7 +158,17 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
             }
         }
 
+        /*
+         Note of Trung Duc  10.11.2025
 
+            Tại sao lại không thể  chuyển thẳng object đến api 
+
+        Reason : 
+                 
+               + Nếu payload chỉ các các kiểu dữ liêu thông thường như là text , number hay là các mảng thì có thể gửi dạng json thông thường 
+               + Nếu payload có các kiểu dữ liệu đặc biệt gồm cả text và binary (file hay là image )  thì cần sử dụng  multipart/form-data sau đó nó sẽ tự map với các thuộc tính mà api nhận (điều kiện : tên field trùng thuộc tính)
+                    
+         */
 
     }
 }

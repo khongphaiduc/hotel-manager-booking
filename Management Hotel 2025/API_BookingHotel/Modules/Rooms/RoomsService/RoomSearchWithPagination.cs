@@ -17,7 +17,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
 
 
         // tìm kiếm advance của room
-         public async Task<List<ViewRoom>> SearchRoomByAdvance(int CurrentPage, int ItermNumberOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate)
+         public async Task<List<ViewRoom>> SearchRoomByAdvance(int CurrentPage, int ItermNumberOfPage, int? Floor, int? PriceMin, int? PriceMax, int? Person, string? StartDate, string? EndDate,string apihost)
         {
 
             var ItemSkip = (CurrentPage - 1) * ItermNumberOfPage; // số lượng item sẽ bỏ qua
@@ -47,7 +47,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                               Name = room.RoomType.Name,
                               Floor = (int)room.Floor,
                               Description = room.Description,
-                              Image = room.PathImage,
+                              Image = room.PathImage.StartsWith("http")? room.PathImage :$"{apihost}/AvatarImages/{room.PathImage}",
                               Price = room.RoomType.Price,
                               NumberOfRooms = room.RoomNumber
                           })

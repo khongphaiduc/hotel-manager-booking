@@ -88,6 +88,10 @@ Link Demo : chưa có hihi
     
   + Thêm/sửa/xóa loại phòng
 
+  + Thêm/xóa phòng 
+  
+  + Chỉnh sửa thông tin phòng  như các thông tin cơ bản , cập nhật danh sách ảnh , thêm xóa tiện ích , thay đổi avatar phòng
+
   + Cập nhật giá phòng, số lượng phòng
 
   + Quản lý tiện ích của phòng

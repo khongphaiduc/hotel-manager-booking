@@ -50,9 +50,11 @@ public partial class ManagermentHotelContext : DbContext
 
     // ngày thêm 24/10/2025
 
-
     public virtual DbSet<Guests> Guests { get; set; }
 
+    // 10.11.2025
+
+    public virtual DbSet<Amenity> Amenities { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -9,8 +9,10 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
 
 
         // lấy  toàn bộ thông tin của 1 phòng 
-
         public Task<AdJustRoom> GetFullInfoRoom(int roomId, string apihost);
+
+        // tạo phòng mới
+        public Task<bool> CreateNewRoom(AdJustRoom room);
 
     }
 }

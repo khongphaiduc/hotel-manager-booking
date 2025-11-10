@@ -94,6 +94,8 @@ Link Demo : chưa có hihi
 
   + Cập nhật giá phòng, số lượng phòng
 
+  + Bật / Tăt hiển thị phòng 
+
   + Quản lý tiện ích của phòng
 
   + Quản lý dịch vụ khách sạn (Spa, Gym, Nhà hàng, Tour du lịch…)

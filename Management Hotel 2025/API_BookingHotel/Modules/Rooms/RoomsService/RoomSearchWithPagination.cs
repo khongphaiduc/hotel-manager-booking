@@ -27,7 +27,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
 
             var ListItem = await _dbcontext.Rooms
                           .Include(s => s.RoomType)
-                          .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
+                          .Where(s =>  (s.Status == "Active")&& (!Floor.HasValue || s.Floor == Floor.Value) &&
                                 (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
                                 (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
                                 (!Person.HasValue || s.RoomType.MaxGuests == Person.Value) &&

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Management_Hotel_2025.ViewModel.ViewRoomModel>
+﻿@model Management_Hotel_2025.ViewModel.AdminManagementRoom
 
 @{
     Layout = "~/Views/Shared/AdminSidebar.cshtml";
@@ -39,36 +39,67 @@
 
 <div class="container-fluid mt-4">
 
+    <!-- FORM LỌC NHỎ GỌN & THÊM TÌM KIẾM -->
     <div class="card shadow-sm filter-card">
-        <div class="card-body">
-            <form asp-action="Index" method="get">
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-3">
-                        <label class="form-label">Lọc theo tầng:</label>
-                        <select name="floor" class="form-select" asp-items="ViewBag.Floors">
-                            <option value="">Tất cả các tầng</option>
+        <div class="card-body py-3">
+            <form id="filterForm" asp-action="AdminManagementRoom" asp-controller="Admin" method="get">
+                <div class="row g-2 align-items-end">
+
+                    <div class="col-md-2 col-sm-4">
+                        <label class="form-label mb-1">Tầng</label>
+                        <select name="floor" class="form-select form-select-sm auto-submit">
+                            <option value="">Tất cả</option>
+                            @foreach (var f in Model.ListFloor)
+                            {
+                                <option value="@f" selected="@(ViewBag.floor != null && ViewBag.floor == f)">
+                                    @f
+                                </option>
+                            }
                         </select>
                     </div>
 
-                    <div class="col-md-3">
-                        <label class="form-label">Lọc theo trạng thái:</label>
-                        <select name="status" class="form-select" asp-items="ViewBag.Statuses">
-                            <option value="">Tất cả trạng thái</option>
+                    <div class="col-md-2 col-sm-4">
+                        <label class="form-label mb-1">Trạng thái</label>
+                        <select name="status" class="form-select form-select-sm auto-submit">
+                            <option value="">Tất cả</option>
+                            @foreach (var s in Model.ListStatusRoom)
+                            {
+                                <option value="@s" selected="@(ViewBag.status != null && ViewBag.status == s)">
+                                    @s
+                                </option>
+                            }
+
+                            <option value="No" selected="@(ViewBag.status != null && ViewBag.status == "No")">
+                                Bảo trì
+                            </option>
                         </select>
                     </div>
 
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-filter"></i> Lọc
+                    <div class="col-md-3 col-sm-6">
+                        <label class="form-label mb-1">Số phòng</label>
+                        <input type="text" name="key" class="form-control form-control-sm" placeholder="Nhập số phòng..."
+                               value="@(ViewBag.key ?? "")">
+                    </div>
+
+                    <div class="col-md-2 col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-sm w-100">
+                            <i class="bi bi-search"></i> Tìm phòng
                         </button>
                     </div>
+
+                    <div class="col-md-2 col-sm-6">
+                        <button type="button" id="resetFilter" class="btn btn-outline-secondary btn-sm w-100">
+                            <i class="bi bi-x-circle"></i> Reset
+                        </button>
+                    </div>
+
                 </div>
             </form>
         </div>
     </div>
 
     <div class="action-bar text-end">
-        <a asp-action="Create" class="btn btn-success">
+        <a asp-action="CreateNewRoom" asp-controller="Admin" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Thêm phòng mới
         </a>
     </div>
@@ -91,7 +122,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model == null || !Model.Any())
+                        @if (Model == null || !Model.ListViewRooms.Any())
                         {
                             <tr>
                                 <td colspan="6" class="text-center">Không tìm thấy dữ liệu phòng.</td>
@@ -100,7 +131,7 @@
                         else
                         {
                             int stt = 1;
-                            foreach (var item in Model)
+                            foreach (var item in Model.ListViewRooms)
                             {
                                 <tr>
                                     <td>@(stt++)</td>
@@ -109,17 +140,13 @@
                                     <td>@item.Price.ToString("N0")</td>
 
                                     <td>
-                                        @if (item.status == "Còn trống")
+                                        @if (item.status == "Active")
                                         {
-                                            <span class="badge bg-success">Còn trống</span>
+                                            <span class="badge bg-success">Đang hoạt động</span>
                                         }
-                                        else if (item.status == "Đang có khách")
+                                        else if (item.status == "hidden")
                                         {
-                                            <span class="badge bg-danger">Đang có khách</span>
-                                        }
-                                        else if (item.status == "Đang dọn dẹp")
-                                        {
-                                            <span class="badge bg-warning text-dark">Đang dọn dẹp</span>
+                                            <span class="badge bg-warning text-dark">Phòng đã bị ẩn</span>
                                         }
                                         else
                                         {
@@ -132,9 +159,14 @@
                                            class="btn btn-sm btn-outline-primary btn-edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <a asp-action="Delete" asp-route-id="@item.IdRoom" class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
+
+                                        <!-- Nút Ẩn phòng (dùng data-id thay cho asp-route-id) -->
+                                        <a href="javascript:void(0);"
+                                           class="btn btn-sm btn-outline-secondary btn-hide-room"
+                                           data-id="@item.IdRoom">
+                                        <i class="bi bi-eye-slash"></i>
                                         </a>
+
                                     </td>
                                 </tr>
                             }
@@ -146,14 +178,102 @@
     </div>
 </div>
 
+<!-- Modal Ẩn phòng -->
+<div class="modal fade" id="hideRoomModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận Ẩn/Hiện phòng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn Ẩn/Hiện phòng này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary" id="confirmHideBtn">Có</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const editButtons = document.querySelectorAll('.btn-edit');
 
+        let selectedRoomId = null;
+
+        // Loader khi nhấn edit
+        const editButtons = document.querySelectorAll('.btn-edit');
         editButtons.forEach(btn => {
             btn.addEventListener('click', function () {
                 document.getElementById('page-loader').style.display = 'block';
             });
         });
+
+        // Auto-submit form khi chọn tầng hoặc trạng thái
+        const autoSubmitSelects = document.querySelectorAll('.auto-submit');
+        autoSubmitSelects.forEach(select => {
+            select.addEventListener('change', function () {
+                document.getElementById('filterForm').submit();
+            });
+        });
+
+        // Reset filter
+        document.getElementById('resetFilter').addEventListener('click', function() {
+            const form = document.getElementById('filterForm');
+            form.querySelectorAll('select, input').forEach(el => {
+                if (el.tagName.toLowerCase() === 'select') el.selectedIndex = 0;
+                else if (el.tagName.toLowerCase() === 'input') el.value = '';
+            });
+            form.submit();
+        });
+
+        // Xử lý nút ẩn phòng
+        const hideButtons = document.querySelectorAll('.btn-hide-room');
+        hideButtons.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                selectedRoomId = this.getAttribute('data-id');
+
+                // Mở modal
+                var hideModal = new bootstrap.Modal(document.getElementById('hideRoomModal'));
+                hideModal.show();
+            });
+        });
+
+        // Xử lý nút "Có" trong modal
+        document.getElementById('confirmHideBtn').addEventListener('click', function () {
+            if (!selectedRoomId) return;
+
+            document.getElementById('page-loader').style.display = 'block';
+
+            fetch(`/admin/hide/${selectedRoomId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            })
+            .then(response => {
+                if (response.ok) {
+
+                    location.reload();
+                } else {
+                    alert("Ẩn phòng thất bại!");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Có lỗi xảy ra!");
+            })
+            .finally(() => {
+                document.getElementById('page-loader').style.display = 'none';
+                selectedRoomId = null;
+                var hideModalEl = document.getElementById('hideRoomModal');
+                var hideModal = bootstrap.Modal.getInstance(hideModalEl);
+                hideModal.hide();
+            });
+        });
+
     });
 </script>

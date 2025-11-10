@@ -20,6 +20,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
 
 
 
+        // lấy toàn bộ thông tin của 1 phòng
         [HttpGet]
         [Route("room/{id}")]
         [AllowAnonymous]
@@ -42,7 +43,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
 
 
 
-        // Edit Room
+        // chỉnh sửa thong tin của phòng 
         [HttpPut]
         [Route("room")]
         [AllowAnonymous]
@@ -57,6 +58,24 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
             else
             {
                 return Ok("Change Room Successfully.");
+            }
+        }
+
+
+        // tạo mới  phòng
+        [HttpPost]
+        [Route("room")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateRoom([FromForm] AdJustRoom room)
+        {
+            var result = await _editroom.CreateNewRoom(room);
+            if (!result)
+            {
+                return BadRequest("Failed to create room.");
+            }
+            else
+            {
+                return Ok("Create Room Successfully.");
             }
         }
 

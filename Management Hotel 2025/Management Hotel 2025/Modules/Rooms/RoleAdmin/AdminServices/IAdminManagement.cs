@@ -8,6 +8,18 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin.AdminServices
 
         public List<ViewRoomModel> ViewTypeRoom(); // xem loại phòng hiện có trong khách sạn
 
- 
+        public List<ViewRoomModel> SearchRoom(int? floor, string? status, string? key);
+
+
+        public Task<bool> HideRoom (int idRoom); // ẩn phòng
+
+        public AdJustRoom LoadTypeRoomAndAmentity();
+
+
+        public List<int> NumberOfFloor();
+
+        public List<string> StatusRoom();
+
+
     }
 }

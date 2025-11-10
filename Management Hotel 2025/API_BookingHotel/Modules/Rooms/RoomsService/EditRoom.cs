@@ -16,6 +16,79 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
             _dbcontext = context;
             _file = file;
         }
+        // tạo phòng mới 
+        public async Task<bool> CreateNewRoom(AdJustRoom room)
+        {
+
+            var newRoom = new Room()
+            {
+                RoomTypeId = room.RoomTypeId,
+                RoomNumber = room.RoomNumber,
+                Floor = room.Floor,
+                Status = "Active",
+                Description = room.Description,
+                PricePrivate = room.PricePerNight,
+            };
+
+
+            _dbcontext.Rooms.Add(newRoom);
+
+            var flag = await _dbcontext.SaveChangesAsync();   // flag để đảm bảo là  newroom đã  được thêm vào trong database
+
+            int roomId = newRoom.RoomId;
+
+
+
+
+            // thêm ảnh đại diện
+            if (room.AvatarRoom != null && flag > 0)
+            {
+                string pathAvatar = Path.Combine("wwwroot", "AvatarImages");
+                var result = await _file.SaveFiles(room.AvatarRoom, pathAvatar);
+
+                newRoom.PathImage = result;  // chèn tên anh vào database
+
+            }
+
+            //  thêm  tiện ích
+            if (room.NewAmenities != null && room.NewAmenities.Any())
+            {
+
+                foreach (var amenityId in room.NewAmenities)
+                {
+                    _dbcontext.RoomAmenities.Add(new RoomAmenity()
+                    {
+
+                        Quanlity = 1,
+                        RoomId = roomId,
+                        AmenityId = amenityId
+
+                    });
+                }
+            }
+
+            // thêm ảnh 
+            if (room.NewImages != null && room.NewImages.Any())
+            {
+                string path = Path.Combine("wwwroot", "images");
+                foreach (var imageitem in room.NewImages)
+                {
+                    string NameImage = await _file.SaveFiles(imageitem, path);
+
+                    _dbcontext.Images.Add(new Images()
+                    {
+                        IdRoom = roomId,
+                        LinkImage = NameImage
+
+                    });
+                }
+
+            }
+
+
+            return await _dbcontext.SaveChangesAsync() > 0;
+
+        }
 
         // sửa thông tin phòng
         public async Task<bool> EditRoomStatus(AdJustRoom room)

@@ -48,7 +48,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsController
             // lấy db trước khi mà skip
             int TotalItems = await _dbcontext.Rooms
                          .Include(s => s.RoomType).Include(s => s.BookingDetails)
-                         .Where(s => (!Floor.HasValue || s.Floor == Floor.Value) &&
+                         .Where(s => (s.Status == "Active") && (!Floor.HasValue || s.Floor == Floor.Value) &&
                                (!PriceMin.HasValue || s.RoomType.Price >= PriceMin.Value) &&
                                (!PriceMax.HasValue || s.RoomType.Price <= PriceMax.Value) &&
                                (!Person.HasValue || s.RoomType.MaxGuests == Person.Value) &&

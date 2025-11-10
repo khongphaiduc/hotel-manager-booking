@@ -22,18 +22,65 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
             _iadmin = iadmin;
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        [Route("room")]
-        public IActionResult AdminManagementRoom()
-        {
-            var listroom = _iadmin.ViewTypeRoom();
 
-            return View(listroom);
+        [AllowAnonymous]
+        [HttpPut("hide/{idroom}")]
+        public async Task<IActionResult> HideRoom(int idroom)
+        {
+            var result = await _iadmin.HideRoom(idroom);
+
+            if (result)
+            {
+                return Ok(new { success = true, message = "Đã ẩn phòng thành công!" });
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "Ẩn phòng thất bại!" });
+            }
         }
 
 
-        // xem quanlý phòng
+
+
+        // xem quanlý phòng và search
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("room")]
+        public IActionResult AdminManagementRoom(int? floor, string? status, string? key)
+        {
+
+            ViewBag.floor = floor;
+            ViewBag.status = status;
+            ViewBag.key = key;
+
+            var ListFloor = _iadmin.NumberOfFloor();
+            var StatusRoom = _iadmin.StatusRoom();
+
+            List<ViewRoomModel> listRoom = new List<ViewRoomModel>();
+
+            if (!floor.HasValue && string.IsNullOrEmpty(status) && string.IsNullOrEmpty(key))
+            {
+
+                listRoom = _iadmin.ViewTypeRoom();
+            }
+            else
+            {
+
+                listRoom = _iadmin.SearchRoom(floor, status, key);
+            }
+
+            var item = new AdminManagementRoom()
+            {
+                ListFloor = ListFloor,
+                ListStatusRoom = StatusRoom,
+                ListViewRooms = listRoom
+
+            };
+            return View(item);
+        }
+
+
+        //xem trạng thái phòng của ngày
         [Authorize(Roles = "Admin")]
         [Route("serveralroom")]
         public IActionResult AdminHomePage()
@@ -86,7 +133,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
         // call api cập nhật phòng 
         [Authorize(Roles = "Admin")]
         [Route("room/{idRoom}")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> AdjustRoom(AdJustRoom room)
         {
             string url = "https://localhost:7236/api/roomedit/room";
@@ -169,6 +216,97 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
                + Nếu payload có các kiểu dữ liệu đặc biệt gồm cả text và binary (file hay là image )  thì cần sử dụng  multipart/form-data sau đó nó sẽ tự map với các thuộc tính mà api nhận (điều kiện : tên field trùng thuộc tính)
                     
          */
+
+        // load các thông để cần tạo phòng
+        [Authorize(Roles = "Admin")]
+        [Route("rooms")]
+        [HttpGet]
+        public IActionResult CreateNewRoom()
+        {
+            var data = _iadmin.LoadTypeRoomAndAmentity();
+
+            return View(data);
+        }
+
+
+
+
+
+
+        // tạo phòng mới
+        [Authorize(Roles = "Admin")]
+        [Route("rooms")]
+        [HttpPost]
+        public async Task<IActionResult> CreateRoom(AdJustRoom room)
+        {
+            string url = "https://localhost:7236/api/roomedit/room";
+
+            try
+            {
+                using (var client = new HttpClient())
+                using (var content = new MultipartFormDataContent())
+                {
+                    // Thêm text fields
+
+                    content.Add(new StringContent(room.RoomTypeId.ToString()), "RoomTypeId");
+                    content.Add(new StringContent(room.RoomNumber ?? ""), "RoomNumber");
+                    content.Add(new StringContent(room.Floor.ToString()), "Floor");
+                    content.Add(new StringContent(room.PricePerNight.ToString()), "PricePerNight");
+                    content.Add(new StringContent(room.Description ?? ""), "Description");
+
+                    // Thêm list dạng nhiều row để [FromForm] bind trực tiếp
+                    if (room.DeletedAmenity != null)
+                    {
+                        foreach (var item in room.DeletedAmenity)
+                            content.Add(new StringContent(item.ToString()), "DeletedAmenity");
+                    }
+
+                    if (room.NewAmenities != null)
+                    {
+                        foreach (var item in room.NewAmenities)
+                            content.Add(new StringContent(item.ToString()), "NewAmenities");
+                    }
+
+                    if (room.DeletedImageIds != null)
+                    {
+                        foreach (var item in room.DeletedImageIds)
+                            content.Add(new StringContent(item.ToString()), "DeletedImageIds");
+                    }
+
+                    // Thêm file ảnh
+                    if (room.NewImages != null)
+                    {
+                        foreach (var file in room.NewImages)
+                        {
+                            var fileContent = new StreamContent(file.OpenReadStream());
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                            content.Add(fileContent, "NewImages", file.FileName);
+                        }
+                    }
+
+                    if (room.AvatarRoom != null)
+                    {
+                        // Lấy MIME type của file (nếu muốn tự động, có thể dùng room.AvatarRoom.ContentType)
+                        var fileContent = new StreamContent(room.AvatarRoom.OpenReadStream());
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(room.AvatarRoom.ContentType);
+
+                        // Gửi file kèm tên file gốc
+                        content.Add(fileContent, "AvatarRoom", room.AvatarRoom.FileName);
+                    }
+
+                    // gửi api và nhận bằng  HttpResponseMessage
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+
+                    return response.IsSuccessStatusCode
+                        ? Ok(new { success = true, message = "Tạo phòng thành công!" })
+                        : BadRequest(new { success = false, message = "Taọ phòng thất bại!", detail = await response.Content.ReadAsStringAsync() });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Lỗi khi kết nối API!", detail = ex.Message });
+            }
+        }
 
     }
 }

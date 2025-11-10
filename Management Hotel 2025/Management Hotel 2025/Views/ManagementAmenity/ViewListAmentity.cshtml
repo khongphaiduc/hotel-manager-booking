@@ -1,0 +1,191 @@
+﻿@model IEnumerable<Management_Hotel_2025.Modules.AmentityModules.AmentityServices.MyAmenity>
+
+@{
+    Layout = "~/Views/Shared/AdminSidebar.cshtml";
+    ViewBag.Title = "Danh sách tiện ích";
+}
+
+@section Styles {
+    <style>
+        /* Theme variables */
+        :root {
+            --accent-start: #7b3fe4; /* tím đậm */
+            --accent-end: #ff6b6b; /* đỏ hồng */
+            --accent-contrast: #fff;
+            --card-bg: rgba(255,255,255,0.04);
+        }
+
+        /* Header / Title block */
+        .utilities-header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            color: var(--accent-contrast);
+            box-shadow: 0 6px 20px rgba(123,63,228,0.18);
+            margin-bottom: 1.25rem;
+        }
+
+            /* Left group: icon + titles */
+            .utilities-header .left {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                min-width: 0;
+            }
+
+            .utilities-header .icon-wrap {
+                width: 64px;
+                height: 64px;
+                border-radius: 12px;
+                background: rgba(255,255,255,0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                flex-shrink: 0;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.12) inset;
+            }
+
+            .utilities-header h2 {
+                margin: 0;
+                font-size: 22px;
+                font-weight: 700;
+                line-height: 1;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .utilities-header .subtitle {
+                display: block;
+                font-size: 13px;
+                opacity: 0.95;
+                margin-top: 3px;
+                color: rgba(255,255,255,0.92);
+                font-weight: 500;
+            }
+
+        /* Right group: search box */
+        .utilities-search .input-group {
+            max-width: 520px;
+            box-shadow: 0 6px 18px rgba(11,15,30,0.06);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Table card */
+        .utilities-card {
+            background: var(--card-bg);
+            padding: 14px;
+            border-radius: 12px;
+            box-shadow: 0 8px 28px rgba(11,15,30,0.04);
+            backdrop-filter: blur(6px);
+        }
+
+        /* Accent for action buttons */
+        .btn-accent {
+            border-color: rgba(255,255,255,0.08);
+            color: var(--accent-start);
+        }
+
+        /* Small responsive tweaks */
+        @@media (max-width: 768px) {
+            .utilities-header
+
+        {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .utilities-header .left {
+            gap: 10px;
+        }
+
+        .utilities-header .icon-wrap {
+            width: 56px;
+            height: 56px;
+        }
+
+        .utilities-search .input-group {
+            max-width: 100%;
+        }
+
+        }
+
+        /* Keep table vertical align */
+        table th, table td {
+            vertical-align: middle !important;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <div class="utilities-header">
+        <div class="left">
+            <div class="icon-wrap">
+                <i class="bi bi-box-seam" aria-hidden="true" style="font-size:22px;color:var(--accent-contrast)"></i>
+            </div>
+            <div class="title-wrap">
+                <h2>Quản lý tiện ích</h2>
+                <span class="subtitle">Xem, chỉnh sửa và quản trị các tiện ích phòng — dễ dàng và trực quan.</span>
+            </div>
+        </div>
+
+        <div class="utilities-search ms-auto">
+            <div class="input-group">
+                <input id="searchInput" type="text" class="form-control" placeholder="Tìm theo tên..." aria-label="Tìm theo tên" />
+                <button id="clearSearch" class="btn btn-outline-light" type="button">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="utilities-card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="utilitiesTable">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:60px">STT</th>
+                        <th>Tên</th>
+                        <th style="width:140px">Trạng thái</th>
+                        <th style="width:160px">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var idx = 1;
+                        foreach (var item in Model)
+                        {
+                            var visible = item.Status == "Active";
+                            var badgeClass = visible ? "bg-success" : "bg-secondary";
+                            var badgeText = visible ? "Hiển thị" : "Ẩn";
+                            <tr data-name="@item.Name.ToLowerInvariant()" data-id="@item.AmenityId" data-visible="@visible.ToString().ToLowerInvariant()">
+                                <td>@idx</td>
+                                <td class="util-name">@item.Name</td>
+                                <td>
+                                    <span class="badge @badgeClass util-status">@badgeText</span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-primary me-2" href="@Url.Action("Edit", "Utilities", new { id = item.AmenityId })">Edit</a>
+                                    <button class="btn btn-sm btn-outline-secondary toggle-visibility">
+                                        @(visible ? "Ẩn" : "Hiện")
+                                    </button>
+                                </td>
+                            </tr>
+                            idx++;
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="4" class="text-center text-muted">Không có tiện ích nào.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

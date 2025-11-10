@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MyData.Models;
 using API_BookingHotel.Modules.WorkWithFIles;
+using API_BookingHotel.Modules.AmentityModules.AmentityServices;
 
 namespace API_BookingHotel
 {
@@ -63,6 +64,7 @@ namespace API_BookingHotel
             builder.Services.AddTransient<IRoomService, RoomSearchWithPagination>();
             builder.Services.AddTransient<IMyFiles, MyFiles>();
             builder.Services.AddTransient<IEditableRoom, EditRoom>();
+            builder.Services.AddTransient<IAmenityServices, AmentityServices>();
             builder.Services.AddControllers();
             var app = builder.Build();
 

@@ -15,7 +15,7 @@
         public string MaxGuests { get; set; }
         public ICollection<string> ListPathImage { get; set; } = new List<string>();
 
-        public IList<Amenity> ListAmenites { get; set; } = new List<Amenity>();
+        public IList<MyAmenity> ListAmenites { get; set; } = new List<MyAmenity>();
 
     }
 }

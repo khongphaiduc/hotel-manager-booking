@@ -1,13 +1,11 @@
 ﻿/* Reset cơ bản */
 body, html {
-    /* Đảm bảo chiều cao tối thiểu 100% để nội dung có thể cuộn */
     min-height: 100%;
     margin: 0;
     padding: 0;
 }
 
 /* Flex container */
-/* Thay height: 100vh bằng min-height: 100vh để nó có thể mở rộng */
 .d-flex {
     min-height: 100vh;
 }
@@ -18,7 +16,6 @@ body, html {
     left: 0;
     top: 0;
     width: 250px;
-    /* Giữ nguyên 100vh vì sidebar cố định */
     height: 100vh;
     background: #1E1F29;
     color: white;
@@ -51,6 +48,18 @@ body, html {
         color: #fff;
     }
 
+    /* ✅ MỤC ĐANG CHỌN */
+    .sidebar ul li a.active {
+        background-color: #4e4f63 !important;
+        color: #fff !important;
+        font-weight: 600;
+    }
+
+        .sidebar ul li a.active i {
+            color: #fff !important;
+        }
+
+/* Đăng xuất */
 .sidebar .logout a {
     color: #ff6969;
     border-top: 1px solid #333;
@@ -59,15 +68,10 @@ body, html {
 
 /* Nội dung chính */
 .content {
-    /* Khoảng cách bên trái cho sidebar */
     margin-left: 250px;
     flex: 1;
     padding: 20px;
     transition: margin-left 0.3s;
-    /* SỬA ĐỔI QUAN TRỌNG: BỎ height: 100vh và overflow-y: auto; */
-    /* Điều này cho phép nội dung trang con cuộn tự nhiên với trang */
-    /* height: 100vh; */
-    /* overflow-y: auto; */
 }
 
 /* Khi sidebar thu gọn */
@@ -88,23 +92,20 @@ body, html {
     margin-right: 0;
 }
 
-/* Nút Toggle Hamburger - góc trái dưới */
+/* Nút Toggle */
 .toggle-btn {
     position: fixed;
     bottom: 20px;
     left: 20px;
     z-index: 1100;
-    transition: all 0.3s;
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-    /* Optional: thay đổi màu khi hover */
     .toggle-btn:hover {
         background-color: #343549;
         color: #fff;

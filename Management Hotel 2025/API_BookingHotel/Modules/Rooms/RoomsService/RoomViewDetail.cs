@@ -45,7 +45,7 @@ namespace API_BookingHotel.Modules.Rooms.RoomsService
                         AmenityId = s.Amenity.AmenityId,
                         Name = s.Amenity.Name,
                         Description = s.Amenity.Description,
-                        UrlImage = s.Amenity.UrlImage
+                        UrlImage = s.Amenity.UrlImage.StartsWith("http") ? s.Amenity.UrlImage : $"{apiHost}/ImagesAmentity/{s.Amenity.UrlImage}"
 
                     }).ToList()
                 })

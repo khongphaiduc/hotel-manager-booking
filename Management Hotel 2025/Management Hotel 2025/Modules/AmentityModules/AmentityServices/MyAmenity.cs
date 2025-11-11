@@ -10,5 +10,6 @@
         public string? Description { get; set; }
         public string? UrlImage { get; set; }
 
+        public IFormFile? UpdateImage { get; set; }
     }
 }

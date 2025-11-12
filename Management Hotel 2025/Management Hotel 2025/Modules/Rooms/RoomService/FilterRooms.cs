@@ -9,7 +9,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
     public class FilterRooms : IManagementRoom
     {
         private readonly ManagermentHotelContext _Dbcontext;
-
+        public static string apihost = "https://localhost:7236/AvatarImages";
         public FilterRooms(ManagermentHotelContext dbcontext)
         {
 
@@ -25,7 +25,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
         {
             throw new NotImplementedException();
         }
-              
+
         //tìm kiếm  phòng theo số ph
         public async Task<ViewRoomModel> FilterByIdRoom(string IdRoom)
         {
@@ -64,9 +64,9 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                 {
                     IdRoom = room.RoomId,
                     Name = room.RoomType.Name,
-                    Floor =  room.Floor ?? 1 ,
+                    Floor = room.Floor ?? 1,
                     Description = room.Description,
-                    Image = room.PathImage,
+                    Image = room.PathImage.StartsWith("http") ? room.PathImage : $"{apihost}/{room.PathImage}",
                     Price = room.RoomType.Price,
                     NumberOfRooms = room.RoomNumber,
 

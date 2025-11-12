@@ -91,6 +91,7 @@ namespace Management_Hotel_2025.Modules.AmentityModules.AmentityControllers
             }
 
         }
+
         // hiển thị form tạo mới tiện ích
         [HttpGet("amenitys")]
         public IActionResult ViewCreateAmentity()
@@ -144,13 +145,96 @@ namespace Management_Hotel_2025.Modules.AmentityModules.AmentityControllers
                 catch (Exception)
                 {
 
-                    return StatusCode(500, new { status = false, message = "Lỗi server"});
+                    return StatusCode(500, new { status = false, message = "Lỗi server" });
+                }
+
+            }
+        }
+
+
+        // hiển thị form tạo mới tiện ích
+        [HttpGet("amenity/detail/{id}")]
+        public async Task<IActionResult> ViewUpdateAmentity(int id)
+        {
+            string apiUrl = $"https://localhost:7236/api/amenity/{id}";
+
+            try
+            {
+                using (var httclient = new HttpClient())
+                {
+                    var response = await httclient.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jsonString = await response.Content.ReadAsStringAsync();
+                        var amentity = JsonConvert.DeserializeObject<MyAmenity>(jsonString);
+                        return View(amentity);
+                    }
+                    else
+                    {
+                        return NotFound("Không tìm thấy Amenity");
+                    }
+
+                }
+
+            }
+            catch (Exception s)
+            {
+                return BadRequest($"Đã xảy ra lỗi hệ thống :{s.Message}");
+            }
+        }
+
+
+        // chỉnh sửa tiện ích 
+        [HttpPut("amenity")]
+        public async Task<IActionResult> UpdateAmentity(MyAmenity request)
+        {
+            string url = $"https://localhost:7236/api/amenity";
+
+            using (var httpclient = new HttpClient())
+            {
+
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        using (var content = new MultipartFormDataContent())
+                        {
+                            content.Add(new StringContent(request.AmenityId.ToString()), "AmenityId");
+                            content.Add(new StringContent(request.Name), "Name");
+                         
+                            content.Add(new StringContent(request.Description ?? ""), "Description");
+
+                            if (request.UpdateImage != null)
+                            {
+                                var fileContent = new StreamContent(request.UpdateImage.OpenReadStream());
+                                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(request.UpdateImage.ContentType);
+                                content.Add(fileContent, "UpdateImage", request.UpdateImage.FileName);
+                            }
+
+
+
+                            HttpResponseMessage response = await client.PutAsync(url, content);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                return Ok(new { status = true, message = "Cập nhật tiện ích thành công" });
+                            }
+                            else
+                            {
+                                return BadRequest(new { message = "Cập nhật tiện ích thất bại" });
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                    return StatusCode(500, new { status = false, message = "Lỗi server" });
                 }
 
             }
 
         }
-
-
     }
 }

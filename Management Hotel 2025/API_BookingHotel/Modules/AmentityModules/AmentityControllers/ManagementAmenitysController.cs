@@ -1,7 +1,8 @@
 ﻿using API_BookingHotel.Modules.AmentityModules.AmentityServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+// put : update toàn bộ resource 
+// patch : cập nhat một phần resource   
 namespace API_BookingHotel.Modules.AmentityModules.AmentityControllers
 {
     [Route("api")]

@@ -35,7 +35,8 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
         }
 
 
-        [Authorize(Roles = "Staff,Admin")]
+        // nhân viên xem danh sách phòng 
+        //[Authorize(Roles = "Staff,Admin")]
         [HttpGet]
         public async Task<IActionResult> StaffViewListRoom(string option, int? Floor, DateTime StartDate, DateTime EndDate)
         {
@@ -52,7 +53,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             }
 
 
-            // 👇 Gán sau khi đã xử lý mặc định
+            
             ViewBag.option = option;
             ViewBag.Floor = Floor;
             ViewBag.StartDate = StartDate.ToString("yyyy-MM-dd"); // format cho input date

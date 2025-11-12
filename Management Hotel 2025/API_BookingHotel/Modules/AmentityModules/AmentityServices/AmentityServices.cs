@@ -136,7 +136,7 @@ namespace API_BookingHotel.Modules.AmentityModules.AmentityServices
 
         }
 
-        // cập nhật amenity theo id
+        // cập nhật amenity 
         public async Task<bool> UpdateAmenityAsync(AmentityUpdate request)
         {
             string NameFIle = "";

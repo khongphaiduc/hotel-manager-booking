@@ -1,6 +1,7 @@
 ﻿using Management_Hotel_2025.Modules.Rooms.RoleAdmin.AdminServices;
 using Management_Hotel_2025.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Mydata.Models;
 using Newtonsoft.Json;
@@ -15,11 +16,12 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
     {
         private readonly ILogger<AdminController> _logger;
         private readonly IAdminManagement _iadmin;
-
-        public AdminController(IAdminManagement iadmin, ILogger<AdminController> logger)
+        private string _apiBaseUrl;
+        public AdminController(IAdminManagement iadmin, ILogger<AdminController> logger, IConfiguration configuration)
         {
             _logger = logger;
             _iadmin = iadmin;
+            _apiBaseUrl = configuration["ApiHotel:AdminEditRoom"];
         }
 
 
@@ -48,6 +50,11 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
         [Route("room")]
         public IActionResult AdminManagementRoom(int? floor, string? status, string? key)
         {
+
+             if(!string.IsNullOrEmpty(key))
+            {
+                key = key.Trim();
+            }
 
             ViewBag.floor = floor;
             ViewBag.status = status;
@@ -95,7 +102,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
         [HttpGet]
         public async Task<IActionResult> AdjustRoom(int idRoom)
         {
-            string url = $"https://localhost:7236/api/roomedit/room/{idRoom}";
+            string url = $"{_apiBaseUrl}/{idRoom}";
 
             try
             {
@@ -136,7 +143,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
         [HttpPut]
         public async Task<IActionResult> AdjustRoom(AdJustRoom room)
         {
-            string url = "https://localhost:7236/api/roomedit/room";
+           
 
             try
             {
@@ -192,7 +199,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
                     }
 
                     // gửi api và nhận bằng  HttpResponseMessage
-                    HttpResponseMessage response = await client.PutAsync(url, content);
+                    HttpResponseMessage response = await client.PutAsync(_apiBaseUrl, content);
 
                     return response.IsSuccessStatusCode
                         ? Ok(new { success = true, message = "Cập nhật phòng thành công!" })
@@ -239,7 +246,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
         [HttpPost]
         public async Task<IActionResult> CreateRoom(AdJustRoom room)
         {
-            string url = "https://localhost:7236/api/roomedit/room";
+            
 
             try
             {
@@ -295,7 +302,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoleAdmin
                     }
 
                     // gửi api và nhận bằng  HttpResponseMessage
-                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    HttpResponseMessage response = await client.PostAsync(_apiBaseUrl, content);
 
                     return response.IsSuccessStatusCode
                         ? Ok(new { success = true, message = "Tạo phòng thành công!" })

@@ -4,7 +4,7 @@ namespace Management_Hotel_2025.ViewModel
 {
     public class Order
     {      
-
+       
         public string CustomerName { get; set; } = null!;
         public string CustomerPhone { get; set; } = null!;
         public string PersonalId { get; set; } = null!;

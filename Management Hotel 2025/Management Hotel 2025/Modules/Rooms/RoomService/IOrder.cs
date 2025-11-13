@@ -7,5 +7,9 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
 
         public Task<Order> ViewOrder(string bookingcode);
 
+
+        public Task<bool> ConfirmCheckOut(Order order, string OrdersMethod, int idStaff);
+
     }
+
 }

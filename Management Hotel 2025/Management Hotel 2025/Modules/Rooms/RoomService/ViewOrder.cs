@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Mydata.Models;
 using System.Collections.Immutable;
+using System.Security.Claims;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomService
 {
@@ -14,6 +15,43 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
             _dbcontext = dbcontext;
         }
 
+        // xác nhận checkout 
+        public async Task<bool> ConfirmCheckOut(Order order, string OrdersMethod, int idStaff)
+        {
+            var booking = await _dbcontext.Bookings
+                .FirstOrDefaultAsync(b => b.BookingCode == order.BookingCode);
+
+
+
+            if (booking == null)
+                return false;
+
+
+            booking.Status = "CheckOut";
+            booking.RealTimeCheckOut = DateTime.Now.Date;
+            var newOrder = new MyData.Models.Order
+            {
+                OrderDate = DateTime.Now,
+                CustomerName = order.CustomerName,
+                CustomerAddress = order.CustomerAddress ?? "",
+                CustomerPhone = order.CustomerPhone,
+                Email = order.Email,
+                Deposit = order.Deposit.ToString(),
+                TotalAmount = order.TotalAmountOrder,
+                OrderStatus = "Completed",
+                PaymentMethod = OrdersMethod,
+                IdStaff = idStaff,
+                Booking = booking
+            };
+
+            _dbcontext.Orders.Add(newOrder);
+
+            return await _dbcontext.SaveChangesAsync() > 0;
+        }
+
+
+
+        // xem hóa đơn đạt phòng
         async Task<Order> IOrder.ViewOrder(string bookingcode)
         {
             var booking = await _dbcontext.Bookings
@@ -24,20 +62,19 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomService
                 .ThenInclude(s => s.BookingServices)
                 .FirstOrDefaultAsync(o => o.BookingCode == bookingcode);
 
-            if (booking == null)
-                return null;
+            if (booking == null) return new Order();
 
             var order = new Order
             {
                 TimeDeposit = booking.BookingDate,
                 CustomerName = booking.CustomerName,
                 CustomerPhone = booking.CustomerPhone,
-                PersonalId = booking.PersonalCode,
+                PersonalId = booking.PersonalCode ?? "",
                 Email = booking.Email,
                 CustomerAddress = booking.Address,
                 OrderDate = DateTime.Now,
-                BookingCode = booking.BookingCode,
-                RealCheckInDate = booking.RealTimeCheckIn ?? DateTime.MinValue, // ✅ Null coalescing
+                BookingCode = booking.BookingCode ?? "",
+                RealCheckInDate = booking.RealTimeCheckIn ?? DateTime.MinValue,
                 RealCheckOutDate = booking.RealTimeCheckOut ?? DateTime.MinValue,
                 Deposit = booking.DepositAmount,
                 OrderStatus = "Pending",

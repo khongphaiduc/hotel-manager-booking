@@ -56,6 +56,9 @@ public partial class ManagermentHotelContext : DbContext
 
     public virtual DbSet<Amenity> Amenities { get; set; }
 
+    // 13.11.2025
+    public virtual DbSet<Order> Orders  { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Data Source=PHAMTRUNGDUC\\SQLEXPRESS;Initial Catalog=Managerment_Hotel;User ID=sa;Password=123;Trust Server Certificate=True;");

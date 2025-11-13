@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 {
+ 
     public class StaffManagementRoomController : Controller
     {
         private readonly IManagementRoom _IManagementRoom;
@@ -36,7 +37,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
         // nhân viên xem danh sách phòng 
-        //[Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Admin")]
         [HttpGet]
         public async Task<IActionResult> StaffViewListRoom(string option, int? Floor, DateTime StartDate, DateTime EndDate)
         {
@@ -53,7 +54,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             }
 
 
-            
+
             ViewBag.option = option;
             ViewBag.Floor = Floor;
             ViewBag.StartDate = StartDate.ToString("yyyy-MM-dd"); // format cho input date
@@ -63,7 +64,7 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
             return View(ListRoom);
         }
-        
+
         // search room
         [Authorize(Roles = "Staff,Admin")]
         [HttpGet]
@@ -111,13 +112,8 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
 
 
         // xem sơ đồ phòng 
-
-
         public IActionResult ViewMapOfRoom()
         {
-
-
-
             return View(_IManagementRoom.getListMapRoomToDay());
         }
 
@@ -238,9 +234,26 @@ namespace Management_Hotel_2025.Modules.Rooms.RoomsController
             return View(order);
         }
 
+        // confirm check-out
+        [HttpPost]
+        public async Task<IActionResult> ConfirmCheckOutPassenger([FromBody]Order orderpassager)
+        {
+            var idStaff = int.Parse(User.FindFirst("IdUser").Value);   // lấy id của nhân viên 
+
+            var result = await _order.ConfirmCheckOut(orderpassager, "Cash", idStaff);
+
+            if (result)
+            {
+                return Json(new { success = true, message = "Check-out successful!" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Check-out failed. Please try again." });
+            }
+        }
+
 
         // xem danh sách booking theo ngày hoặc tìm kiếm theo mã booking
-
         public IActionResult BookingsView(string search, DateTime? DateStart, DateTime? EndDate)
         {
             // Nếu không có ngày được chọn => mặc định 1 tháng trước đến 1 tháng sau

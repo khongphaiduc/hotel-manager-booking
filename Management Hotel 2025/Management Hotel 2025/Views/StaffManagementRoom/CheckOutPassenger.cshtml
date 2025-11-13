@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/StaffHeader.cshtml";
 }
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -70,7 +71,6 @@
         {
             <div class="card-custom p-4 mb-4">
                 <div class="section-title">Phòng @room.RoomNumber - @room.RoomType</div>
-
                 <table class="table table-bordered align-middle">
                     <thead class="table-light">
                         <tr>
@@ -102,15 +102,12 @@
         <!-- Thanh toán -->
         <div class="card-custom p-4 mb-4">
             <div class="section-title">Thanh toán</div>
-
             <div class="row g-3">
                 <div class="col-md-4"><label>Tổng tiền phòng</label><input class="form-control" readonly value="@Model.TotalRoomPrice.ToString("C")" /></div>
                 <div class="col-md-4"><label>Tổng tiền dịch vụ</label><input class="form-control" readonly value="@Model.TotalServicePrice.ToString("C")" /></div>
                 <div class="col-md-4"><label>Số tiền đặt cọc</label><input class="form-control" readonly value="@Model.Deposit.ToString("C")" /></div>
-
                 <div class="col-md-4"><label>Thời gian đặt cọc</label><input class="form-control" readonly value="@Model.TimeDeposit" /></div>
                 <div class="col-md-4"><label>Trạng thái</label><input class="form-control" readonly value="@Model.OrderStatus" /></div>
-
                 <div class="col-md-4">
                     <label>Phương thức thanh toán</label>
                     <select class="form-select">
@@ -131,11 +128,35 @@
         <!-- Buttons -->
         <div class="d-flex justify-content-end gap-3">
             <a class="btn btn-outline-secondary px-4" href="/StaffManagementRoom/BookingsView">Quay lại</a>
-            <button class="btn btn-primary px-4">Xác nhận Check-out</button>
+            <button id="btnCheckout" class="btn btn-primary px-4">Xác nhận Check-out</button>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('btnCheckout').addEventListener('click', function () {
+            const order = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+
+            fetch('/StaffManagementRoom/ConfirmCheckOutPassenger', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',                 
+                },
+                body: JSON.stringify(order)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Check-out thành công!');
+                    window.location.href = '/StaffManagementRoom/BookingsView';
+                } else {
+                    alert('Check-out thất bại!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Đã xảy ra lỗi khi check-out.');
+            });
+        });
+    </script>
 </body>
 </html>

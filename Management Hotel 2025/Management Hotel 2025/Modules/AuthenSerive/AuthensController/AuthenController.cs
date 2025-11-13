@@ -237,11 +237,12 @@ namespace Management_Hotel_2025.Modules.AuthenSerive.AuthensController
 
             var claim = new List<Claim>
             {
+               new Claim("IdUser",user.UserId.ToString()),
                new Claim(ClaimTypes.Email,email),
                new Claim(ClaimTypes.Role,user.Role),
                new  Claim("FullName", user.Username),
                new Claim("IdUser", user.UserId.ToString()),
-                new Claim("MyAvatar",avatar)
+               new Claim("MyAvatar",avatar)
             };
 
             var identity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);

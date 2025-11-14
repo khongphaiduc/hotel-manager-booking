@@ -33,7 +33,7 @@
                         <td>@customer.TimesVisited</td>
                         <td class="text-center">
                             <button class="btn btn-info btn-sm mx-1">Lịch Sử</button>
-                            <button class="btn btn-primary btn-sm mx-1">Thông Tin</button>
+                            <a asp-action="GetPassengersInfo" asp-controller="AdminManagementPassengers" asp-route-codePassenger="@customer.PersonalCode" class="btn btn-primary btn-sm mx-1">Thông Tin</a>
                             <button class="btn btn-warning btn-sm mx-1">Hóa Đơn</button>
                         </td>
                     </tr>

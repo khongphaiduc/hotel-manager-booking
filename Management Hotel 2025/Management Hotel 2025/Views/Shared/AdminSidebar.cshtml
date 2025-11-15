@@ -49,8 +49,16 @@
                     </a>
                 </li>
 
+                <li>
+                    <a asp-controller="MInvociesPassengers" asp-action="GetlistInvoicesPassengers"
+                       class="@(ViewContext.RouteData.Values["action"].ToString() == "GetlistInvoicesPassengers" ? "active" : "")">
+                        <i class="bi bi-receipt"></i> <span>Hóa đơn & Thanh toán</span>
+                    </a>
+                </li>
 
-                <li><a href="#"><i class="bi bi-receipt"></i> <span>Hóa đơn & Thanh toán</span></a></li>
+
+
+
                 <li><a href="#"><i class="bi bi-person-workspace"></i> <span>Quản lý nhân viên</span></a></li>
                 <li><a href="#"><i class="bi bi-bar-chart"></i> <span>Báo cáo & thống kê</span></a></li>
                 <li><a href="#"><i class="bi bi-gear"></i> <span>Cài đặt hệ thống</span></a></li>

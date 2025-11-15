@@ -17,6 +17,7 @@ namespace MyData.Models
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }    // thời gian tạo đơn
 
+        public string OrderCode { get; set; }    // mã đơn
         public int IdStaff { get; set; }          // nhân viên tạo đơn
 
         public string CustomerName { get; set; }

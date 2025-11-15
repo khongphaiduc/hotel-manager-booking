@@ -10,6 +10,7 @@ using MyData.Models;
 using API_BookingHotel.Modules.WorkWithFIles;
 using API_BookingHotel.Modules.AmentityModules.AmentityServices;
 using API_BookingHotel.Modules.MPassengers.AdminPassengersSerives;
+using API_BookingHotel.Modules.Invoice.MInvoiceServices;
 
 namespace API_BookingHotel
 {
@@ -67,6 +68,7 @@ namespace API_BookingHotel
             builder.Services.AddTransient<IEditableRoom, EditRoom>();
             builder.Services.AddTransient<IAmenityServices, AmentityServices>();
             builder.Services.AddTransient<IPassengers, Passengers>();
+            builder.Services.AddTransient<IInvoiceServices, InvoiceService>();
             builder.Services.AddControllers();
             var app = builder.Build();
 
